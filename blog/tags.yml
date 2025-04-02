@@ -22,3 +22,8 @@ riscv:
   label: RISC-V
   permalink: /riscv
   description: RISC-V tag description
+
+rust:
+  label: Rust
+  permalink: /rust
+  description: Rust tag description
