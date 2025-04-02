@@ -17,3 +17,8 @@ hola:
   label: Hola
   permalink: /hola
   description: Hola tag description
+
+riscv:
+  label: RISC-V
+  permalink: /riscv
+  description: RISC-V tag description
