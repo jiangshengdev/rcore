@@ -9,6 +9,12 @@ tags: [rust]
 
 <!-- truncate -->
 
+## Inline assembly
+
+### Operand type
+
+#### inlateout
+
 `inlateout(<reg>) <expr>` / `inlateout(<reg>) <in expr> => <out expr>`
 与 `inout` 类似，但寄存器分配器可复用已分配给输入操作数的寄存器。这种情况发生在编译器检测到输入操作数的初始值与
 `inlateout`
