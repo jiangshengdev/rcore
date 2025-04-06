@@ -32,6 +32,20 @@ hart 执行各自的 `FENCE.I` 指令。
 
 ## "A" Extension for Atomic Instructions
 
+### Specifying Ordering of Atomic Instructions
+
+基础 RISC-V ISA 采用宽松的内存模型，通过使用 `FENCE` 指令来施加额外的顺序约束。执行环境将地址空间分为内存域和 I/O 域，
+`FENCE` 指令可以对这两个地址域之一或二者进行访问排序。
+
+为了更高效地支持释放一致性（Gharachorloo 等，1990），每条原子指令包含两个位：`aq` 和 `rl`，它们可为其他 RISC-V hart
+提供额外的内存排序约束。根据原子指令访问的是内存域还是 I/O 域，这两个位会对其中一个域的访问进行排序，对另一个域则无顺序限制；若需要对这两个域都进行排序，可以使用
+`FENCE` 指令。
+
+当这两个位都为 0 时，不对原子内存操作施加额外的顺序约束。若只设置 `aq` 位，则该原子内存操作被视为获取（acquire）访问，即在该原子内存操作完成之前，本
+hart 不会观察到后续的内存操作。若只设置 `rl` 位，则该原子内存操作被视为释放（release）访问，即本 hart
+不会观察到该释放操作在任何早先的内存操作之前完成。若 `aq` 和 `rl` 均被设置，则该原子内存操作具有顺序一致性，不会在任意早先内存操作之前或任意后续内存操作之后被观察到（仅限同一
+RISC-V hart，且针对同一地址域）。
+
 ### "Zalrsc" Extension for Load-Reserved/Store-Conditional Instructions
 
 对单个内存字或双字进行复杂原子内存操作时，需使用 `加载保留(LR)` 和 `条件存储(SC)` 指令。`LR.W` 从 `rs1`
