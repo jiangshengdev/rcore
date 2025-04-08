@@ -82,7 +82,7 @@ const config: Config = {
         },
         { to: '/blog', label: 'Blog', position: 'left' },
         {
-          href: 'https://rcore.jiangshengdev.com/blog',
+          href: 'https://github.com/jiangshengdev/rcore',
           label: 'GitHub',
           position: 'right',
         },
@@ -109,7 +109,7 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://rcore.jiangshengdev.com/blog',
+              href: 'https://github.com/jiangshengdev/rcore',
             },
           ],
         },
