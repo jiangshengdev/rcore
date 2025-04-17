@@ -21,6 +21,8 @@ hart。WFI 在所有特权模式下可用，并可选择性地支持用户模式
 
 ## "Zifencei" Extension for Instruction-Fetch Fence
 
+![FENCE.I.svg](image/FENCE.I.svg)
+
 本章定义了 **"Zifencei"** 扩展，该扩展包含 `FENCE.I` 指令。此指令为 **同一硬件线程 (hart)** 上的指令存储器写入操作与指令获取操作提供显式同步。当前，
 `FENCE.I` 是唯一的标准机制，可确保以下关键一致性：**任何对 hart 可见的存储操作，必须对其自身的指令获取可见** 。
 
@@ -37,16 +39,18 @@ hart 执行各自的 `FENCE.I` 指令。
 基础 RISC-V ISA 采用宽松的内存模型，通过使用 `FENCE` 指令来施加额外的顺序约束。执行环境将地址空间分为内存域和 I/O 域，
 `FENCE` 指令可以对这两个地址域之一或二者进行访问排序。
 
-为了更高效地支持释放一致性（Gharachorloo 等，1990），每条原子指令包含两个位：`aq` 和 `rl`，它们可为其他 RISC-V hart
+为了更高效地支持释放一致性 (Gharachorloo 等，1990)，每条原子指令包含两个位：`aq` 和 `rl`，它们可为其他 RISC-V hart
 提供额外的内存排序约束。根据原子指令访问的是内存域还是 I/O 域，这两个位会对其中一个域的访问进行排序，对另一个域则无顺序限制；若需要对这两个域都进行排序，可以使用
 `FENCE` 指令。
 
-当这两个位都为 0 时，不对原子内存操作施加额外的顺序约束。若只设置 `aq` 位，则该原子内存操作被视为获取（acquire）访问，即在该原子内存操作完成之前，本
-hart 不会观察到后续的内存操作。若只设置 `rl` 位，则该原子内存操作被视为释放（release）访问，即本 hart
+当这两个位都为 0 时，不对原子内存操作施加额外的顺序约束。若只设置 `aq` 位，则该原子内存操作被视为获取 (acquire) 访问，即在该原子内存操作完成之前，本
+hart 不会观察到后续的内存操作。若只设置 `rl` 位，则该原子内存操作被视为释放 (release) 访问，即本 hart
 不会观察到该释放操作在任何早先的内存操作之前完成。若 `aq` 和 `rl` 均被设置，则该原子内存操作具有顺序一致性，不会在任意早先内存操作之前或任意后续内存操作之后被观察到（仅限同一
 RISC-V hart，且针对同一地址域）。
 
 ### "Zalrsc" Extension for Load-Reserved/Store-Conditional Instructions
+
+![Load-Reserved_Store-Conditional.svg](image/Load-Reserved_Store-Conditional.svg)
 
 对单个内存字或双字进行复杂原子内存操作时，需使用 `加载保留(LR)` 和 `条件存储(SC)` 指令。`LR.W` 从 `rs1`
 中的地址加载一个字，将符号扩展后的值存入
@@ -102,6 +106,8 @@ RISC-V hart，且针对同一地址域）。
 ### Supervisor Instructions
 
 #### Supervisor Memory-Management Fence Instruction
+
+![SFENCE.VMA.svg](image/SFENCE.VMA.svg)
 
 监控器内存管理屏障指令 `SFENCE.VMA` 用于将对内存中存储的内存管理数据结构的更新与当前执行进行同步。指令执行会隐式地读取并写入这些数据结构，但这些隐式引用通常不与显式的加载和存储操作排序。执行
 `SFENCE.VMA` 能保证：在同一 RISC-V hart 中，任何先前对这些数据结构已可见的存储操作会先于后续对这些数据结构的隐式引用。`rs1`
