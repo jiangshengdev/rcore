@@ -1,14 +1,14 @@
 import siteConfig from '@generated/docusaurus.config';
 import type * as PrismNamespace from 'prismjs';
-import type {Optional} from 'utility-types';
+import type { Optional } from 'utility-types';
 
 export default function prismIncludeLanguages(
   PrismObject: typeof PrismNamespace,
 ): void {
   const {
-    themeConfig: {prism},
+    themeConfig: { prism },
   } = siteConfig;
-  const {additionalLanguages} = prism as {additionalLanguages: string[]};
+  const { additionalLanguages } = prism as { additionalLanguages: string[] };
 
   // Prism components work on the Prism instance on the window, while prism-
   // react-renderer uses its own Prism instance. We temporarily mount the
@@ -28,6 +28,8 @@ export default function prismIncludeLanguages(
     // eslint-disable-next-line global-require, import/no-dynamic-require
     require(`prismjs/components/prism-${lang}`);
   });
+
+  require('./prism-riscv.js');
 
   // Clean up and eventually restore former globalThis.Prism object (if any)
   delete (globalThis as Optional<typeof globalThis, 'Prism'>).Prism;

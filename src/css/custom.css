@@ -28,3 +28,15 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* PrismJS RISC-V 高亮自定义颜色 */
+
+/* 寄存器颜色 */
+.language-riscv .token.variable {
+  color: #6c6ee0 !important;
+}
+
+/* 指令颜色 */
+.language-riscv .token.keyword {
+  color: #61afef !important;
+}
