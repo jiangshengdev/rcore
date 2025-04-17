@@ -20,13 +20,19 @@ export default function prismIncludeLanguages(
   const PrismBefore = globalThis.Prism;
   globalThis.Prism = PrismObject;
 
+  // 优先加载自定义 bash 语法高亮
+  require('./prism-bash.js');
+
   additionalLanguages.forEach((lang) => {
     if (lang === 'php') {
       // eslint-disable-next-line global-require
       require('prismjs/components/prism-markup-templating.js');
     }
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    require(`prismjs/components/prism-${lang}`);
+    // 跳过 bash，避免官方覆盖自定义实现
+    if (lang !== 'bash') {
+      // eslint-disable-next-line global-require, import/no-dynamic-require
+      require(`prismjs/components/prism-${lang}`);
+    }
   });
 
   require('./prism-riscv.js');
