@@ -38,6 +38,7 @@ export default function prismIncludeLanguages(
   require('./prism-riscv.js');
 
   // Clean up and eventually restore former globalThis.Prism object (if any)
+  // @ts-ignore
   delete (globalThis as Optional<typeof globalThis, 'Prism'>).Prism;
   if (typeof PrismBefore !== 'undefined') {
     globalThis.Prism = PrismObject;
