@@ -57,9 +57,18 @@ brew install pixman
 # 编译安装并配置 RISC-V 支持
 cd qemu-7.0.0
 ./configure --target-list=riscv64-softmmu
-make -j$(nproc)
+make -j$(sysctl -n hw.ncpu)
+```
 
-# 复制并重命名
+:::tip
+
+QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 build 目录下用 `ls` 命令确认实际生成的文件名。如果没有
+`qemu-system-riscv64-unsigned`，请根据实际文件名进行重命名或软链接操作。
+
+:::
+
+```shell
+# 复制并重命名（如有必要）
 cd build
 cp qemu-system-riscv64-unsigned qemu-system-riscv64
 ```
@@ -71,7 +80,9 @@ cp qemu-system-riscv64-unsigned qemu-system-riscv64
 export PATH="$HOME/Downloads/qemu-7.0.0/build/:$PATH"
 ```
 
-直接重启一个新的终端。
+如果你将 QEMU 安装在其他目录，请相应修改路径。
+
+重启一个新的终端，或执行 `source ~/.zshrc` 使配置立即生效。
 
 确认 Qemu 的版本：
 
@@ -130,41 +141,34 @@ qemu-system-riscv64 --version
 brew install riscv64-elf-gdb
 ```
 
-并自行重命名可执行文件
-
----
-
-或者下载 CLion .dmg (Apple Silicon) 并安装
-
-> https://www.jetbrains.com/zh-cn/clion/
-
-然后对 CLion.app 右键并显示包内容，可以看到内部存在 gdb 文件
-
 ```shell
 # 复制并重命名
-cd ~/Applications/CLion.app/Contents/bin/gdb/mac/aarch64/bin/
-cp gdb riscv64-unknown-elf-gdb
+cd /opt/homebrew/bin/
+cp riscv64-elf-gdb riscv64-unknown-elf-gdb
 ```
 
 编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），在文件的末尾加入几行：
 
 ```shell
-export PATH="$HOME/Applications/CLion.app/Contents/bin/gdb/mac/aarch64/bin/:$PATH"
+export PATH="/opt/homebrew/bin/:$PATH"
 ```
 
-直接重启一个新的终端。
+重启一个新的终端，或执行 `source ~/.zshrc` 使配置立即生效。
 
-确认 GDB 的版本：
+确认 GDB 的版本以及信息：
 
-```
+```shell
 riscv64-unknown-elf-gdb
-GNU gdb (GDB; JetBrains IDE bundle; build 39) 15.2
+```
+
+```
+GNU gdb (GDB) 16.2
 Copyright (C) 2024 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 Type "show copying" and "show warranty" for details.
-This GDB was configured as "aarch64-apple-darwin23.6.0".
+This GDB was configured as "--host=aarch64-apple-darwin24.2.0 --target=riscv64-elf".
 Type "show configuration" for configuration details.
 For bug reporting instructions, please see:
 <https://www.gnu.org/software/gdb/bugs/>.
@@ -173,10 +177,10 @@ Find the GDB manual and other documentation resources online at:
 
 For help, type "help".
 Type "apropos word" to search for commands related to "word".
-(gdb) quit
+>>> quit
 ```
 
-可以按下 `control+D` 即 `⌃D`，来退出 GDB。
+可以按下 `control+D`（即 `⌃D`）来退出 GDB。
 
 ## 安装 GDB dashboard\*\*
 
@@ -198,7 +202,7 @@ make gdbserver
 
 ![gdbserver.png](image/gdbserver.png)
 
-通常 rCore 会自动关闭 Qemu 。如果在某些情况下需要强制结束，可以先按下 `control+A` 即 `⌃A`，再按下 `X` 来退出 Qemu。
+通常 rCore 会自动关闭 Qemu。如果需要强制结束 Qemu，可以先按下 `control+A`（即 `⌃A`），再按下 `X`。
 
 ```shell
 cd ~/GitHub/rCore-Tutorial-Code-2025S/os
@@ -207,4 +211,6 @@ make gdbclient
 
 ![gdbclient.png](image/gdbclient.png)
 
-可以按下 `control+D` 即 `⌃D` 2 次，来退出 GDB。
+可以按下 `control+D`（即 `⌃D`）两次来退出 GDB。
+
+第一次按下会提示 `Quit anyway?`，再次按下来确认退出。
