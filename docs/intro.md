@@ -46,6 +46,8 @@ sidebar_position: 1
 
 解压到下载文件夹。
 
+安装 QEMU 编译所需依赖、编译并安装 QEMU：
+
 ```shell
 # 安装编译所需的依赖包
 brew install ninja
@@ -68,13 +70,15 @@ QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。 请在 b
 
 :::
 
+复制并重命名 QEMU 可执行文件（如有必要）：
+
 ```shell
 # 复制并重命名（如有必要）
 cd build
 cp qemu-system-riscv64-unsigned qemu-system-riscv64
 ```
 
-编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），在文件的末尾加入几行：
+编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），将 QEMU 路径加入环境变量 PATH：
 
 ```shell
 # 注意 $HOME 是 macOS 自动设置的，表示你家目录的环境变量，你也可以根据实际位置灵活调整。
@@ -143,7 +147,7 @@ Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
 
 :::
 
-你可以使用 Homebrew 进行安装。
+你可以使用 Homebrew 进行安装：
 
 ```shell
 brew install riscv64-elf-gdb
@@ -192,10 +196,14 @@ Type "apropos word" to search for commands related to "word".
 
 :::
 
+安装 wget 并下载 GDB dashboard 配置文件：
+
 ```shell
 brew install wget
 wget -P ~ https://github.com/cyrus-and/gdb-dashboard/raw/master/.gdbinit
 ```
+
+进入 rCore-Tutorial 代码目录并启动 gdbserver：
 
 ```shell
 cd ~/GitHub/rCore-Tutorial-Code-2025S/os
@@ -205,6 +213,8 @@ make gdbserver
 ![gdbserver.png](image/gdbserver.png)
 
 通常 rCore 会自动关闭 QEMU。如果需要强制结束 QEMU，可以先按下 `control + A`（即 `⌃ A`），再按下 `X`。
+
+打开另外一个终端，启动 gdbclient：
 
 ```shell
 cd ~/GitHub/rCore-Tutorial-Code-2025S/os
