@@ -40,11 +40,15 @@ sidebar_position: 1
 
 > https://wiki.qemu.org/Hosts/Mac#Building_QEMU_for_macOS
 
-下载 QEMU。
+### 下载
 
 > https://download.qemu.org/qemu-7.0.0.tar.xz
 
+### 解压
+
 解压到下载文件夹。
+
+### 安装依赖与编译
 
 安装 QEMU 编译所需依赖、编译并安装 QEMU：
 
@@ -64,19 +68,21 @@ make -j$(sysctl -n hw.ncpu)
 
 :::tip
 
-QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。 请在 build 目录下用 `ls` 命令确认实际生成的文件名。
+QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 build 目录下用 `ls` 命令确认实际生成的文件名。
 
 如果没有 `qemu-system-riscv64-unsigned`，请根据实际文件名进行重命名或软链接操作。
 
 :::
 
-复制并重命名 QEMU 可执行文件（如有必要）：
+### 重命名
 
 ```shell
 # 复制并重命名（如有必要）
 cd build
 cp qemu-system-riscv64-unsigned qemu-system-riscv64
 ```
+
+### 配置环境变量
 
 编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），将 QEMU 路径加入环境变量 PATH：
 
@@ -89,7 +95,7 @@ export PATH="$HOME/Downloads/qemu-7.0.0/build/:$PATH"
 
 重启一个新的终端，或执行 `source ~/.zshrc` 使配置立即生效。
 
-确认 QEMU 的版本：
+### 验证
 
 ```shell
 qemu-system-riscv64 --version
@@ -147,11 +153,15 @@ Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
 
 :::
 
+### 安装 GDB
+
 你可以使用 Homebrew 进行安装：
 
 ```shell
 brew install riscv64-elf-gdb
 ```
+
+### 重命名 GDB 可执行文件
 
 安装后可执行文件与实验脚本中的名称不一致，还需要重命名。请根据实际文件名进行重命名或软链接操作：
 
@@ -161,7 +171,7 @@ cd /opt/homebrew/bin/
 cp riscv64-elf-gdb riscv64-unknown-elf-gdb
 ```
 
-确认 GDB 的版本以及信息：
+### 确认 GDB 的版本以及信息
 
 ```shell
 riscv64-unknown-elf-gdb
@@ -196,12 +206,14 @@ Type "apropos word" to search for commands related to "word".
 
 :::
 
-安装 wget 并下载 GDB dashboard 配置文件：
+### 下载配置
 
 ```shell
 brew install wget
 wget -P ~ https://github.com/cyrus-and/gdb-dashboard/raw/master/.gdbinit
 ```
+
+### 启动 gdbserver
 
 进入 rCore-Tutorial 代码目录并启动 gdbserver：
 
@@ -210,9 +222,13 @@ cd ~/GitHub/rCore-Tutorial-Code-2025S/os
 make gdbserver
 ```
 
+执行结果如下：
+
 ![gdbserver.png](image/gdbserver.png)
 
 通常 rCore 会自动关闭 QEMU。如果需要强制结束 QEMU，可以先按下 `control + A`（即 `⌃ A`），再按下 `X`。
+
+### 启动 gdbclient
 
 打开另外一个终端，启动 gdbclient：
 
@@ -220,6 +236,8 @@ make gdbserver
 cd ~/GitHub/rCore-Tutorial-Code-2025S/os
 make gdbclient
 ```
+
+执行结果如下：
 
 ![gdbclient.png](image/gdbclient.png)
 
