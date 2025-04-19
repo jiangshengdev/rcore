@@ -4,47 +4,47 @@ sidebar_position: 1
 
 # 实验环境配置
 
-与 rCore-Tutorial-Guide-2025S 文档中的 **第零章：实验环境配置** 重复部分不单独列出
+与 rCore-Tutorial-Guide-2025S 文档中的 **第零章：实验环境配置** 重复部分不单独列出。
 
 > https://learningos.cn/rCore-Tutorial-Guide-2025S/0setup-devel-env.html
 
 ## OS 环境配置
 
-介绍 macOS 下的环境配置方案
+介绍 macOS 下的环境配置方案。
 
 :::note
 
-请确保使用 Apple M1 或 M2 等芯片
+请确保使用 Apple M1 或 M2 等芯片。
 
-请确保使用 macOS Sequoia 15.4.1 版本系统
+请确保使用 macOS Sequoia 15.4.1 版本系统。
 
 :::
 
 ## Rust 开发环境配置
 
-看 Rust 马上开始
+看 Rust 马上开始。
 
 > https://www.rust-lang.org/zh-CN/learn/get-started
 
-## Qemu 模拟器安装
+## QEMU 模拟器安装
 
-我们需要使用 Qemu 7.0.0 版本进行实验，为此，从源码手动编译安装 Qemu 模拟器：
+我们需要使用 QEMU 7.0.0 版本进行实验，为此，从源码手动编译安装 QEMU 模拟器。
 
 :::warning
 
-不要下载 7.2.17 版本
+不要下载 7.2.17 版本。
 
 :::
 
-看 Building QEMU for macOS
+看 Building QEMU for macOS。
 
 > https://wiki.qemu.org/Hosts/Mac#Building_QEMU_for_macOS
 
-下载 QEMU
+下载 QEMU。
 
 > https://download.qemu.org/qemu-7.0.0.tar.xz
 
-解压到下载文件夹
+解压到下载文件夹。
 
 ```shell
 # 安装编译所需的依赖包
@@ -76,7 +76,7 @@ cp qemu-system-riscv64-unsigned qemu-system-riscv64
 编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），在文件的末尾加入几行：
 
 ```shell
-# 注意 $HOME 是 macOS 自动设置的表示你家目录的环境变量，你也可以根据实际位置灵活调整
+# 注意 $HOME 是 macOS 自动设置的，表示你家目录的环境变量，你也可以根据实际位置灵活调整。
 export PATH="$HOME/Downloads/qemu-7.0.0/build/:$PATH"
 ```
 
@@ -84,7 +84,7 @@ export PATH="$HOME/Downloads/qemu-7.0.0/build/:$PATH"
 
 重启一个新的终端，或执行 `source ~/.zshrc` 使配置立即生效。
 
-确认 Qemu 的版本：
+确认 QEMU 的版本：
 
 ```shell
 qemu-system-riscv64 --version
@@ -92,7 +92,7 @@ qemu-system-riscv64 --version
 
 ## 试运行 rCore-Tutorial
 
-看 rCore-Tutorial-Guide-2025S 文档
+看 rCore-Tutorial-Guide-2025S 文档。
 
 > https://learningos.cn/rCore-Tutorial-Guide-2025S/0setup-devel-env.html#rcore-tutorial
 
@@ -135,7 +135,7 @@ qemu-system-riscv64 --version
 
 :::
 
-你可以选择使用 Homebrew 进行安装
+你可以选择使用 Homebrew 进行安装。
 
 ```shell
 brew install riscv64-elf-gdb
@@ -180,7 +180,7 @@ Type "apropos word" to search for commands related to "word".
 >>> quit
 ```
 
-可以按下 `control+D`（即 `⌃D`）来退出 GDB。
+可以按下 `control + D`（即 `⌃ D`）来退出 GDB。
 
 ## 安装 GDB dashboard\*\*
 
@@ -202,7 +202,7 @@ make gdbserver
 
 ![gdbserver.png](image/gdbserver.png)
 
-通常 rCore 会自动关闭 Qemu。如果需要强制结束 Qemu，可以先按下 `control+A`（即 `⌃A`），再按下 `X`。
+通常 rCore 会自动关闭 QEMU。如果需要强制结束 QEMU，可以先按下 `control + A`（即 `⌃ A`），再按下 `X`。
 
 ```shell
 cd ~/GitHub/rCore-Tutorial-Code-2025S/os
@@ -211,6 +211,6 @@ make gdbclient
 
 ![gdbclient.png](image/gdbclient.png)
 
-可以按下 `control+D`（即 `⌃D`）两次来退出 GDB。
+可以按下 `control + D`（即 `⌃ D`）两次来退出 GDB。
 
 第一次按下会提示 `Quit anyway?`，再次按下来确认退出。
