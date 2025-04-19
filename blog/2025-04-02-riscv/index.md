@@ -19,6 +19,8 @@ tags: [riscv]
 hart。WFI 在所有特权模式下可用，并可选择性地支持用户模式 (U-mode)。如第 3.1.6.6 节所述，当 `mstatus` 寄存器的 `TW=1`
 时，此指令可能触发非法指令异常。
 
+![WFI.svg](image/WFI.svg)
+
 ## "Zifencei" Extension for Instruction-Fetch Fence
 
 ![FENCE.I.svg](image/FENCE.I.svg)
