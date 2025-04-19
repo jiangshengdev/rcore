@@ -22,7 +22,7 @@ sidebar_position: 1
 
 ## Rust 开发环境配置
 
-看 Rust 马上开始。
+参考 Rust 马上开始。
 
 > https://www.rust-lang.org/zh-CN/learn/get-started
 
@@ -36,7 +36,7 @@ sidebar_position: 1
 
 :::
 
-看 Building QEMU for macOS。
+参考 Building QEMU for macOS。
 
 > https://wiki.qemu.org/Hosts/Mac#Building_QEMU_for_macOS
 
@@ -62,8 +62,9 @@ make -j$(sysctl -n hw.ncpu)
 
 :::tip
 
-QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 build 目录下用 `ls` 命令确认实际生成的文件名。如果没有
-`qemu-system-riscv64-unsigned`，请根据实际文件名进行重命名或软链接操作。
+QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。 请在 build 目录下用 `ls` 命令确认实际生成的文件名。
+
+如果没有 `qemu-system-riscv64-unsigned`，请根据实际文件名进行重命名或软链接操作。
 
 :::
 
@@ -80,7 +81,7 @@ cp qemu-system-riscv64-unsigned qemu-system-riscv64
 export PATH="$HOME/Downloads/qemu-7.0.0/build/:$PATH"
 ```
 
-如果你将 QEMU 安装在其他目录，请相应修改路径。
+如果你将 QEMU 下载解压在其他目录，请相应修改路径。
 
 重启一个新的终端，或执行 `source ~/.zshrc` 使配置立即生效。
 
@@ -90,9 +91,16 @@ export PATH="$HOME/Downloads/qemu-7.0.0/build/:$PATH"
 qemu-system-riscv64 --version
 ```
 
+应当会看到如下输出：
+
+```
+QEMU emulator version 7.0.0
+Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
+```
+
 ## 试运行 rCore-Tutorial
 
-看 rCore-Tutorial-Guide-2025S 文档。
+参考 rCore-Tutorial-Guide-2025S 文档。
 
 > https://learningos.cn/rCore-Tutorial-Guide-2025S/0setup-devel-env.html#rcore-tutorial
 
@@ -135,25 +143,19 @@ qemu-system-riscv64 --version
 
 :::
 
-你可以选择使用 Homebrew 进行安装。
+你可以使用 Homebrew 进行安装。
 
 ```shell
 brew install riscv64-elf-gdb
 ```
+
+安装后可执行文件与实验脚本中的名称不一致，还需要重命名。请根据实际文件名进行重命名或软链接操作：
 
 ```shell
 # 复制并重命名
 cd /opt/homebrew/bin/
 cp riscv64-elf-gdb riscv64-unknown-elf-gdb
 ```
-
-编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），在文件的末尾加入几行：
-
-```shell
-export PATH="/opt/homebrew/bin/:$PATH"
-```
-
-重启一个新的终端，或执行 `source ~/.zshrc` 使配置立即生效。
 
 确认 GDB 的版本以及信息：
 
