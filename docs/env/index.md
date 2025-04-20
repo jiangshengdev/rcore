@@ -66,6 +66,16 @@ cd qemu-7.0.0
 make -j$(sysctl -n hw.ncpu)
 ```
 
+### 重命名
+
+编译后可执行文件与实验脚本中的名称不一致，还需要重命名
+
+```shell
+# 复制并重命名
+cd build
+cp qemu-system-riscv64-unsigned qemu-system-riscv64
+```
+
 :::tip
 
 QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 build 目录下用 `ls` 命令确认实际生成的文件名。
@@ -73,14 +83,6 @@ QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 bu
 如果没有 `qemu-system-riscv64-unsigned`，请根据实际文件名进行重命名或软链接操作。
 
 :::
-
-### 重命名
-
-```shell
-# 复制并重命名（如有必要）
-cd build
-cp qemu-system-riscv64-unsigned qemu-system-riscv64
-```
 
 ### 配置环境变量
 
