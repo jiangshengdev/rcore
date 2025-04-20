@@ -86,12 +86,15 @@ sidebar_position: 3
 修改完成后，需要执行：
 
 ```shell
+cd <你的实验项目目录>/os
 make build
 ```
 
 以生成带有调试信息的可执行文件。
 
 ## 运行/调试配置
+
+使用 CLion 打开 `<你的实验项目目录>/os` 项目目录。
 
 点击菜单中的“运行 -> 编辑配置...”，打开“运行/调试配置”弹窗。
 
@@ -103,7 +106,9 @@ make build
 
 - 名称：`gdbclient`
 - 'target remote' 实参：`localhost:1234`
-- 符号文件：`<你的实验项目目录>/os/target/riscv64gc-unknown-none-elf/debug/os`
+- 符号文件：`$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/os`
+  - 或直接使用绝对路径：
+  - `<你的实验项目目录>/os/target/riscv64gc-unknown-none-elf/debug/os`
 
 ![debug-config-finish.png](image/debug-config-finish.png)
 
@@ -118,7 +123,7 @@ make build
 在项目 os 目录下执行以启动调试服务器端：
 
 ```shell
-cd os
+cd <你的实验项目目录>/os
 make gdbserver
 ```
 
