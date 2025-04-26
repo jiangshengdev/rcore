@@ -6,7 +6,7 @@ sidebar_position: 3
 
 以 ch2 为例，进行调试。
 
-## 代码修改
+## 调试前准备
 
 首先需要对代码进行一些配置的修改。
 
@@ -92,7 +92,7 @@ make build
 
 以生成带有调试信息的可执行文件。
 
-## 运行/调试配置
+## 配置调试环境
 
 使用 CLion 打开 `<你的实验项目目录>/os` 项目目录。
 
@@ -112,13 +112,13 @@ make build
 
 ![debug-config-finish.png](image/debug-config-finish.png)
 
-## 添加断点
+## 设置断点
 
 在 `os/src/main.rs` 文件的 `rust_main` 函数中添加行断点。
 
 ![break-point.png](image/break-point.png)
 
-## 启动调试服务器端
+## 启动调试服务
 
 在项目 os 目录下执行以启动调试服务器端：
 
@@ -129,7 +129,7 @@ make gdbserver
 
 ![gdbserver.png](image/gdbserver.png)
 
-## 启动调试客户端
+## 连接调试客户端
 
 点击菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的 `gdbclient` 远程调试项目。
 
@@ -137,7 +137,7 @@ make gdbserver
 
 即可在断点处暂停，至此可以进行 os 程序的调试。
 
-## 断开连接
+## 断开远程连接
 
 在 CLion 调试工具窗口的 GDB 标签页中执行如下命令，可以断开与调试服务器端的连接：
 
@@ -164,13 +164,13 @@ make gdbclient
 
 ![gdbclient-connect.png](image/gdbclient-connect.png)
 
-## 检查内存
+## 内存检视
 
 ![examining-memory.png](image/examining-memory.png)
 
-在 GDB 中执行与「检查内存（Examining Memory）」相关的命令，即可检查内存中的值。
+在 GDB 中执行与「检视内存（Examining Memory）」相关的命令，即可查看内存中的值。
 
-例如，使用如下命令即可检查当前 sp 寄存器指向的内存中 34 个「巨字（Giant words，8 字节）」的值，并以 16 进制显示：
+例如，使用如下命令即可检视当前 sp 寄存器指向的内存中 34 个「巨字（Giant words，8 字节）」的值，并以 16 进制显示：
 
 ```gdb
 x /34gx $sp

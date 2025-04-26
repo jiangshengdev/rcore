@@ -2,13 +2,13 @@
 sidebar_position: 2
 ---
 
-# 实验环境配置
+# 环境准备
 
 与 rCore-Tutorial-Guide-2025S 文档中的 **第零章：实验环境配置** 重复部分不单独列出。
 
 > https://learningos.cn/rCore-Tutorial-Guide-2025S/0setup-devel-env.html
 
-## OS 环境配置
+## macOS 环境准备
 
 介绍 macOS 下的环境配置方案。
 
@@ -20,13 +20,13 @@ sidebar_position: 2
 
 :::
 
-## Rust 开发环境配置
+## Rust 开发环境
 
 参考 Rust 马上开始。
 
 > https://www.rust-lang.org/zh-CN/learn/get-started
 
-## QEMU 模拟器安装
+## 安装 QEMU 模拟器
 
 我们需要使用 QEMU 7.0.0 版本进行实验，为此，从源码手动编译安装 QEMU 模拟器。
 
@@ -40,11 +40,11 @@ sidebar_position: 2
 
 > https://wiki.qemu.org/Hosts/Mac#Building_QEMU_for_macOS
 
-### 下载
+### 下载 QEMU 源码
 
 > https://download.qemu.org/qemu-7.0.0.tar.xz
 
-### 解压
+### 解压 QEMU 源码
 
 解压到下载文件夹。
 
@@ -66,7 +66,7 @@ cd qemu-7.0.0
 make -j$(sysctl -n hw.ncpu)
 ```
 
-### 重命名
+### 重命名可执行文件
 
 编译后可执行文件与实验脚本中的名称不一致，还需要重命名。
 
@@ -97,7 +97,7 @@ export PATH="$HOME/Downloads/qemu-7.0.0/build/:$PATH"
 
 重启一个新的终端，或执行 `source ~/.zshrc` 使配置立即生效。
 
-### 验证
+### 验证安装
 
 ```shell
 qemu-system-riscv64 --version
@@ -110,7 +110,7 @@ QEMU emulator version 7.0.0
 Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
 ```
 
-## 试运行 rCore-Tutorial
+## 运行 rCore 实验
 
 参考 rCore-Tutorial-Guide-2025S 文档。
 
@@ -147,7 +147,7 @@ Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
 
 恭喜你完成了实验环境的配置，可以开始 **GDB 调试支持** 部分了！
 
-## GDB 调试支持\*
+## GDB 调试工具
 
 :::tip
 
@@ -163,7 +163,7 @@ Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
 brew install riscv64-elf-gdb
 ```
 
-### 重命名 GDB 可执行文件
+### 重命名 GDB
 
 安装后可执行文件与实验脚本中的名称不一致，还需要重命名。请根据实际文件名进行重命名或软链接操作：
 
@@ -173,7 +173,7 @@ cd /opt/homebrew/bin/
 cp riscv64-elf-gdb riscv64-unknown-elf-gdb
 ```
 
-### 确认 GDB 的版本以及信息
+### 验证 GDB 版本
 
 ```shell
 riscv64-unknown-elf-gdb
@@ -200,7 +200,7 @@ Type "apropos word" to search for commands related to "word".
 
 可以按下 `control + D`（即 `⌃ D`）来退出 GDB。
 
-## 安装 GDB dashboard\*\*
+## 安装 GDB Dashboard
 
 :::tip
 
@@ -208,7 +208,7 @@ Type "apropos word" to search for commands related to "word".
 
 :::
 
-### 下载配置
+### 下载配置文件
 
 ```shell
 brew install wget
