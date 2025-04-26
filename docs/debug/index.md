@@ -96,11 +96,11 @@ make build
 
 使用 CLion 打开 `<你的实验项目目录>/os` 项目目录。
 
-点击菜单中的“运行 -> 编辑配置...”，打开“运行/调试配置”弹窗。
+点击菜单中的「运行 -> 编辑配置...」，打开「运行/调试配置」弹窗。
 
 ![debug-config-start.png](image/debug-config-start.png)
 
-然后点击左上角的加号，在“添加新配置”菜单中选择“远程调试”。
+然后点击左上角的加号，在「添加新配置」菜单中选择「远程调试」。
 
 填入如下参数：
 
@@ -131,8 +131,49 @@ make gdbserver
 
 ## 启动调试客户端
 
-点击菜单中的“运行 -> 调试...”，然后在弹出的菜单中选择刚刚配置的 `gdbclient` 远程调试项目。
+点击菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的 `gdbclient` 远程调试项目。
 
 ![gdbclient.png](image/gdbclient.png)
 
 即可在断点处暂停，至此可以进行 os 程序的调试。
+
+## 断开连接
+
+在 CLion 调试工具窗口的 GDB 标签页中执行如下命令，可以断开与调试服务器端的连接：
+
+```gdb
+disconnect
+```
+
+![clion-disconnect.png](image/clion-disconnect.png)
+
+控制台会显示：「调试器已断开连接」。
+
+![clion-disconnected.png](image/clion-disconnected.png)
+
+## 重新连接
+
+在终端，启动另外一个调试客户端 `gdbclient`：
+
+```shell
+cd ~/GitHub/rCore-Tutorial-Code-2025S/os
+make gdbclient
+```
+
+可以再次连接到上次断开的位置：
+
+![gdbclient-connect.png](image/gdbclient-connect.png)
+
+## 检查内存
+
+![examining-memory.png](image/examining-memory.png)
+
+在 GDB 中执行与「检查内存（Examining Memory）」相关的命令，即可检查内存中的值。
+
+例如，使用如下命令即可检查当前 sp 寄存器指向的内存中 34 个「巨字（Giant words，8 字节）」的值，并以 16 进制显示：
+
+```gdb
+x /34gx $sp
+```
+
+可以看到这时显示的刚好是内核栈顶的内容。

@@ -23,7 +23,7 @@ hart。WFI 在所有特权模式下可用，并可选择性地支持用户模式
 
 ## "Zifencei" Extension for Instruction-Fetch Fence
 
-本章定义了 **“Zifencei”** 扩展，其中包含 `FENCE.I` 指令。该指令为同一硬件线程（hart）上的指令存储器写入操作与指令获取操作之间提供显式同步。目前，
+本章定义了 **「Zifencei」** 扩展，其中包含 `FENCE.I` 指令。该指令为同一硬件线程（hart）上的指令存储器写入操作与指令获取操作之间提供显式同步。目前，
 `FENCE.I` 是唯一的标准机制，可确保一个关键一致性：任何对 hart 可见的存储操作，必须对其自身的指令获取也可见。
 
 ![FENCE.I.svg](image/FENCE.I.svg)
