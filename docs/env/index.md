@@ -4,6 +4,8 @@ sidebar_position: 2
 
 # 环境准备
 
+本节记录了在 macOS（Apple M1/M2 芯片，Sequoia 15.4.1 及以上）下配置 rCore 实验开发环境的详细过程，包括 Rust、QEMU、GDB 及相关工具的安装与验证。希望这些步骤能帮助大家顺利完成环境搭建。
+
 与 rCore-Tutorial-Guide-2025S 文档中的 **第零章：实验环境配置** 重复部分不单独列出。
 
 > https://learningos.cn/rCore-Tutorial-Guide-2025S/0setup-devel-env.html
@@ -246,3 +248,7 @@ make gdbclient
 可以按下 `control + D`（即 `⌃ D`）两次来退出 GDB。
 
 第一次按下会提示 `Quit anyway?`，再次按下来确认退出。
+
+---
+
+到这里，rCore 实验环境的配置过程就全部记录完了。如果后续遇到问题，欢迎随时参考本页内容或相关文档，也欢迎交流补充。
