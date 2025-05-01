@@ -149,6 +149,14 @@ Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
 
 恭喜你完成了实验环境的配置，可以开始 **GDB 调试支持** 部分了！
 
+## 检查器依赖
+
+ci-user 检查器依赖 `timeout` 工具（用于限制命令执行时间），可通过以下命令安装核心工具集：
+
+```shell
+brew install coreutils
+```
+
 ## GDB 调试工具
 
 :::tip
