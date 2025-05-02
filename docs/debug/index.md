@@ -90,6 +90,13 @@ cd <你的实验项目目录>/os
 make build
 ```
 
+比如：
+
+```shell
+cd ~/GitHub/2025s-rcore-jiangshengdev/os
+make build
+```
+
 以生成带有调试信息的可执行文件。
 
 ## 配置调试环境
@@ -127,6 +134,13 @@ cd <你的实验项目目录>/os
 make gdbserver
 ```
 
+比如：
+
+```shell
+cd ~/GitHub/2025s-rcore-jiangshengdev/os
+make gdbserver
+```
+
 ![gdbserver.png](image/gdbserver.png)
 
 ## 连接调试客户端
@@ -157,6 +171,13 @@ disconnect
 
 ```shell
 cd <你的实验项目目录>/os
+make gdbclient
+```
+
+比如：
+
+```shell
+cd ~/GitHub/2025s-rcore-jiangshengdev/os
 make gdbclient
 ```
 
