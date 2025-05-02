@@ -179,8 +179,6 @@ Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
 [ERROR] [kernel] .bss [0x80214000, 0x80215000)
 ```
 
-恭喜你完成了实验环境的配置，可以开始 **GDB 调试支持** 部分了！
-
 ## 检查器依赖
 
 ci-user 检查器依赖 `timeout` 工具（用于限制命令执行时间），可通过以下命令安装核心工具集：
@@ -274,7 +272,7 @@ make gdbserver
 
 ![gdbserver.png](image/gdbserver.png)
 
-通常 rCore 会自动关闭 QEMU。如果需要强制结束 QEMU，可以先按下 `control + A`（即 `⌃ A`），再按下 `X`。
+待后续调试完成后，通常 rCore 会自动关闭 QEMU。如果需要强制结束 QEMU，可以先按下 `control + A`（即 `⌃ A`），再按下 `X`。
 
 ### 启动 gdbclient
 
