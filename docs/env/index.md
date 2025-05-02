@@ -52,7 +52,7 @@ sidebar_position: 2
 
 ### 解压 QEMU 源码包
 
-请将下载的源码包解压到你指定的文件夹，例如 ~/Downloads。
+请将下载的源码包解压到你指定的文件夹，例如 ~/Develop。
 
 ### 编译安装 QEMU
 
@@ -104,7 +104,7 @@ QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 bu
 
 ```shell
 # 注意 $HOME 是 macOS 自动设置的，表示你家目录的环境变量，你也可以根据实际位置灵活调整。
-export PATH="$HOME/Downloads/qemu-7.0.0/build/:$PATH"
+export PATH="$HOME/Develop/qemu-7.0.0/build/:$PATH"
 ```
 
 如果你将 QEMU 下载解压在其他目录，请相应修改路径。
@@ -208,13 +208,13 @@ riscv64-unknown-elf-gdb
 如果安装成功，执行上述命令后应看到类似如下的版本和版权信息输出（仅供参考，实际内容可能略有不同）：
 
 ```
-GNU gdb (GDB) 16.2
+GNU gdb (GDB) 16.3
 Copyright (C) 2024 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 Type "show copying" and "show warranty" for details.
-This GDB was configured as "--host=aarch64-apple-darwin24.2.0 --target=riscv64-elf".
+This GDB was configured as "--host=aarch64-apple-darwin24.4.0 --target=riscv64-elf".
 Type "show configuration" for configuration details.
 For bug reporting instructions, please see:
 <https://www.gnu.org/software/gdb/bugs/>.
