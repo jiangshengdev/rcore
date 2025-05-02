@@ -156,7 +156,7 @@ disconnect
 在终端，启动另外一个调试客户端 `gdbclient`：
 
 ```shell
-cd ~/GitHub/rCore-Tutorial-Code-2025S/os
+cd <你的实验项目目录>/os
 make gdbclient
 ```
 
@@ -166,8 +166,6 @@ make gdbclient
 
 ## 内存检视
 
-![examining-memory.png](image/examining-memory.png)
-
 在 GDB 中执行与「检视内存（Examining Memory）」相关的命令，即可查看内存中的值。
 
 例如，使用如下命令即可检视当前 sp 寄存器指向的内存中 34 个「巨字（Giant words，8 字节）」的值，并以 16 进制显示：
@@ -175,6 +173,8 @@ make gdbclient
 ```gdb
 x /34gx $sp
 ```
+
+![examining-memory.png](image/examining-memory.png)
 
 可以看到这时显示的刚好是内核栈顶的内容。
 
