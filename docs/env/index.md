@@ -4,7 +4,8 @@ sidebar_position: 2
 
 # 环境准备
 
-本节记录了在 macOS（Apple M1/M2 芯片，Sequoia 15.4.1 及以上）下配置 rCore 实验开发环境的详细过程，包括 Rust、QEMU、GDB 及相关工具的安装与验证。希望这些步骤能帮助大家顺利完成环境搭建。
+本节记录了在 macOS（Apple M1/M2 芯片，Sequoia 15.4.1 及以上）下配置 rCore 实验开发环境的详细过程，包括 Rust、QEMU、GDB
+及相关工具的安装与验证。希望这些步骤能帮助大家顺利完成环境搭建。
 
 与 rCore-Tutorial-Guide-2025S 文档中的 **第零章：实验环境配置** 重复部分不单独列出。
 
@@ -67,6 +68,14 @@ cd qemu-7.0.0
 ./configure --target-list=riscv64-softmmu
 make -j$(sysctl -n hw.ncpu)
 ```
+
+:::info
+Homebrew 是 macOS（或 Linux）缺失的软件包的管理器。
+
+使用 Homebrew 安装 Apple（或您的 Linux 系统）没有预装但 **你需要的东西**。更多信息可以查看：
+
+https://brew.sh/zh-cn/
+:::
 
 ### 重命名可执行文件
 
