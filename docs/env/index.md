@@ -13,8 +13,6 @@ sidebar_position: 2
 
 ## macOS 环境准备
 
-介绍 macOS 下的环境配置方案。
-
 :::note
 
 请确保使用 Apple M1 或 M2 等芯片。
@@ -42,17 +40,35 @@ sidebar_position: 2
 
 ### 下载 QEMU 源码包
 
+你可以使用 `wget` 命令直接将 QEMU 7.0.0 源码包下载到指定目录（如 `~/Develop`）：
+
+```shell
+brew install wget  # 如果尚未安装 wget
+mkdir -p ~/Develop
+cd ~/Develop
+wget https://download.qemu.org/qemu-7.0.0.tar.xz
+```
+
 > https://download.qemu.org/qemu-7.0.0.tar.xz
+
+或者你也可以直接使用浏览器下载上述链接的源码包。
 
 :::warning
 
-请勿下载 7.2.17、8.2.10、9.2.3、10.0.0 等较新版本，否则可能需要对实验代码进行适配和修改，建议严格按照指定版本安装。
+请勿下载 `7.2.17`、`8.2.10`、`9.2.3`、`10.0.0` 等较新版本，否则可能需要对实验代码进行适配和修改，建议严格按照指定版本安装。
 
 :::
 
 ### 解压 QEMU 源码包
 
-请将下载的源码包解压到你指定的文件夹，例如 ~/Develop。
+下载完成后，使用如下命令解压源码包：
+
+```shell
+cd ~/Develop
+tar -xf qemu-7.0.0.tar.xz
+```
+
+你也可以使用「归档实用工具」等图形界面工具，将源码包解压到你指定的文件夹（如 `~/Develop`）。
 
 ### 编译安装 QEMU
 
@@ -65,9 +81,11 @@ brew install pkgconf
 brew install glib
 brew install meson
 brew install pixman
+```
 
+```shell
 # 配置、编译并安装 QEMU
-cd qemu-7.0.0
+cd ~/Develop/qemu-7.0.0
 ./configure --target-list=riscv64-softmmu
 make -j$(sysctl -n hw.ncpu)
 ```
@@ -86,7 +104,7 @@ https://brew.sh/zh-cn/
 
 ```shell
 # 复制并重命名
-cd build
+cd ~/Develop/qemu-7.0.0/build
 cp qemu-system-riscv64-unsigned qemu-system-riscv64
 ```
 
@@ -100,7 +118,7 @@ QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 bu
 
 ### 配置环境变量
 
-编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），将 QEMU 路径加入环境变量 PATH：
+编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），将 QEMU 路径加入环境变量 `PATH`：
 
 ```shell
 # 注意 $HOME 是 macOS 自动设置的，表示你家目录的环境变量，你也可以根据实际位置灵活调整。
@@ -245,7 +263,7 @@ wget -P ~ https://github.com/cyrus-and/gdb-dashboard/raw/master/.gdbinit
 
 ### 启动 gdbserver
 
-进入 rCore-Tutorial 代码目录并启动 gdbserver：
+进入 `rCore-Tutorial` 代码目录并启动 gdbserver：
 
 ```shell
 cd ~/GitHub/rCore-Tutorial-Code-2025S/os
