@@ -7,3 +7,5 @@ sidebar_position: 1
 ## [环境准备](env/index.md)
 
 ## [代码调试](debug/index.md)
+
+## [启动流程](boot/index.md)
