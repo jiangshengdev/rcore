@@ -31,6 +31,10 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+code {
+  vertical-align: baseline;
+}
+
 /* PrismJS RISC-V 高亮自定义颜色 */
 
 /* 寄存器颜色 */
