@@ -21,39 +21,42 @@ sidebar_position: 2
 
 请确保使用 macOS Sequoia 15.4.1 版本系统。
 
+其他芯片型号或系统版本尚未经过充分测试，配置过程中可能会遇到未预料的问题，建议优先使用推荐的硬件与系统环境。
+
 :::
 
 ## Rust 开发环境
 
-参考 Rust 马上开始。
+请参考 Rust 官方入门文档：
 
 > https://www.rust-lang.org/zh-CN/learn/get-started
 
 ## 安装 QEMU 模拟器
 
-我们需要使用 QEMU 7.0.0 版本进行实验，为此，从源码手动编译安装 QEMU 模拟器。
-
-:::warning
-
-不要下载 7.2.17 版本。
-
-:::
+实验需要使用 QEMU 7.0.0 版本。目前 Homebrew 已不再提供 QEMU 7.0.0 及更低版本的安装包，因此需通过源码手动编译并安装 QEMU
+模拟器。
 
 参考 Building QEMU for macOS。
 
 > https://wiki.qemu.org/Hosts/Mac#Building_QEMU_for_macOS
 
-### 下载 QEMU 源码
+### 下载 QEMU 源码包
 
 > https://download.qemu.org/qemu-7.0.0.tar.xz
 
-### 解压 QEMU 源码
+:::warning
 
-解压到下载文件夹。
+请勿下载 7.2.17、8.2.10、9.2.3、10.0.0 等较新版本，否则可能需要对实验代码进行适配和修改，建议严格按照指定版本安装。
 
-### 安装依赖与编译
+:::
 
-安装 QEMU 编译所需依赖、编译并安装 QEMU：
+### 解压 QEMU 源码包
+
+请将下载的源码包解压到你指定的文件夹，例如 ~/Downloads。
+
+### 编译安装 QEMU
+
+安装 QEMU 编译所需依赖，配置、编译并安装 QEMU：
 
 ```shell
 # 安装编译所需的依赖包
@@ -63,7 +66,7 @@ brew install glib
 brew install meson
 brew install pixman
 
-# 编译安装并配置 RISC-V 支持
+# 配置、编译并安装 QEMU
 cd qemu-7.0.0
 ./configure --target-list=riscv64-softmmu
 make -j$(sysctl -n hw.ncpu)
@@ -79,7 +82,7 @@ https://brew.sh/zh-cn/
 
 ### 重命名可执行文件
 
-编译后可执行文件与实验脚本中的名称不一致，还需要重命名。
+编译完成后，需将生成的可执行文件重命名以便后续脚本调用：
 
 ```shell
 # 复制并重命名
@@ -109,6 +112,8 @@ export PATH="$HOME/Downloads/qemu-7.0.0/build/:$PATH"
 重启一个新的终端，或执行 `source ~/.zshrc` 使配置立即生效。
 
 ### 验证安装
+
+完成编译和安装后，可以通过以下命令验证 QEMU 是否安装成功：
 
 ```shell
 qemu-system-riscv64 --version
@@ -194,9 +199,13 @@ cp riscv64-elf-gdb riscv64-unknown-elf-gdb
 
 ### 验证 GDB 版本
 
+安装并重命名完成后，可以通过以下命令验证 GDB 是否安装成功：
+
 ```shell
 riscv64-unknown-elf-gdb
 ```
+
+如果安装成功，执行上述命令后应看到类似如下的版本和版权信息输出（仅供参考，实际内容可能略有不同）：
 
 ```
 GNU gdb (GDB) 16.2
