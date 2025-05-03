@@ -1,4 +1,77 @@
 // Prism 语言定义：RISC-V 64bit 汇编 (GNU 风格，含伪指令)
+
+/**
+ * 将字符串数组转为不区分大小写的正则表达式
+ * @param {string[]} arr
+ * @returns {RegExp}
+ */
+function arrayToCaseInsensitivePattern(arr) {
+  return new RegExp('(^|\\s)(' + arr.join('|') + ')\\b', 'i');
+}
+
+let RV_32_I_BASE_INSTRUCTION_SET = [
+  'LUI',
+  'AUIPC',
+  'JAL',
+  'JALR',
+  'BEQ',
+  'BNE',
+  'BLT',
+  'BGE',
+  'BLTU',
+  'BGEU',
+  'LB',
+  'LH',
+  'LW',
+  'LBU',
+  'LHU',
+  'SB',
+  'SH',
+  'SW',
+  'ADDI',
+  'SLTI',
+  'SLTIU',
+  'XORI',
+  'ORI',
+  'ANDI',
+  'SLLI',
+  'SRLI',
+  'SRAI',
+  'ADD',
+  'SUB',
+  'SLL',
+  'SLT',
+  'SLTU',
+  'XOR',
+  'SRL',
+  'SRA',
+  'OR',
+  'AND',
+  'FENCE',
+  'FENCE.TSO',
+  'PAUSE',
+  'ECALL',
+  'EBREAK',
+];
+
+const RV_64_I_BASE_INSTRUCTION_SET = [
+  "LWU",
+  "LD",
+  "SD",
+  "SLLI",
+  "SRLI",
+  "SRAI",
+  "ADDIW",
+  "SLLIW",
+  "SRLIW",
+  "SRAIW",
+  "ADDW",
+  "SUBW",
+  "SLLW",
+  "SRLW",
+  "SRAW",
+]
+
 Prism.languages.riscv = {
   comment: [
     {
@@ -24,12 +97,37 @@ Prism.languages.riscv = {
     lookbehind: true,
     alias: 'function',
   },
-  instruction: {
-    pattern:
-      /(^|\s)(?:addiw?|addi?u?w?|andn?|auipc|beq|bge|bgeu|blt|bltu|bne|bnez|c\.add|c\.addi|c\.addi16sp|c\.addi4spn|c\.addiw|c\.addw|c\.and|c\.andi|c\.beqz|c\.bnez|c\.ebreak|c\.jal|c\.jalr|c\.li|c\.lui|c\.lw|c\.ld|c\.mv|c\.nop|c\.or|c\.ret|c\.slli|c\.srai|c\.srli|c\.sub|c\.subw|c\.sw|c\.sd|c\.xor|div|divu|divuw|divw|ebreak|ecall|fence|fence\.i|j|jal|jalr|lb|lbu|ld|lh|lhu|li|lui|lw|lwu|mv|mul|mulh|mulhu|mulhsu|mulw|or|ori|rem|remu|remuw|remw|sb|sd|sh|sll|slli|slliw|sllw|slt|slti|sltiu|sltu|sra|srai|sraiw|sraw|srl|srli|srliw|srlw|sub|subw|sw|xor|xori|not|neg|seqz|snez|sltz|sgtz|call|tail|ret|nop|la|lla|jr|rdcycle|rdtime|rdinstret|csrrw|csrrs|csrrc|csrrwi|csrrsi|csrrci|wfi|sfence\.vma|mret|sret|uret|fence\.tso|pause|unimp|unreachable|lr\.w|sc\.w|amoswap\.w|amoadd\.w|amoxor\.w|amoand\.w|amoor\.w|amomin\.w|amomax\.w|amominu\.w|amomaxu\.w|lr\.d|sc\.d|amoswap\.d|amoadd\.d|amoxor\.d|amoand\.d|amoor\.d|amomin\.d|amomax\.d|amominu\.d|amomaxu\.d)\b/i,
-    lookbehind: true,
-    alias: 'keyword',
-  },
+  instruction: [
+    // 35. RV32/64G Instruction Set Listings
+    // RV32I Base Instruction Set
+    {
+      pattern: arrayToCaseInsensitivePattern(RV_32_I_BASE_INSTRUCTION_SET),
+      lookbehind: true,
+      alias: 'keyword',
+    },
+    // RV64I Base Instruction Set
+    {
+      pattern: arrayToCaseInsensitivePattern(RV_64_I_BASE_INSTRUCTION_SET),
+      lookbehind: true,
+      alias: 'keyword',
+    },
+
+    // 3. RV32/RV64 _Zifencei_ Standard Extension
+    // 4. RV32/RV64 _Zicsr_ Standard Extension
+    // 5. RV32M Standard Extension
+    // 6. RV64M Standard Extension (in addition to RV32M)
+    // 7. RV32A Standard Extension
+    // 8. RV64A Standard Extension (in addition to RV32A)
+    // 9. RV32F Standard Extension
+    // 10. RV64F Standard Extension (in addition to RV32F)
+    // 11. RV32D Standard Extension
+    // 12. RV64D Standard Extension (in addition to RV32D)
+    // 13. RV32Q Standard Extension
+    // 14. RV64Q Standard Extension (in addition to RV32Q)
+    // 15. RV32Zfh Standard Extension
+    // 16. RV64Zfh Standard Extension (in addition to RV32Zfh)
+    // 17. Zawrs Standard Extension
+  ],
   pseudoinstruction: {
     pattern:
       /(^|\s)(?:li|la|mv|not|neg|seqz|snez|sltz|sgtz|call|tail|ret|nop)\b/i,
