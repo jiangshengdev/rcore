@@ -258,6 +258,52 @@ function set2Instruction(set) {
   };
 }
 
+const PSEUDO_OPS = [
+  '.align',
+  '.p2align',
+  '.balign',
+  '.file',
+  '.globl',
+  '.local',
+  '.comm',
+  '.common',
+  '.ident',
+  '.section',
+  '.size',
+  '.text',
+  '.data',
+  '.rodata',
+  '.bss',
+  '.string',
+  '.asciz',
+  '.equ',
+  '.macro',
+  '.endm',
+  '.type',
+  '.option',
+  '.byte',
+  '.2byte',
+  '.half',
+  '.short',
+  '.4byte',
+  '.word',
+  '.long',
+  '.8byte',
+  '.dword',
+  '.quad',
+  '.float',
+  '.double',
+  '.quad',
+  '.dtprelword',
+  '.dtpreldword',
+  '.sleb128',
+  '.uleb128',
+  '.zero',
+  '.variant_cc',
+  '.attribute',
+  '.insn',
+];
+
 Prism.languages.riscv = {
   comment: [
     {
@@ -274,8 +320,7 @@ Prism.languages.riscv = {
     greedy: true,
   },
   directive: {
-    pattern:
-      /\.(?:section|globl|global|text|data|bss|align|word|dword|byte|half|asciz|ascii|zero|type|size|option|macro|endm|set|equ|org|include|ifdef|ifndef|endif|else|rept|endr|space|fill|comm|lcomm|file|ident|weak|p2align|balign|skip|string|pushsection|popsection|previous|sleb128|uleb128|loc|cfi_\w+|insn)\b/,
+    pattern: arrayToCaseInsensitivePattern(PSEUDO_OPS),
     alias: 'property',
   },
   label: {
