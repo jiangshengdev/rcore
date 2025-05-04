@@ -572,6 +572,7 @@ Prism.languages.riscv = {
 
   register: {
     pattern: toCaseInsensitiveBoundaryPatternWithParen(REGISTERS_OF_THE_RV_32_I),
+    lookbehind: true,
     alias: 'symbol',
   },
 
