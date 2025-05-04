@@ -258,6 +258,7 @@ function set2Instruction(set) {
   };
 }
 
+// Registers of the RV32I
 const REGISTERS_OF_THE_RV_32_I = [
   'x0',
   'x1',
