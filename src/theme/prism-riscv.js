@@ -22,7 +22,7 @@ function set2Pseudoinstruction(set) {
   return {
     pattern: arrayToCaseInsensitivePattern(set),
     lookbehind: true,
-    alias: 'builtin',
+    alias: 'keyword',
   };
 }
 
@@ -517,7 +517,17 @@ Prism.languages.riscv = {
     },
   ],
   string: {
-    pattern: /"(?:\\.|[^"\\\r\n])*"/,
+    pattern: /"(?:[^"\r\n]|"")*"/,
+    greedy: true,
+    inside: {
+      variable: {
+        pattern: /((?:^|[^$])(?:\${2})*)\$\w+/,
+        lookbehind: true,
+      },
+    },
+  },
+  char: {
+    pattern: /'(?:[^'\r\n]{0,4}|'')'/,
     greedy: true,
   },
   directive: {
@@ -552,13 +562,17 @@ Prism.languages.riscv = {
       PSEUDOINSTRUCTIONS_FOR_ACCESSING_CONTROL_AND_STATUS_REGISTERS,
     ),
   ],
+
+  number:
+    /(?:\b[2-9]_\d+|(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e-?\d+)?|\b0(?:[fd]_|x)[0-9a-f]+|&[0-9a-f]+)\b/i,
+
   register: {
     pattern: arrayToCaseInsensitivePattern(REGISTERS_OF_THE_RV_32_I),
-    alias: 'variable',
+    alias: 'symbol',
   },
-  number: [/\b0x[\da-f]+\b/i, /\b0b[01]+\b/i, /\b\d+\b/],
-  operator: /[+\-*/%&|^~!<>=]/,
-  punctuation: /[()[\]{},.:]/,
+
+  operator: /<>|<<|>>|&&|\|\||[=!<>/]=?|[+\-*%#?&|^]|:[A-Z]+:/,
+  punctuation: /[()[\],]/,
 };
 
 Prism.languages['riscv-asm'] = Prism.languages.riscv;
