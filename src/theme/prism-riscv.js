@@ -6,7 +6,8 @@
  * @returns {RegExp}
  */
 function arrayToCaseInsensitivePattern(arr) {
-  return new RegExp('(^|\\s)(' + arr.join('|') + ')\\b', 'i');
+  // 匹配行首或空白，后面是指令，后面跟空白、逗号、行尾
+  return new RegExp('(^|[\\s,;])(' + arr.join('|') + ')(?=[\\s,;]|$)', 'i');
 }
 
 function set2Instruction(set) {
