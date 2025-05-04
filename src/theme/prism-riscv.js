@@ -5,12 +5,13 @@ function preprocessInstructionPattern(str) {
     }
     return '(' + body + ')?';
   });
-  str = str.replace(/\[([^]]+)]/g, '($1)?');
+  str = str.replace(/\[([^\]]+)]/g, '($1)?');
   return str.replace(/\./g, '\\.');
 }
 
 function toCaseInsensitiveBoundaryPattern(arr) {
-  const processed = arr.map(preprocessInstructionPattern);
+  const uniqueArr = Array.from(new Set(arr));
+  const processed = uniqueArr.map(preprocessInstructionPattern);
   return new RegExp(
     '(^|[\\s,;])(' + processed.join('|') + ')(?=[\\s,;]|$)',
     'i',
@@ -18,7 +19,8 @@ function toCaseInsensitiveBoundaryPattern(arr) {
 }
 
 function toCaseInsensitiveBoundaryPatternWithParen(arr) {
-  const processed = arr.map(preprocessInstructionPattern);
+  const uniqueArr = Array.from(new Set(arr));
+  const processed = uniqueArr.map(preprocessInstructionPattern);
   return new RegExp(
     '(^|[\\s,;(])(' + processed.join('|') + ')(?=[\\s,;\\)]|$)',
     'i',
