@@ -38,12 +38,11 @@ code {
 /* PrismJS RISC-V 高亮自定义颜色 */
 
 /* 寄存器颜色 */
-.language-riscv .token.variable {
+.language-riscv .token.instruction {
   color: #6c6ee0 !important;
 }
 
 /* 指令颜色 */
-.language-riscv .token.pseudoinstruction,
-.language-riscv .token.keyword {
+.language-riscv .token.number {
   color: #61afef !important;
 }

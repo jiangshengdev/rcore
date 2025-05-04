@@ -1,12 +1,4 @@
-// Prism 语言定义：RISC-V 64bit 汇编 (GNU 风格，含伪指令)
-
-/**
- * 将字符串数组转为不区分大小写的正则表达式
- * @param {string[]} arr
- * @returns {RegExp}
- */
 function arrayToCaseInsensitivePattern(arr) {
-  // 匹配行首或空白，后面是指令，后面跟空白、逗号、行尾
   return new RegExp('(^|[\\s,;])(' + arr.join('|') + ')(?=[\\s,;]|$)', 'i');
 }
 
@@ -530,6 +522,13 @@ Prism.languages.riscv = {
     pattern: /'(?:[^'\r\n]{0,4}|'')'/,
     greedy: true,
   },
+  'version-symbol': {
+    pattern: /\|[\w@]+\|/,
+    greedy: true,
+    alias: 'property',
+  },
+
+  boolean: /\b(?:FALSE|TRUE)\b/,
   directive: {
     pattern: arrayToCaseInsensitivePattern(ASSEMBLER_DIRECTIVES),
     alias: 'property',
@@ -540,7 +539,7 @@ Prism.languages.riscv = {
     alias: 'function',
   },
   instruction: [
-    // 35. RV32/64G Instruction Set Listings
+    // RV32/64G Instruction Set Listings
     set2Instruction(RV_32_I_BASE_INSTRUCTION_SET),
     set2Instruction(RV_64_I_BASE_INSTRUCTION_SET),
     set2Instruction(RV_32_RV_64_ZIFENCEI_STANDARD_EXTENSION),
@@ -555,13 +554,12 @@ Prism.languages.riscv = {
     set2Instruction(RV_64_D_STANDARD_EXTENSION),
     set2Instruction(RV_32_Q_STANDARD_EXTENSION),
     set2Instruction(RV_64_Q_STANDARD_EXTENSION),
-  ],
-  pseudoinstruction: [
     set2Pseudoinstruction(PSEUDO_INSTRUCTIONS),
     set2Pseudoinstruction(
       PSEUDOINSTRUCTIONS_FOR_ACCESSING_CONTROL_AND_STATUS_REGISTERS,
     ),
   ],
+  variable: /\$\w+/,
 
   number:
     /(?:\b[2-9]_\d+|(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e-?\d+)?|\b0(?:[fd]_|x)[0-9a-f]+|&[0-9a-f]+)\b/i,
