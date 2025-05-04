@@ -43,6 +43,7 @@ code {
 }
 
 /* 指令颜色 */
+.language-riscv .token.pseudoinstruction,
 .language-riscv .token.keyword {
   color: #61afef !important;
 }
