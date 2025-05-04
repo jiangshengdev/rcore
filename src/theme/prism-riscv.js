@@ -544,14 +544,12 @@ Prism.languages.riscv = {
     set2Instruction(RV_64_D_STANDARD_EXTENSION),
     set2Instruction(RV_32_Q_STANDARD_EXTENSION),
     set2Instruction(RV_64_Q_STANDARD_EXTENSION),
-
-    // 15. RV32Zfh Standard Extension
-    // 16. RV64Zfh Standard Extension (in addition to RV32Zfh)
-    // 17. Zawrs Standard Extension
   ],
   pseudoinstruction: [
     set2Pseudoinstruction(PSEUDO_INSTRUCTIONS),
-    set2Pseudoinstruction(PSEUDOINSTRUCTIONS_FOR_ACCESSING_CONTROL_AND_STATUS_REGISTERS),
+    set2Pseudoinstruction(
+      PSEUDOINSTRUCTIONS_FOR_ACCESSING_CONTROL_AND_STATUS_REGISTERS,
+    ),
   ],
   register: {
     pattern: arrayToCaseInsensitivePattern(REGISTERS_OF_THE_RV_32_I),
