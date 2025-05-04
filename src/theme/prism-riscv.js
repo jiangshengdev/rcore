@@ -9,6 +9,22 @@ function arrayToCaseInsensitivePattern(arr) {
   return new RegExp('(^|\\s)(' + arr.join('|') + ')\\b', 'i');
 }
 
+function set2Instruction(set) {
+  return {
+    pattern: arrayToCaseInsensitivePattern(set),
+    lookbehind: true,
+    alias: 'keyword',
+  };
+}
+
+function set2Pseudoinstruction(set) {
+  return {
+    pattern: arrayToCaseInsensitivePattern(set),
+    lookbehind: true,
+    alias: 'builtin',
+  };
+}
+
 // RV32I Base Instruction Set
 const RV_32_I_BASE_INSTRUCTION_SET = [
   'LUI',
@@ -249,14 +265,6 @@ const RV_64_Q_STANDARD_EXTENSION = [
   'FCVT.Q.L',
   'FCVT.Q.LU',
 ];
-
-function set2Instruction(set) {
-  return {
-    pattern: arrayToCaseInsensitivePattern(set),
-    lookbehind: true,
-    alias: 'keyword',
-  };
-}
 
 // Registers of the RV32I
 const REGISTERS_OF_THE_RV_32_I = [
@@ -542,18 +550,8 @@ Prism.languages.riscv = {
     // 17. Zawrs Standard Extension
   ],
   pseudoinstruction: [
-    {
-      pattern: arrayToCaseInsensitivePattern(PSEUDO_INSTRUCTIONS),
-      lookbehind: true,
-      alias: 'builtin',
-    },
-    {
-      pattern: arrayToCaseInsensitivePattern(
-        PSEUDOINSTRUCTIONS_FOR_ACCESSING_CONTROL_AND_STATUS_REGISTERS,
-      ),
-      lookbehind: true,
-      alias: 'builtin',
-    },
+    set2Pseudoinstruction(PSEUDO_INSTRUCTIONS),
+    set2Pseudoinstruction(PSEUDOINSTRUCTIONS_FOR_ACCESSING_CONTROL_AND_STATUS_REGISTERS),
   ],
   register: {
     pattern: arrayToCaseInsensitivePattern(REGISTERS_OF_THE_RV_32_I),
