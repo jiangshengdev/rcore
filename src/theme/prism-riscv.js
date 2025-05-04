@@ -258,7 +258,8 @@ function set2Instruction(set) {
   };
 }
 
-const PSEUDO_OPS = [
+// Assembler Directives
+const ASSEMBLER_DIRECTIVES = [
   '.align',
   '.p2align',
   '.balign',
@@ -510,7 +511,7 @@ Prism.languages.riscv = {
     greedy: true,
   },
   directive: {
-    pattern: arrayToCaseInsensitivePattern(PSEUDO_OPS),
+    pattern: arrayToCaseInsensitivePattern(ASSEMBLER_DIRECTIVES),
     alias: 'property',
   },
   label: {
