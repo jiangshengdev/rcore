@@ -1,9 +1,9 @@
 function toCaseInsensitiveBoundaryPattern(arr) {
-  return new RegExp('(?<=^|[\\s,;])(' + arr.join('|') + ')(?=[\\s,;]|$)', 'i');
+  return new RegExp('(^|[\\s,;])(' + arr.join('|') + ')(?=[\\s,;]|$)', 'i');
 }
 
 function toCaseInsensitiveBoundaryPatternWithParen(arr) {
-  return new RegExp('(?<=^|[\\s,;(])(' + arr.join('|') + ')(?=[\\s,;)\\s]|$)', 'i');
+  return new RegExp('(^|[\\s,;])(' + arr.join('|') + ')(?=[\\s,;]|$)', 'i');
 }
 
 function toInstructionPattern(set) {
