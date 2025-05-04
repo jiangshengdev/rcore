@@ -535,7 +535,7 @@ Prism.languages.riscv = {
     alias: 'property',
   },
   label: {
-    pattern: /(^|\s)[A-Za-z_.$][\w.$]*:/m,
+    pattern: /(^\s*)[A-Za-z._?$][\w.?$@~#]*:/m,
     lookbehind: true,
     alias: 'function',
   },
