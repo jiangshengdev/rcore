@@ -1,22 +1,22 @@
-function arrayToCaseInsensitivePattern(arr) {
+function toCaseInsensitiveBoundaryPattern(arr) {
   return new RegExp('(?<=^|[\\s,;])(' + arr.join('|') + ')(?=[\\s,;]|$)', 'i');
 }
 
-function registerPatternWithParen(arr) {
+function toCaseInsensitiveBoundaryPatternWithParen(arr) {
   return new RegExp('(?<=^|[\\s,;(])(' + arr.join('|') + ')(?=[\\s,;)\\s]|$)', 'i');
 }
 
-function set2Instruction(set) {
+function toInstructionPattern(set) {
   return {
-    pattern: arrayToCaseInsensitivePattern(set),
+    pattern: toCaseInsensitiveBoundaryPattern(set),
     lookbehind: true,
     alias: 'keyword',
   };
 }
 
-function set2Pseudoinstruction(set) {
+function toPseudoinstructionPattern(set) {
   return {
-    pattern: arrayToCaseInsensitivePattern(set),
+    pattern: toCaseInsensitiveBoundaryPattern(set),
     lookbehind: true,
     alias: 'keyword',
   };
@@ -534,7 +534,7 @@ Prism.languages.riscv = {
 
   boolean: /\b(?:FALSE|TRUE)\b/,
   directive: {
-    pattern: arrayToCaseInsensitivePattern(ASSEMBLER_DIRECTIVES),
+    pattern: toCaseInsensitiveBoundaryPattern(ASSEMBLER_DIRECTIVES),
     alias: 'property',
   },
   label: {
@@ -544,22 +544,24 @@ Prism.languages.riscv = {
   },
   instruction: [
     // RV32/64G Instruction Set Listings
-    set2Instruction(RV_32_I_BASE_INSTRUCTION_SET),
-    set2Instruction(RV_64_I_BASE_INSTRUCTION_SET),
-    set2Instruction(RV_32_RV_64_ZIFENCEI_STANDARD_EXTENSION),
-    set2Instruction(RV_32_RV_64_ZICSR_STANDARD_EXTENSION),
-    set2Instruction(RV_32_M_STANDARD_EXTENSION),
-    set2Instruction(RV_64_M_STANDARD_EXTENSION),
-    set2Instruction(RV_32_A_STANDARD_EXTENSION),
-    set2Instruction(RV_64_A_STANDARD_EXTENSION),
-    set2Instruction(RV_32_F_STANDARD_EXTENSION),
-    set2Instruction(RV_64_F_STANDARD_EXTENSION),
-    set2Instruction(RV_32_D_STANDARD_EXTENSION),
-    set2Instruction(RV_64_D_STANDARD_EXTENSION),
-    set2Instruction(RV_32_Q_STANDARD_EXTENSION),
-    set2Instruction(RV_64_Q_STANDARD_EXTENSION),
-    set2Pseudoinstruction(PSEUDO_INSTRUCTIONS),
-    set2Pseudoinstruction(
+    toInstructionPattern(RV_32_I_BASE_INSTRUCTION_SET),
+    toInstructionPattern(RV_64_I_BASE_INSTRUCTION_SET),
+    toInstructionPattern(RV_32_RV_64_ZIFENCEI_STANDARD_EXTENSION),
+    toInstructionPattern(RV_32_RV_64_ZICSR_STANDARD_EXTENSION),
+    toInstructionPattern(RV_32_M_STANDARD_EXTENSION),
+    toInstructionPattern(RV_64_M_STANDARD_EXTENSION),
+    toInstructionPattern(RV_32_A_STANDARD_EXTENSION),
+    toInstructionPattern(RV_64_A_STANDARD_EXTENSION),
+    toInstructionPattern(RV_32_F_STANDARD_EXTENSION),
+    toInstructionPattern(RV_64_F_STANDARD_EXTENSION),
+    toInstructionPattern(RV_32_D_STANDARD_EXTENSION),
+    toInstructionPattern(RV_64_D_STANDARD_EXTENSION),
+    toInstructionPattern(RV_32_Q_STANDARD_EXTENSION),
+    toInstructionPattern(RV_64_Q_STANDARD_EXTENSION),
+
+    // A listing of standard RISC-V pseudoinstructions
+    toPseudoinstructionPattern(PSEUDO_INSTRUCTIONS),
+    toPseudoinstructionPattern(
       PSEUDOINSTRUCTIONS_FOR_ACCESSING_CONTROL_AND_STATUS_REGISTERS,
     ),
   ],
@@ -569,7 +571,7 @@ Prism.languages.riscv = {
     /(?:\b[2-9]_\d+|(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e-?\d+)?|\b0(?:[fd]_|x)[0-9a-f]+|&[0-9a-f]+)\b/i,
 
   register: {
-    pattern: registerPatternWithParen(REGISTERS_OF_THE_RV_32_I),
+    pattern: toCaseInsensitiveBoundaryPatternWithParen(REGISTERS_OF_THE_RV_32_I),
     alias: 'symbol',
   },
 
