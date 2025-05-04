@@ -9,7 +9,8 @@ function arrayToCaseInsensitivePattern(arr) {
   return new RegExp('(^|\\s)(' + arr.join('|') + ')\\b', 'i');
 }
 
-let RV_32_I_BASE_INSTRUCTION_SET = [
+// RV32I Base Instruction Set
+const RV_32_I_BASE_INSTRUCTION_SET = [
   'LUI',
   'AUIPC',
   'JAL',
@@ -54,23 +55,208 @@ let RV_32_I_BASE_INSTRUCTION_SET = [
   'EBREAK',
 ];
 
+// RV64I Base Instruction Set (in addition to RV32I)
 const RV_64_I_BASE_INSTRUCTION_SET = [
-  "LWU",
-  "LD",
-  "SD",
-  "SLLI",
-  "SRLI",
-  "SRAI",
-  "ADDIW",
-  "SLLIW",
-  "SRLIW",
-  "SRAIW",
-  "ADDW",
-  "SUBW",
-  "SLLW",
-  "SRLW",
-  "SRAW",
-]
+  'LWU',
+  'LD',
+  'SD',
+  'SLLI',
+  'SRLI',
+  'SRAI',
+  'ADDIW',
+  'SLLIW',
+  'SRLIW',
+  'SRAIW',
+  'ADDW',
+  'SUBW',
+  'SLLW',
+  'SRLW',
+  'SRAW',
+];
+
+// RV32/RV64 Zifencei Standard Extension
+const RV_32_RV_64_ZIFENCEI_STANDARD_EXTENSION = ['FENCE.I'];
+
+// RV32/RV64 Zicsr Standard Extension
+const RV_32_RV_64_ZICSR_STANDARD_EXTENSION = [
+  'CSRRW',
+  'CSRRS',
+  'CSRRC',
+  'CSRRWI',
+  'CSRRSI',
+  'CSRRCI',
+];
+
+// RV32M Standard Extension
+const RV_32_M_STANDARD_EXTENSION = [
+  'MUL',
+  'MULH',
+  'MULHSU',
+  'MULHU',
+  'DIV',
+  'DIVU',
+  'REM',
+  'REMU',
+];
+
+// RV64M Standard Extension (in addition to RV32M)
+const RV_64_M_STANDARD_EXTENSION = ['MULW', 'DIVW', 'DIVUW', 'REMW', 'REMUW'];
+
+// RV32A Standard Extension
+const RV_32_A_STANDARD_EXTENSION = [
+  'LR.W',
+  'SC.W',
+  'AMOSWAP.W',
+  'AMOADD.W',
+  'AMOXOR.W',
+  'AMOAND.W',
+  'AMOOR.W',
+  'AMOMIN.W',
+  'AMOMAX.W',
+  'AMOMINU.W',
+  'AMOMAXU.W',
+];
+
+// RV64A Standard Extension (in addition to RV32A)
+const RV_64_A_STANDARD_EXTENSION = [
+  'LR.D',
+  'SC.D',
+  'AMOSWAP.D',
+  'AMOADD.D',
+  'AMOXOR.D',
+  'AMOAND.D',
+  'AMOOR.D',
+  'AMOMIN.D',
+  'AMOMAX.D',
+  'AMOMINU.D',
+  'AMOMAXU.D',
+];
+
+// RV32F Standard Extension
+const RV_32_F_STANDARD_EXTENSION = [
+  'FLW',
+  'FSW',
+  'FMADD.S',
+  'FMSUB.S',
+  'FNMSUB.S',
+  'FNMADD.S',
+  'FADD.S',
+  'FSUB.S',
+  'FMUL.S',
+  'FDIV.S',
+  'FSQRT.S',
+  'FSGNJ.S',
+  'FSGNJN.S',
+  'FSGNJX.S',
+  'FMIN.S',
+  'FMAX.S',
+  'FCVT.W.S',
+  'FCVT.WU.S',
+  'FMV.X.W',
+  'FEQ.S',
+  'FLT.S',
+  'FLE.S',
+  'FCLASS.S',
+  'FCVT.S.W',
+  'FCVT.S.WU',
+  'FMV.W.X',
+];
+
+// RV64F Standard Extension (in addition to RV32F)
+const RV_64_F_STANDARD_EXTENSION = [
+  'FCVT.L.S',
+  'FCVT.LU.S',
+  'FCVT.S.L',
+  'FCVT.S.LU',
+];
+
+// RV32D Standard Extension
+const RV_32_D_STANDARD_EXTENSION = [
+  'FLD',
+  'FSD',
+  'FMADD.D',
+  'FMSUB.D',
+  'FNMSUB.D',
+  'FNMADD.D',
+  'FADD.D',
+  'FSUB.D',
+  'FMUL.D',
+  'FDIV.D',
+  'FSQRT.D',
+  'FSGNJ.D',
+  'FSGNJN.D',
+  'FSGNJX.D',
+  'FMIN.D',
+  'FMAX.D',
+  'FCVT.S.D',
+  'FCVT.D.S',
+  'FEQ.D',
+  'FLT.D',
+  'FLE.D',
+  'FCLASS.D',
+  'FCVT.W.D',
+  'FCVT.WU.D',
+  'FCVT.D.W',
+  'FCVT.D.WU',
+];
+
+// RV64D Standard Extension (in addition to RV32D)
+const RV_64_D_STANDARD_EXTENSION = [
+  'FCVT.L.D',
+  'FCVT.LU.D',
+  'FMV.X.D',
+  'FCVT.D.L',
+  'FCVT.D.LU',
+  'FMV.D.X',
+];
+
+// RV32Q Standard Extension
+const RV_32_Q_STANDARD_EXTENSION = [
+  'FLQ',
+  'FSQ',
+  'FMADD.Q',
+  'FMSUB.Q',
+  'FNMSUB.Q',
+  'FNMADD.Q',
+  'FADD.Q',
+  'FSUB.Q',
+  'FMUL.Q',
+  'FDIV.Q',
+  'FSQRT.Q',
+  'FSGNJ.Q',
+  'FSGNJN.Q',
+  'FSGNJX.Q',
+  'FMIN.Q',
+  'FMAX.Q',
+  'FCVT.S.Q',
+  'FCVT.Q.S',
+  'FCVT.D.Q',
+  'FCVT.Q.D',
+  'FEQ.Q',
+  'FLT.Q',
+  'FLE.Q',
+  'FCLASS.Q',
+  'FCVT.W.Q',
+  'FCVT.WU.Q',
+  'FCVT.Q.W',
+  'FCVT.Q.WU',
+];
+
+// RV64Q Standard Extension (in addition to RV32Q)
+const RV_64_Q_STANDARD_EXTENSION = [
+  'FCVT.L.Q',
+  'FCVT.LU.Q',
+  'FCVT.Q.L',
+  'FCVT.Q.LU',
+];
+
+function set2Instruction(set) {
+  return {
+    pattern: arrayToCaseInsensitivePattern(set),
+    lookbehind: true,
+    alias: 'keyword',
+  };
+}
 
 Prism.languages.riscv = {
   comment: [
@@ -99,31 +285,21 @@ Prism.languages.riscv = {
   },
   instruction: [
     // 35. RV32/64G Instruction Set Listings
-    // RV32I Base Instruction Set
-    {
-      pattern: arrayToCaseInsensitivePattern(RV_32_I_BASE_INSTRUCTION_SET),
-      lookbehind: true,
-      alias: 'keyword',
-    },
-    // RV64I Base Instruction Set
-    {
-      pattern: arrayToCaseInsensitivePattern(RV_64_I_BASE_INSTRUCTION_SET),
-      lookbehind: true,
-      alias: 'keyword',
-    },
+    set2Instruction(RV_32_I_BASE_INSTRUCTION_SET),
+    set2Instruction(RV_64_I_BASE_INSTRUCTION_SET),
+    set2Instruction(RV_32_RV_64_ZIFENCEI_STANDARD_EXTENSION),
+    set2Instruction(RV_32_RV_64_ZICSR_STANDARD_EXTENSION),
+    set2Instruction(RV_32_M_STANDARD_EXTENSION),
+    set2Instruction(RV_64_M_STANDARD_EXTENSION),
+    set2Instruction(RV_32_A_STANDARD_EXTENSION),
+    set2Instruction(RV_64_A_STANDARD_EXTENSION),
+    set2Instruction(RV_32_F_STANDARD_EXTENSION),
+    set2Instruction(RV_64_F_STANDARD_EXTENSION),
+    set2Instruction(RV_32_D_STANDARD_EXTENSION),
+    set2Instruction(RV_64_D_STANDARD_EXTENSION),
+    set2Instruction(RV_32_Q_STANDARD_EXTENSION),
+    set2Instruction(RV_64_Q_STANDARD_EXTENSION),
 
-    // 3. RV32/RV64 _Zifencei_ Standard Extension
-    // 4. RV32/RV64 _Zicsr_ Standard Extension
-    // 5. RV32M Standard Extension
-    // 6. RV64M Standard Extension (in addition to RV32M)
-    // 7. RV32A Standard Extension
-    // 8. RV64A Standard Extension (in addition to RV32A)
-    // 9. RV32F Standard Extension
-    // 10. RV64F Standard Extension (in addition to RV32F)
-    // 11. RV32D Standard Extension
-    // 12. RV64D Standard Extension (in addition to RV32D)
-    // 13. RV32Q Standard Extension
-    // 14. RV64Q Standard Extension (in addition to RV32Q)
     // 15. RV32Zfh Standard Extension
     // 16. RV64Zfh Standard Extension (in addition to RV32Zfh)
     // 17. Zawrs Standard Extension
