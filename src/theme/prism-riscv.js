@@ -1,5 +1,9 @@
 function arrayToCaseInsensitivePattern(arr) {
-  return new RegExp('(^|[\\s,;])(' + arr.join('|') + ')(?=[\\s,;]|$)', 'i');
+  return new RegExp('(?<=^|[\\s,;])(' + arr.join('|') + ')(?=[\\s,;]|$)', 'i');
+}
+
+function registerPatternWithParen(arr) {
+  return new RegExp('(?<=^|[\\s,;(])(' + arr.join('|') + ')(?=[\\s,;)\\s]|$)', 'i');
 }
 
 function set2Instruction(set) {
@@ -565,7 +569,7 @@ Prism.languages.riscv = {
     /(?:\b[2-9]_\d+|(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e-?\d+)?|\b0(?:[fd]_|x)[0-9a-f]+|&[0-9a-f]+)\b/i,
 
   register: {
-    pattern: arrayToCaseInsensitivePattern(REGISTERS_OF_THE_RV_32_I),
+    pattern: registerPatternWithParen(REGISTERS_OF_THE_RV_32_I),
     alias: 'symbol',
   },
 
