@@ -35,15 +35,54 @@ code {
   vertical-align: baseline;
 }
 
-/* PrismJS RISC-V 高亮自定义颜色 */
-.language-riscv .token.register {
-  color: #00627A !important;
+.language-riscv .token.comment {
+  color: #6e7781 !important; /* tokenColors.scope: comment */
+}
+
+.language-riscv .token.string {
+  color: #0a3069 !important; /* tokenColors.scope: string */
+}
+
+.language-riscv .token.char {
+  color: #0a3069 !important; /* reuse tokenColors.string */
+}
+
+.language-riscv .token.version-symbol {
+  color: #0550ae !important; /* tokenColors.scope: constant, support, meta.property-name */
+}
+
+.language-riscv .token.boolean {
+  color: #116329 !important; /* tokenColors.scope: entity.name.tag */
+}
+
+.language-riscv .token.directive {
+  color: #0550ae !important; /* tokenColors.scope: support, meta.property-name */
+}
+
+.language-riscv .token.label {
+  color: #8250df !important; /* tokenColors.scope: entity.name.function */
 }
 
 .language-riscv .token.instruction {
-  color: #0033B3 !important;
+  color: #cf222e !important; /* tokenColors.scope: keyword */
+}
+
+.language-riscv .token.variable {
+  color: #953800 !important; /* tokenColors.scope: entity.name, variable */
 }
 
 .language-riscv .token.number {
-  color: #1750EB !important;
+  color: #0550ae !important; /* tokenColors.scope: constant */
+}
+
+.language-riscv .token.register {
+  color: #953800 !important; /* tokenColors.scope: entity.name, variable */
+}
+
+.language-riscv .token.operator {
+  color: #cf222e !important; /* tokenColors.scope: keyword, storage */
+}
+
+.language-riscv .token.punctuation {
+  color: #1f2328 !important; /* tokenColors.scope: variable.parameter.function, meta.block */
 }
