@@ -3,7 +3,7 @@ function toCaseInsensitiveBoundaryPattern(arr) {
 }
 
 function toCaseInsensitiveBoundaryPatternWithParen(arr) {
-  return new RegExp('(^|[\\s,;])(' + arr.join('|') + ')(?=[\\s,;]|$)', 'i');
+  return new RegExp('(^|[\\s,;(])(' + arr.join('|') + ')(?=[\\s,;\\)]|$)', 'i');
 }
 
 function toInstructionPattern(set) {
@@ -571,7 +571,9 @@ Prism.languages.riscv = {
     /(?:\b[2-9]_\d+|(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e-?\d+)?|\b0(?:[fd]_|x)[0-9a-f]+|&[0-9a-f]+)\b/i,
 
   register: {
-    pattern: toCaseInsensitiveBoundaryPatternWithParen(REGISTERS_OF_THE_RV_32_I),
+    pattern: toCaseInsensitiveBoundaryPatternWithParen(
+      REGISTERS_OF_THE_RV_32_I,
+    ),
     lookbehind: true,
     alias: 'symbol',
   },
