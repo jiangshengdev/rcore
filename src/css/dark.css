@@ -19,6 +19,10 @@
 code {
 }
 
+[data-theme='dark'] img[src$='#gh-light-mode-only'] {
+  display: none;
+}
+
 [data-theme='dark'] .language-riscv .token.comment {
   color: #8b949e !important; /* from: comment */
 }

@@ -23,6 +23,10 @@ code {
   vertical-align: baseline;
 }
 
+[data-theme='light'] img[src$='#gh-dark-mode-only'] {
+  display: none;
+}
+
 .language-riscv .token.comment {
   color: #6e7781 !important; /* tokenColors.scope: comment */
 }
