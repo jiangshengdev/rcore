@@ -48,7 +48,7 @@ hart 必须遵循以下协议：首先执行一条数据流 `FENCE` 指令，以
 当这两个位都为 0 时，不对原子内存操作施加额外的顺序约束。若只设置 `aq` 位，则该原子内存操作被视为获取（acquire）访问，即在该原子内存操作完成之前，本
 hart 不会观察到后续的内存操作。若只设置 `rl` 位，则该原子内存操作被视为释放（release）访问，即本 hart
 不会观察到该释放操作在任何早先的内存操作之前完成。若 `aq` 和 `rl` 均被设置，则该原子内存操作具有顺序一致性，不会在任意早先内存操作之前或任意后续内存操作之后被观察到（仅限同一
-RISC-V hart ，且针对同一地址域）。
+RISC-V hart，且针对同一地址域）。
 
 ### "Zalrsc" Extension for Load-Reserved/Store-Conditional Instructions
 
