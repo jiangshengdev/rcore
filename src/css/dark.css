@@ -19,6 +19,10 @@
 code {
 }
 
+[data-theme='dark'] img {
+  background-color: #fff;
+}
+
 [data-theme='dark'] img[src$='#gh-light-mode-only'] {
   display: none;
 }
