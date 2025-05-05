@@ -19,14 +19,16 @@ tags: [riscv]
 hart。WFI 在所有特权模式下可用，并可选择性地支持用户模式（U-mode）。如第 3.1.6.6 节所述，当 `mstatus` 寄存器的 `TW = 1`
 时，执行该指令可能会触发非法指令异常。
 
-![WFI.svg](image/WFI.svg)
+![WFI.svg](image/light/WFI.svg#gh-light-mode-only)
+![WFI.svg](image/dark/WFI.svg#gh-dark-mode-only)
 
 ## "Zifencei" Extension for Instruction-Fetch Fence
 
 本章定义了 **「Zifencei」** 扩展，其中包含 `FENCE.I` 指令。该指令为同一硬件线程（hart）上的指令存储器写入操作与指令获取操作之间提供显式同步。目前，
 `FENCE.I` 是唯一的标准机制，可确保一个关键一致性：任何对 hart 可见的存储操作，必须对其自身的指令获取也可见。
 
-![FENCE.I.svg](image/FENCE.I.svg)
+![FENCE.I.svg](image/light/FENCE.I.svg#gh-light-mode-only)
+![FENCE.I.svg](image/dark/FENCE.I.svg#gh-dark-mode-only)
 
 `FENCE.I` 指令的核心功能是同步指令流和数据流的可见性。RISC-V 架构默认不保证对指令存储器的写入操作在 hart 执行 `FENCE.I`
 之前对其自身的指令获取可见。执行 `FENCE.I` 后，该 hart 的后续指令获取将能够看到所有先前对其可见的数据存储。然而，在多处理器系统中，
@@ -52,7 +54,8 @@ RISC-V hart，且针对同一地址域）。
 
 ### "Zalrsc" Extension for Load-Reserved/Store-Conditional Instructions
 
-![Load-Reserved_Store-Conditional.svg](image/Load-Reserved_Store-Conditional.svg)
+![Load-Reserved_Store-Conditional.svg](image/light/Load-Reserved_Store-Conditional.svg#gh-light-mode-only)
+![Load-Reserved_Store-Conditional.svg](image/dark/Load-Reserved_Store-Conditional.svg#gh-dark-mode-only)
 
 对单个内存字或双字进行复杂原子内存操作时，需使用 `加载保留（LR）` 和 `条件存储（SC）` 指令。`LR.W` 从 `rs1`
 中的地址加载一个字，将符号扩展后的值存入 `rd`，并注册保留集 —— 该字节集合包含被寻址字中的所有字节。`SC.W` 有条件地将 `rs2`
@@ -107,7 +110,8 @@ RV64 中可用。对于 RV64，`LR.W` 和 `SC.W` 会对存入 `rd` 的值进行�
 
 #### Supervisor Memory-Management Fence Instruction
 
-![SFENCE.VMA.svg](image/SFENCE.VMA.svg)
+![SFENCE.VMA.svg](image/light/SFENCE.VMA.svg#gh-light-mode-only)
+![SFENCE.VMA.svg](image/dark/SFENCE.VMA.svg#gh-dark-mode-only)
 
 监控器内存管理屏障指令 `SFENCE.VMA` 用于将对内存中存储的内存管理数据结构的更新与当前执行进行同步。指令执行会隐式地读取并写入这些数据结构，但这些隐式引用通常不与显式的加载和存储操作排序。执行
 `SFENCE.VMA` 能保证：在同一 RISC-V hart 中，任何先前对这些数据结构已可见的存储操作会先于后续对这些数据结构的隐式引用。`rs1`
