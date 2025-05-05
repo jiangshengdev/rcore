@@ -36,7 +36,7 @@ code {
 }
 
 [data-theme='dark'] .language-riscv .token.boolean {
-  color: #56d364 !important; /* from: entity.name.tag */
+  color: #7ee787 !important; /* from: entity.name.tag */
 }
 
 [data-theme='dark'] .language-riscv .token.directive {
@@ -52,7 +52,7 @@ code {
 }
 
 [data-theme='dark'] .language-riscv .token.variable {
-  color: #e3b341 !important; /* from: entity.name, variable */
+  color: #ffa657 !important; /* from: entity.name, variable */
 }
 
 [data-theme='dark'] .language-riscv .token.number {
@@ -60,7 +60,7 @@ code {
 }
 
 [data-theme='dark'] .language-riscv .token.register {
-  color: #e3b341 !important; /* from: entity.name, variable */
+  color: #ffa657 !important; /* from: entity.name, variable */
 }
 
 [data-theme='dark'] .language-riscv .token.operator {
@@ -68,5 +68,5 @@ code {
 }
 
 [data-theme='dark'] .language-riscv .token.punctuation {
-  color: #c9d1d9 !important; /* from: variable.parameter.function, meta.block */
+  color: #e6edf3 !important; /* from: variable.parameter.function, meta.block */
 }
