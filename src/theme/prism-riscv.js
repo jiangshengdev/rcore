@@ -575,10 +575,6 @@ Prism.languages.riscv = {
       pattern: /#.*/,
       greedy: true,
     },
-    {
-      pattern: /;.*/,
-      greedy: true,
-    },
   ],
   string: {
     pattern: /"(?:[^"\r\n]|"")*"/,
