@@ -284,6 +284,53 @@ const RV_64_Q_STANDARD_EXTENSION = [
   'FCVT.Q.LU',
 ];
 
+// RV32Zfh Standard Extension
+const RV_32_ZFH_STANDARD_EXTENSION = [
+  'FLH',
+  'FSH',
+  'FMADD.H',
+  'FMSUB.H',
+  'FNMSUB.H',
+  'FNMADD.H',
+  'FADD.H',
+  'FSUB.H',
+  'FMUL.H',
+  'FDIV.H',
+  'FSQRT.H',
+  'FSGNJ.H',
+  'FSGNJN.H',
+  'FSGNJX.H',
+  'FMIN.H',
+  'FMAX.H',
+  'FCVT.S.H',
+  'FCVT.H.S',
+  'FCVT.D.H',
+  'FCVT.H.D',
+  'FCVT.Q.H',
+  'FCVT.H.Q',
+  'FEQ.H',
+  'FLT.H',
+  'FLE.H',
+  'FCLASS.H',
+  'FCVT.W.H',
+  'FCVT.WU.H',
+  'FMV.X.H',
+  'FCVT.H.W',
+  'FCVT.H.WU',
+  'FMV.H.X',
+];
+
+// RV64Zfh Standard Extension (in addition to RV32Zfh)
+const RV_64_ZFH_STANDARD_EXTENSION = [
+  'FCVT.L.H',
+  'FCVT.LU.H',
+  'FCVT.H.L',
+  'FCVT.H.LU',
+];
+
+// Zawrs Standard Extension
+const ZAWRS_STANDARD_EXTENSION = ['WRS.NTO', 'WRS.STO'];
+
 // Registers of the RV32I
 const REGISTERS_OF_THE_RV_32_I = [
   'x0',
@@ -579,6 +626,9 @@ Prism.languages.riscv = {
     toInstructionPattern(RV_64_D_STANDARD_EXTENSION),
     toInstructionPattern(RV_32_Q_STANDARD_EXTENSION),
     toInstructionPattern(RV_64_Q_STANDARD_EXTENSION),
+    toInstructionPattern(RV_32_ZFH_STANDARD_EXTENSION),
+    toInstructionPattern(RV_64_ZFH_STANDARD_EXTENSION),
+    toInstructionPattern(ZAWRS_STANDARD_EXTENSION),
 
     // A listing of standard RISC-V pseudoinstructions
     toPseudoinstructionPattern(PSEUDO_INSTRUCTIONS),
