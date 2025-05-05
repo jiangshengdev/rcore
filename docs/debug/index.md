@@ -105,7 +105,8 @@ make build
 
 点击菜单中的「运行 -> 编辑配置...」，打开「运行/调试配置」弹窗。
 
-![debug-config-start.png](image/debug-config-start.png)
+![debug-config-start.png](image/light/debug-config-start.png#gh-light-mode-only)
+![debug-config-start.png](image/dark/debug-config-start.png#gh-dark-mode-only)
 
 然后点击左上角的加号，在「添加新配置」菜单中选择「远程调试」。
 
@@ -117,13 +118,15 @@ make build
   - 或直接使用绝对路径：
   - `<你的实验项目目录>/os/target/riscv64gc-unknown-none-elf/debug/os`
 
-![debug-config-finish.png](image/debug-config-finish.png)
+![debug-config-finish.png](image/light/debug-config-finish.png#gh-light-mode-only)
+![debug-config-finish.png](image/dark/debug-config-finish.png#gh-dark-mode-only)
 
 ## 设置断点
 
 在 `os/src/main.rs` 文件的 `rust_main` 函数中添加行断点。
 
-![break-point.png](image/break-point.png)
+![break-point.png](image/light/break-point.png#gh-light-mode-only)
+![break-point.png](image/dark/break-point.png#gh-dark-mode-only)
 
 ## 启动调试服务
 
@@ -141,13 +144,15 @@ cd ~/GitHub/2025s-rcore-jiangshengdev/os
 make gdbserver
 ```
 
-![gdbserver.png](image/gdbserver.png)
+![gdbserver.png](image/light/gdbserver.png#gh-light-mode-only)
+![gdbserver.png](image/dark/gdbserver.png#gh-dark-mode-only)
 
 ## 连接调试客户端
 
 点击菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的 `gdbclient` 远程调试项目。
 
-![gdbclient.png](image/gdbclient.png)
+![gdbclient.png](image/light/gdbclient.png#gh-light-mode-only)
+![gdbclient.png](image/dark/gdbclient.png#gh-dark-mode-only)
 
 即可在断点处暂停，至此可以进行 os 程序的调试。
 
@@ -159,11 +164,13 @@ make gdbserver
 disconnect
 ```
 
-![clion-disconnect.png](image/clion-disconnect.png)
+![clion-disconnect.png](image/light/clion-disconnect.png#gh-light-mode-only)
+![clion-disconnect.png](image/dark/clion-disconnect.png#gh-dark-mode-only)
 
 控制台会显示：「调试器已断开连接」。
 
-![clion-disconnected.png](image/clion-disconnected.png)
+![clion-disconnected.png](image/light/clion-disconnected.png#gh-light-mode-only)
+![clion-disconnected.png](image/dark/clion-disconnected.png#gh-dark-mode-only)
 
 ## 重新连接
 
@@ -183,7 +190,8 @@ make gdbclient
 
 可以再次连接到上次断开的位置：
 
-![gdbclient-connect.png](image/gdbclient-connect.png)
+![gdbclient-connect.png](image/light/gdbclient-connect.png#gh-light-mode-only)
+![gdbclient-connect.png](image/dark/gdbclient-connect.png#gh-dark-mode-only)
 
 ## 内存检视
 
@@ -195,7 +203,8 @@ make gdbclient
 x /34gx $sp
 ```
 
-![examining-memory.png](image/examining-memory.png)
+![examining-memory.png](image/light/examining-memory.png#gh-light-mode-only)
+![examining-memory.png](image/dark/examining-memory.png#gh-dark-mode-only)
 
 可以看到这时显示的刚好是内核栈顶的内容。
 
