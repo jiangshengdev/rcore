@@ -114,8 +114,8 @@ make build
 
 - 名称：`gdbclient`
 - 'target remote' 实参：`localhost:1234`
-- 符号文件：`$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/os`
-  - 或直接使用绝对路径：
+- 符号文件：
+  - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/os`
   - `<你的实验项目目录>/os/target/riscv64gc-unknown-none-elf/debug/os`
 
 ![debug-config-finish.png](image/light/debug-config-finish.png#gh-light-mode-only)
