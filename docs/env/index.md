@@ -55,7 +55,7 @@ wget https://download.qemu.org/qemu-7.0.0.tar.xz
 
 :::warning
 
-请勿下载 `7.2.17`、`8.2.10`、`9.2.3`、`10.0.0` 等较新版本，否则可能需要对实验代码进行适配和修改，建议严格按照指定版本安装。
+请勿下载 7.2.17、8.2.10、9.2.3、10.0.0 等较新版本，否则可能需要对实验代码进行适配和修改，建议严格按照指定版本安装。
 
 :::
 
@@ -110,7 +110,7 @@ cp qemu-system-riscv64-unsigned qemu-system-riscv64
 
 :::tip
 
-QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 build 目录下用 `ls` 命令确认实际生成的文件名。
+QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 `build` 目录下用 `ls` 命令确认实际生成的文件名。
 
 如果没有 `qemu-system-riscv64-unsigned`，请根据实际文件名进行重命名或软链接操作。
 
@@ -237,7 +237,7 @@ wget -P ~ https://github.com/cyrus-and/gdb-dashboard/raw/master/.gdbinit
 
 ### 启动 gdbserver
 
-进入 `rCore-Tutorial` 代码目录并启动 gdbserver：
+进入 rCore-Tutorial 代码目录并启动 `gdbserver`：
 
 ```shell
 cd ~/GitHub/rCore-Tutorial-Code-2025S/os
@@ -253,7 +253,7 @@ make gdbserver
 
 ### 启动 gdbclient
 
-打开另外一个终端，启动 gdbclient：
+打开另外一个终端，启动 `gdbclient`：
 
 ```shell
 cd ~/GitHub/rCore-Tutorial-Code-2025S/os
