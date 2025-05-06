@@ -130,7 +130,7 @@ make build
 
 ## 启动调试服务
 
-在项目 `os` 目录下执行以启动调试服务器端：
+在项目 `os` 目录下执行如下命令以启动调试服务器端：
 
 ```shell
 cd <你的实验项目目录>/os
@@ -149,7 +149,7 @@ make gdbserver
 
 ## 连接调试客户端
 
-点击菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的 `gdbclient` 远程调试项目。
+点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的 `gdbclient` 远程调试项目。
 
 ![gdbclient.png](image/light/gdbclient.png#gh-light-mode-only)
 ![gdbclient.png](image/dark/gdbclient.png#gh-dark-mode-only)
@@ -188,10 +188,12 @@ cd ~/GitHub/2025s-rcore-jiangshengdev/os
 make gdbclient
 ```
 
-可以再次连接到上次断开的位置：
+可以再次连接到上次断开的位置，然后连续使用 `si` 命令（两次左右）可以单步进入到 `__restore` 函数中：
 
 ![gdbclient-connect.png](image/light/gdbclient-connect.png#gh-light-mode-only)
 ![gdbclient-connect.png](image/dark/gdbclient-connect.png#gh-dark-mode-only)
+
+然后在 `__restore` 函数中继续使用一次 `si` 命令执行 `mv sp, a0` 这一行代码，将内核栈顶地址赋值给 `sp` 寄存器。
 
 ## 内存检视
 
