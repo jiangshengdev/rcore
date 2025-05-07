@@ -43,19 +43,19 @@ static const MemMapEntry virt_memmap[] = {
 
 我们重点关注下表中的两个关键设备：
 
-| Enum      | Base       | Size   | Concept                      |
-|-----------|------------|--------|------------------------------|
-| VIRT_MROM | 0x1000     | 0xf000 | Mask Read-only memory        |
-| VIRT_DRAM | 0x80000000 | 0x0    | Dynamic random-access memory |
+| Identifier  |         Base |     Size | Description                  |
+|-------------|-------------:|---------:|------------------------------|
+| `VIRT_MROM` |     `0x1000` | `0xf000` | Mask Read-only memory        |
+| `VIRT_DRAM` | `0x80000000` |        - | Dynamic random-access memory |
 
 ### MROM（掩模只读存储器）
 
-MROM（Mask ROM）是 QEMU RISC-V virt 虚拟机中的掩模只读存储器，物理地址起始于 0x1000。根据 QEMU
+MROM（Mask ROM）是 QEMU RISC-V virt 虚拟机中的掩模只读存储器，物理地址起始于 `0x1000`。根据 QEMU
 源码（`hw/riscv/boot.c`），MROM 区域存放着系统的复位向量（Reset Vector），即上电后 CPU 首先执行的启动指令。
 
 ### DRAM（动态随机存取存储器）
 
-DRAM（Dynamic RAM）是 QEMU RISC-V virt 虚拟机中的动态随机存取存储器，物理地址起始于 0x80000000。根据 QEMU
+DRAM（Dynamic RAM）是 QEMU RISC-V virt 虚拟机中的动态随机存取存储器，物理地址起始于 `0x80000000`。根据 QEMU
 源码（`hw/riscv/virt.c`），DRAM 区域用于存放 SBI 固件（如 OpenSBI）的代码和数据，即后续启动阶段所需的固件映像。
 
 ## 固件动态信息
@@ -129,14 +129,14 @@ struct fw_dynamic_info {
 
 该结构体的各属性含义如下表所示：
 
-| Name      | Concept                     |
-|-----------|-----------------------------|
-| magic     | Info magic                  |
-| version   | Info version                |
-| next_addr | Next booting stage address  |
-| next_mode | Next booting stage mode     |
-| options   | Options for OpenSBI library |
-| boot_hart | Preferred boot HART id      |
+| Field       | Description                 |
+|-------------|-----------------------------|
+| `magic`     | Info magic                  |
+| `version`   | Info version                |
+| `next_addr` | Next booting stage address  |
+| `next_mode` | Next booting stage mode     |
+| `options`   | Options for OpenSBI library |
+| `boot_hart` | Preferred boot HART id      |
 
 ## 启动指令
 
@@ -232,12 +232,12 @@ x/6gx $a2
 
 各字段的含义如下：
 
-- `0x000000004942534f`：magic，标识固件动态信息的起始（'OSBI' 的 ASCII 编码）
-- `0x0000000000000002`：version，版本号为 0x2，符合最大支持版本
-- `0x0000000000000000`：next_addr，下一启动阶段地址（此处为 0，表示尚未指定）
-- `0x0000000000000001`：next_mode，下一个启动模式为 S 态
-- `0x0000000000000000`：options，未设置任何选项
-- `0x0000000000000000`：boot_hart，首选启动 HART id 为 0
+- `0x000000004942534f`：`magic`，标识固件动态信息的起始（'OSBI' 的 ASCII 编码）
+- `0x0000000000000002`：`version`，版本号为 `0x2`，符合最大支持版本
+- `0x0000000000000000`：`next_addr`，下一启动阶段地址（此处为 `0x0`，表示尚未指定）
+- `0x0000000000000001`：`next_mode`，下一个启动模式为 S 态
+- `0x0000000000000000`：`options`，未设置任何选项
+- `0x0000000000000000`：`boot_hart`，首选启动 HART id 为 `0x0`
 
 由于这部分信息主要供 SBI 使用，在深入学习 SBI 之前，暂时无需关心这些字段为何如此设置，可以先跳过。
 
