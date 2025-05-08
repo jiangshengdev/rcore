@@ -20,8 +20,8 @@ tags: [riscv]
 hart。`WFI` 在所有特权模式下可用，并可选择性地支持用户模式（U-mode）。如第 3.1.6.6 节所述，当 `mstatus` 寄存器的 `TW=1`
 时，执行该指令可能会触发非法指令异常。
 
-![WFI.svg](image/light/WFI.svg#gh-light-mode-only)
-![WFI.svg](image/dark/WFI.svg#gh-dark-mode-only)
+![wfi.svg](image/light/wfi.svg#gh-light-mode-only)
+![wfi.svg](image/dark/wfi.svg#gh-dark-mode-only)
 
 ## Supervisor-Level ISA
 
@@ -29,8 +29,8 @@ hart。`WFI` 在所有特权模式下可用，并可选择性地支持用户模�
 
 #### Supervisor Memory-Management Fence Instruction
 
-![SFENCE.VMA.svg](image/light/SFENCE.VMA.svg#gh-light-mode-only)
-![SFENCE.VMA.svg](image/dark/SFENCE.VMA.svg#gh-dark-mode-only)
+![sfencevma.svg](image/light/sfencevma.svg#gh-light-mode-only)
+![sfencevma.svg](image/dark/sfencevma.svg#gh-dark-mode-only)
 
 监控器内存管理屏障指令 `SFENCE.VMA`
 用于将对内存中存储的内存管理数据结构的更新与当前执行进行同步。指令执行会隐式地读取并写入这些数据结构，但这些隐式引用通常不与显式的加载和存储操作排序。执行

@@ -15,8 +15,8 @@ tags: [riscv]
 指令。该指令为同一硬件线程（hart）上的指令存储器写入操作与指令获取操作之间提供显式同步。目前，
 `FENCE.I` 是唯一的标准机制，可确保一个关键一致性：任何对 hart 可见的存储操作，必须对其自身的指令获取也可见。
 
-![FENCE.I.svg](image/light/FENCE.I.svg#gh-light-mode-only)
-![FENCE.I.svg](image/dark/FENCE.I.svg#gh-dark-mode-only)
+![zifencei-ff.svg](image/light/zifencei-ff.svg#gh-light-mode-only)
+![zifencei-ff.svg](image/dark/zifencei-ff.svg#gh-dark-mode-only)
 
 `FENCE.I` 指令的核心功能是同步指令流和数据流的可见性。RISC-V 架构默认不保证对指令存储器的写入操作在 hart 执行 `FENCE.I`
 之前对其自身的指令获取可见。执行 `FENCE.I` 后，该 hart 的后续指令获取将能够看到所有先前对其可见的数据存储。然而，在多处理器系统中，
@@ -45,8 +45,8 @@ RISC-V hart，且针对同一地址域）。
 
 ### "Zalrsc" Extension for Load-Reserved/Store-Conditional Instructions
 
-![Load-Reserved_Store-Conditional.svg](image/light/Load-Reserved_Store-Conditional.svg#gh-light-mode-only)
-![Load-Reserved_Store-Conditional.svg](image/dark/Load-Reserved_Store-Conditional.svg#gh-dark-mode-only)
+![load-reserve-st-conditional.svg](image/light/load-reserve-st-conditional.svg#gh-light-mode-only)
+![load-reserve-st-conditional.svg](image/dark/load-reserve-st-conditional.svg#gh-dark-mode-only)
 
 对单个内存字或双字进行复杂原子内存操作时，需使用 `LR`（加载保留，Load-Reserved）和 `SC`
 （条件存储，Store-Conditional）指令。`LR.W` 从 `rs1`
