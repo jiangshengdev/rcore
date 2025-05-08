@@ -4,7 +4,8 @@ sidebar_position: 3
 
 # 代码调试
 
-本节以 `ch2` 为例，记录了在 rCore 项目中配置和使用调试工具的过程，包括调试前的准备、环境配置、断点设置、调试服务启动、断开与重连、内存检视等常用流程。希望这些内容能为大家调试和定位问题提供一些参考。
+本节以 `ch2` 为例，记录了在 rCore
+项目中配置和使用调试工具的过程，包括调试前的准备、环境配置、断点设置、调试服务启动、断开与重连、内存检视等常用流程。希望这些内容能为大家调试和定位问题提供一些参考。
 
 ## 调试前准备
 
@@ -149,7 +150,8 @@ make gdbserver
 
 ## 连接调试客户端
 
-点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的 `gdbclient` 远程调试项目。
+点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的
+`gdbclient` 远程调试项目。
 
 ![gdbclient.png](webp/light/gdbclient.webp#gh-light-mode-only)
 ![gdbclient.png](webp/dark/gdbclient.webp#gh-dark-mode-only)
@@ -188,18 +190,21 @@ cd ~/GitHub/2025s-rcore-jiangshengdev/os
 make gdbclient
 ```
 
-可以再次连接到上次断开的位置，然后连续使用 `si` 命令（两次左右）可以单步进入到 `__restore` 函数中：
+可以再次连接到上次断开的位置，然后连续使用 `si` 命令（两次左右）可以单步进入到
+`__restore` 函数中：
 
 ![gdbclient-connect.png](webp/light/gdbclient-connect.webp#gh-light-mode-only)
 ![gdbclient-connect.png](webp/dark/gdbclient-connect.webp#gh-dark-mode-only)
 
-然后在 `__restore` 函数中继续使用一次 `si` 命令执行 `mv sp, a0` 这一行代码，将内核栈顶地址赋值给 `sp` 寄存器。
+然后在 `__restore` 函数中继续使用一次 `si` 命令执行 `mv sp, a0` 这一行代码，将内核栈顶地址赋值给
+`sp` 寄存器。
 
 ## 内存检视
 
 在 GDB 中执行与「检视内存（Examining Memory）」相关的命令，即可查看内存中的值。
 
-例如，使用如下命令即可检视当前 `sp` 寄存器指向的内存中 34 个「巨字（Giant words，8 字节）」的值，并以 16 进制显示：
+例如，使用如下命令即可检视当前 `sp` 寄存器指向的内存中 34 个「巨字（Giant words，8
+字节）」的值，并以 16 进制显示：
 
 ```gdb
 x /34gx $sp

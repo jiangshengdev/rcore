@@ -7,7 +7,8 @@ sidebar_position: 4
 本节详细介绍 QEMU RISC-V virt 虚拟机下 rCore 系统的启动流程，包括内存映射、固件动态信息结构、复位向量（Reset
 Vector）指令分析等内容。建议在完成 [环境准备](../env/index.md) 后阅读本节内容。
 
-如需调试启动流程，可参考 [代码调试](../debug/index.md) 章节，结合 GDB 工具进行单步跟踪和内存检视。
+如需调试启动流程，可参考 [代码调试](../debug/index.md) 章节，结合 GDB
+工具进行单步跟踪和内存检视。
 
 ## 内存映射
 
@@ -50,13 +51,17 @@ static const MemMapEntry virt_memmap[] = {
 
 ### MROM（掩模只读存储器）
 
-MROM（Mask ROM）是 QEMU RISC-V virt 虚拟机中的掩模只读存储器，物理地址起始于 `0x1000`。根据 QEMU
-源码（`hw/riscv/boot.c`），MROM 区域存放着系统的复位向量（Reset Vector），即上电后 CPU 首先执行的启动指令。
+MROM（Mask ROM）是 QEMU RISC-V virt 虚拟机中的掩模只读存储器，物理地址起始于
+`0x1000`。根据 QEMU
+源码（`hw/riscv/boot.c`），MROM 区域存放着系统的复位向量（Reset Vector），即上电后 CPU
+首先执行的启动指令。
 
 ### DRAM（动态随机存取存储器）
 
-DRAM（Dynamic RAM）是 QEMU RISC-V virt 虚拟机中的动态随机存取存储器，物理地址起始于 `0x80000000`。根据 QEMU
-源码（`hw/riscv/virt.c`），DRAM 区域用于存放 SBI 固件（如 OpenSBI）的代码和数据，即后续启动阶段所需的固件映像。
+DRAM（Dynamic RAM）是 QEMU RISC-V virt 虚拟机中的动态随机存取存储器，物理地址起始于
+`0x80000000`。根据 QEMU
+源码（`hw/riscv/virt.c`），DRAM 区域用于存放 SBI 固件（如
+OpenSBI）的代码和数据，即后续启动阶段所需的固件映像。
 
 ## 固件动态信息
 
@@ -192,7 +197,8 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
 }
 ```
 
-结合前述环境准备，通过启动 `gdbserver` 和 `gdbclient`，在系统启动后暂停执行，并查看当前 `pc` 寄存器所指向的指令内容：
+结合前述环境准备，通过启动 `gdbserver` 和 `gdbclient`，在系统启动后暂停执行，并查看当前
+`pc` 寄存器所指向的指令内容：
 
 ```
 x/6i $pc
@@ -216,7 +222,8 @@ x/6i $pc
    0x1004:	addi	a2,t0,40
 ```
 
-执行完上述两条指令后，`a2` 寄存器被赋值为 `0x0000000000001028`，即 `fw_dyn` 的地址。接下来可使用内存查看命令：
+执行完上述两条指令后，`a2` 寄存器被赋值为 `0x0000000000001028`，即 `fw_dyn`
+的地址。接下来可使用内存查看命令：
 
 ```
 x/6gx $a2
@@ -267,12 +274,14 @@ x/6gx $a2
    0x1014:	jr	t0
 ```
 
-执行该指令后，系统将跳转到 SBI 的起始地址，本阶段的启动流程就告一段落，接下来将进入并执行 SBI 阶段的相关代码。
+执行该指令后，系统将跳转到 SBI 的起始地址，本阶段的启动流程就告一段落，接下来将进入并执行
+SBI 阶段的相关代码。
 
 ---
 
 本节内容主要聚焦于 QEMU RISC-V virt 虚拟机下的 rCore 启动流程。
 
-若需进一步调试启动过程、查看寄存器和内存内容，请参考 [代码调试](../debug/index.md) 章节。
+若需进一步调试启动过程、查看寄存器和内存内容，请参考 [代码调试](../debug/index.md)
+章节。
 
 如遇环境配置问题，请先查阅 [环境准备](../env/index.md)。

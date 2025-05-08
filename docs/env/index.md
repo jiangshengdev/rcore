@@ -4,7 +4,8 @@ sidebar_position: 2
 
 # 环境准备
 
-本节记录了在 macOS（Apple M1/M2 芯片，Sequoia 15.4.1 及以上）下配置 rCore 实验开发环境的详细过程，包括 Rust、QEMU、GDB
+本节记录了在 macOS（Apple M1/M2 芯片，Sequoia 15.4.1 及以上）下配置 rCore
+实验开发环境的详细过程，包括 Rust、QEMU、GDB
 及相关工具的安装与验证。希望这些步骤能帮助大家顺利完成环境搭建。
 
 与 rCore-Tutorial-Guide-2025S 文档中的 **第零章：实验环境配置** 重复部分不单独列出。
@@ -31,7 +32,8 @@ sidebar_position: 2
 
 ## 安装 QEMU 模拟器
 
-实验需要使用 QEMU 7.0.0 版本。目前 Homebrew 已不再提供 QEMU 7.0.0 及更低版本的安装包，因此需通过源码手动编译并安装 QEMU
+实验需要使用 QEMU 7.0.0 版本。目前 Homebrew 已不再提供 QEMU 7.0.0
+及更低版本的安装包，因此需通过源码手动编译并安装 QEMU
 模拟器。
 
 参考 Building QEMU for macOS。
@@ -68,7 +70,8 @@ cd ~/Develop
 tar -xf qemu-7.0.0.tar.xz
 ```
 
-你也可以使用「归档实用工具」等图形界面工具，将源码包解压到你指定的文件夹（如 `~/Develop`）。
+你也可以使用「归档实用工具」等图形界面工具，将源码包解压到你指定的文件夹（如
+`~/Develop`）。
 
 ### 编译安装 QEMU
 
@@ -110,7 +113,8 @@ cp qemu-system-riscv64-unsigned qemu-system-riscv64
 
 :::tip
 
-QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 `build` 目录下用 `ls` 命令确认实际生成的文件名。
+QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 `build` 目录下用 `ls`
+命令确认实际生成的文件名。
 
 如果没有 `qemu-system-riscv64-unsigned`，请根据实际文件名进行重命名或软链接操作。
 
@@ -118,7 +122,8 @@ QEMU 7.0.0 在不同系统下生成的可执行文件名可能不同。请在 `b
 
 ### 配置环境变量
 
-编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），将 QEMU 路径加入环境变量 `PATH`：
+编辑 `~/.zshrc` 文件（如果使用的是默认的 zsh 终端），将 QEMU 路径加入环境变量
+`PATH`：
 
 ```shell
 # 注意 $HOME 是 macOS 自动设置的，表示你家目录的环境变量，你也可以根据实际位置灵活调整。
@@ -249,7 +254,8 @@ make gdbserver
 ![gdbserver.png](webp/light/gdbserver.webp#gh-light-mode-only)
 ![gdbserver.png](webp/dark/gdbserver.webp#gh-dark-mode-only)
 
-待后续调试完成后，通常 rCore 会自动关闭 QEMU。如果需要强制结束 QEMU，可以先按下 `control + A`（即 `⌃ A`），再按下 `X`。
+待后续调试完成后，通常 rCore 会自动关闭 QEMU。如果需要强制结束 QEMU，可以先按下
+`control + A`（即 `⌃ A`），再按下 `X`。
 
 ### 启动 gdbclient
 
