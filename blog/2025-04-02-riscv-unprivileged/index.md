@@ -57,14 +57,12 @@ RISC-V hart，且针对同一地址域）。
 ![load-reserve-st-conditional.svg](svg/dark/load-reserve-st-conditional.svg#gh-dark-mode-only)
 
 对单个内存字或双字进行复杂原子内存操作时，需使用 `LR`（加载保留，Load-Reserved）和
-`SC`
-（条件存储，Store-Conditional）指令。`LR.W` 从 `rs1`
+`SC`（条件存储，Store-Conditional）指令。`LR.W` 从 `rs1`
 中的地址加载一个字，将符号扩展后的值存入 `rd`，并注册保留集 —— 该字节集合包含被寻址字中的所有字节。
 `SC.W` 有条件地将 `rs2`
 中的字写入 `rs1` 中的地址：仅当保留仍然有效且保留集包含被写入的字节时，`SC.W`
 才会成功。若 `SC.W` 成功，则将 `rs2`
-中的字写入内存，并将 0 写入 `rd`；若失败，则不写入内存，并将非零值写入 `rd`
-。出于内存保护目的，失败的 `SC.W`
+中的字写入内存，并将 0 写入 `rd`；若失败，则不写入内存，并将非零值写入 `rd`。出于内存保护目的，失败的 `SC.W`
 可能被视为存储操作。无论成功与否，执行 `SC.W` 指令都会使当前 hart 持有的所有保留失效。
 `LR.D` 和 `SC.D` 对双字进行类似操作，仅在
 RV64 中可用。对于 RV64，`LR.W` 和 `SC.W` 会对存入 `rd` 的值进行符号扩展。
