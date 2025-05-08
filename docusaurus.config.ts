@@ -111,6 +111,10 @@ const config: Config = {
               label: 'GitHub',
               href: 'https://github.com/jiangshengdev/rcore',
             },
+            {
+              label: 'Docusaurus',
+              href: 'https://docusaurus.io',
+            },
           ],
         },
       ],
