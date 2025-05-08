@@ -12,7 +12,8 @@ tags: [riscv]
 ## "Zifencei" Extension for Instruction-Fetch Fence
 
 本章定义了「Zifencei」扩展，其中包含 `FENCE.I`
-指令。该指令为同一硬件线程（hart）上的指令存储器写入操作与指令获取操作之间提供显式同步。目前，`FENCE.I` 是唯一的标准机制，可确保一个关键一致性：任何对 hart
+指令。该指令为同一硬件线程（hart）上的指令存储器写入操作与指令获取操作之间提供显式同步。目前，`FENCE.I`
+是唯一的标准机制，可确保一个关键一致性：任何对 hart
 可见的存储操作，必须对其自身的指令获取也可见。
 
 ![zifencei-ff.svg](svg/light/zifencei-ff.svg#gh-light-mode-only)
@@ -21,7 +22,8 @@ tags: [riscv]
 `FENCE.I` 指令的核心功能是同步指令流和数据流的可见性。RISC-V 架构默认不保证对指令存储器的写入操作在
 hart 执行 `FENCE.I`
 之前对其自身的指令获取可见。执行 `FENCE.I` 后，该 hart
-的后续指令获取将能够看到所有先前对其可见的数据存储。然而，在多处理器系统中，`FENCE.I` 并不保证其他 hart 的指令获取能够观察到本地 hart 的存储。如果需要使对指令存储器的写入对所有
+的后续指令获取将能够看到所有先前对其可见的数据存储。然而，在多处理器系统中，`FENCE.I` 并不保证其他 hart 的指令获取能够观察到本地
+hart 的存储。如果需要使对指令存储器的写入对所有
 RISC-V hart 全局可见，写入方
 hart 必须遵循以下协议：首先执行一条数据流 `FENCE` 指令，以确保写入对其他 hart
 可见，然后请求所有远程 hart 执行各自的
