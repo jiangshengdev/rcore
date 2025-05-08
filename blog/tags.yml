@@ -1,9 +1,9 @@
 riscv:
   label: RISC-V
   permalink: /riscv
-  description: RISC-V tag description
+  description: The RISC-V open-standard instruction set architecture (ISA) defines the fundamental guidelines for designing and implementing RISC-V processors.
 
 rust:
   label: Rust
   permalink: /rust
-  description: Rust tag description
+  description: A language empowering everyone to build reliable and efficient software.
