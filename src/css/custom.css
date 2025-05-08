@@ -19,6 +19,10 @@
   --ifm-spacing-horizontal: 15px;
 }
 
+.blog-wrapper {
+  --ifm-container-width-xl: 1440px;
+}
+
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
   --ifm-color-primary: #25c2a0;
