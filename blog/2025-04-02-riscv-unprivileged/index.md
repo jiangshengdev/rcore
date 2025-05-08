@@ -1,11 +1,11 @@
 ---
-slug: riscv
-title: RISC-V
+slug: riscv-unprivileged
+title: RISC-V Unprivileged
 authors: [jiangsheng]
 tags: [riscv]
 ---
 
-记录学习 RISC-V 的一些笔记。
+记录学习 RISC-V Unprivileged 的一些笔记。
 
 <!-- truncate -->
 
