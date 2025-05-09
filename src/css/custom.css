@@ -17,6 +17,9 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
   --ifm-spacing-horizontal: 15px;
+  --ifm-font-family-monospace:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
 }
 
 .blog-wrapper {
