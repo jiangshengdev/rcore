@@ -82,6 +82,45 @@ sidebar_position: 3
 
 > https://github.com/LearningOS/2025s-rcore-jiangshengdev/commit/0b72ba0cf8f6679f893c4b32bebd084186ca835a
 
+### 选择用户程序
+
+:::tip
+
+如果你不需要调试用户程序，这一步可以跳过。
+
+:::
+
+多个用户程序之间内存地址存在重叠，一次最好只调试一个用户程序，以避免断点相互干扰。
+
+以调试 `user/src/bin/ch2b_hello_world.rs` 程序为例，需要修改 `user/Makefile` 文件，将基础测试修改为只运行一个指定程序：
+
+```diff
+diff --git forkSrcPrefix/Makefile forkDstPrefix/Makefile
+index e52385322d38503e03f6daafb1f97864da261f63..95c0e6bbf9ca0e5b57012ca7662d84d689058c91 100644
+--- forkSrcPrefix/Makefile
++++ forkDstPrefix/Makefile
+@@ -27,7 +27,7 @@ else
+ 	ifeq ($(BASE), 0) # Normal tests only
+ 		APPS := $(foreach T, $(TESTS), $(wildcard $(APP_DIR)/ch$(T)_*.rs))
+ 	else ifeq ($(BASE), 1) # Basic tests only
+-		APPS := $(foreach T, $(TESTS), $(wildcard $(APP_DIR)/ch$(T)b_*.rs))
++		APPS := $(foreach T, $(TESTS), $(wildcard $(APP_DIR)/ch2b_hello_world.rs))
+ 	else # Basic and normal
+ 		APPS := $(foreach T, $(TESTS), $(wildcard $(APP_DIR)/ch$(T)*.rs))
+ 	endif
+```
+
+在 `os` 文件夹下，运行 `make run` 进行验证，可以看到只运行了 `ch2b_hello_world.rs` 程序。
+
+```
+[kernel] Hello, world!
+[kernel] num_app = 1
+[kernel] app_0 [0x80212018, 0x8021e208)
+[kernel] Loading app_0
+Hello, world from user mode program!
+All applications completed!
+```
+
 ### 生成可执行文件
 
 修改完成后，需要执行：
@@ -100,7 +139,9 @@ make build
 
 以生成带有调试信息的可执行文件。
 
-## 配置调试环境
+## 调试系统程序
+
+### 配置调试环境
 
 使用 CLion 打开 `<你的实验项目目录>/os` 项目目录。
 
@@ -122,14 +163,14 @@ make build
 ![debug-config-finish.png](webp/light/debug-config-finish.webp#gh-light-mode-only)
 ![debug-config-finish.png](webp/dark/debug-config-finish.webp#gh-dark-mode-only)
 
-## 设置断点
+### 设置断点
 
 在 `os/src/main.rs` 文件的 `rust_main` 函数中添加行断点。
 
 ![break-point.png](webp/light/break-point.webp#gh-light-mode-only)
 ![break-point.png](webp/dark/break-point.webp#gh-dark-mode-only)
 
-## 启动调试服务
+### 启动调试服务
 
 在项目 `os` 目录下执行如下命令以启动调试服务器端：
 
@@ -148,7 +189,7 @@ make gdbserver
 ![gdbserver.png](webp/light/gdbserver.webp#gh-light-mode-only)
 ![gdbserver.png](webp/dark/gdbserver.webp#gh-dark-mode-only)
 
-## 连接调试客户端
+### 连接调试客户端
 
 点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的
 `gdbclient` 远程调试项目。
@@ -158,7 +199,7 @@ make gdbserver
 
 即可在断点处暂停，至此可以进行 `os` 程序的调试。
 
-## 断开远程连接
+### 断开远程连接
 
 在 CLion 调试工具窗口的 GDB 标签页中执行如下命令，可以断开与调试服务器端的连接：
 
@@ -174,7 +215,7 @@ disconnect
 ![clion-disconnected.png](webp/light/clion-disconnected.webp#gh-light-mode-only)
 ![clion-disconnected.png](webp/dark/clion-disconnected.webp#gh-dark-mode-only)
 
-## 重新连接
+### 重新连接
 
 在终端，启动另外一个调试客户端 `gdbclient`：
 
@@ -199,7 +240,7 @@ make gdbclient
 然后在 `__restore` 函数中继续使用一次 `si` 命令执行 `mv sp, a0` 这一行代码，将内核栈顶地址赋值给
 `sp` 寄存器。
 
-## 内存检视
+### 内存检视
 
 在 GDB 中执行与「检视内存（Examining Memory）」相关的命令，即可查看内存中的值。
 
@@ -214,6 +255,135 @@ x /34gx $sp
 ![examining-memory.png](webp/dark/examining-memory.webp#gh-dark-mode-only)
 
 可以看到这时显示的刚好是内核栈顶的内容。
+
+## 调试用户程序
+
+:::tip
+
+如果你不需要调试用户程序，这一步可以跳过。
+
+:::
+
+### 断开远程连接
+
+在 `__restore` 函数结束之前先执行 `disconnect` 断开连接：
+
+![before-user.webp](webp/light/before-user.webp#gh-light-mode-only)
+![before-user.webp](webp/dark/before-user.webp#gh-dark-mode-only)
+
+可以观察到 `__restore` 函数的末尾存在 `sret` 指令，其执行后将返回用户态执行。
+
+### 配置调试环境
+
+使用 CLion 打开 `<你的实验项目目录>/user` 项目目录。
+
+点击菜单中的「运行 -> 编辑配置...」，打开「运行/调试配置」弹窗。
+
+然后点击左上角的加号，在「添加新配置」菜单中选择「远程调试」。
+
+填入如下参数：
+
+- 名称：`gdbclient`
+- 'target remote' 实参：`localhost:1234`
+- 符号文件：
+  - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world`
+  - `<你的实验项目目录>/user/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world`
+
+![user-config.webp](webp/light/user-config.webp#gh-light-mode-only)
+![user-config.webp](webp/dark/user-config.webp#gh-dark-mode-only)
+
+### 设置断点
+
+在 `user/src/bin/ch2b_hello_world.rs` 文件的 `main` 函数中添加行断点。
+
+![user-break-point.webp](webp/light/user-break-point.webp#gh-light-mode-only)
+![user-break-point.webp](webp/dark/user-break-point.webp#gh-dark-mode-only)
+
+### 连接调试客户端
+
+点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的
+`gdbclient` 远程调试项目。
+
+![user-gdbclient.webp](webp/light/user-gdbclient.webp#gh-light-mode-only)
+![user-gdbclient.webp](webp/dark/user-gdbclient.webp#gh-dark-mode-only)
+
+即可在断点处暂停，至此可以进行 `user` 程序的调试。
+
+## 常见问题
+
+### 无法查看变量
+
+在 `user/src/syscall.rs` 文件的 `syscall` 方法中无法查看变量，出现 `<optimized out>`。
+
+可以使用编译器屏障指定内存顺序，参考修改：
+
+```diff
+ src/syscall.rs | 6 ++++++
+
+@@ -1,4 +1,6 @@
+ use crate::SignalAction;
++use core::sync::atomic::compiler_fence;
++use core::sync::atomic::Ordering;
+
+ use super::{Stat, TimeVal};
+
+@@ -47,6 +49,7 @@ pub const SYSCALL_CONDVAR_WAIT: usize = 473;
+
+ pub fn syscall(id: usize, args: [usize; 3]) -> isize {
+     let mut ret: isize;
++    compiler_fence(Ordering::SeqCst);
+     unsafe {
+         core::arch::asm!(
+             "ecall",
+@@ -56,11 +59,13 @@ pub fn syscall(id: usize, args: [usize; 3]) -> isize {
+             in("x17") id
+         );
+     }
++    compiler_fence(Ordering::SeqCst);
+     ret
+ }
+
+ pub fn syscall6(id: usize, args: [usize; 6]) -> isize {
+     let mut ret: isize;
++    compiler_fence(Ordering::SeqCst);
+     unsafe {
+         core::arch::asm!("ecall",
+             inlateout("x10") args[0] => ret,
+@@ -72,6 +77,7 @@ pub fn syscall6(id: usize, args: [usize; 6]) -> isize {
+             in("x17") id
+         );
+     }
++    compiler_fence(Ordering::SeqCst);
+     ret
+ }
+```
+
+修改的提交细节可查看：
+
+> https://github.com/jiangshengdev/rCore-Tutorial-Test-2025S/commit/44d2f17ebc9c21a88903af234d89a8b2506d7522
+
+### 内核栈空间不足
+
+在 `ch5` 中，由于内核栈空间不足，导致程序卡住无法正常运行。
+
+可以加大内核栈空间，参考修改：
+
+```diff
+ os/src/config.rs            |   2 +-
+
+@@ -5,7 +5,7 @@
+ /// user app's stack size
+ pub const USER_STACK_SIZE: usize = 4096 * 2;
+ /// kernel stack size
+-pub const KERNEL_STACK_SIZE: usize = 4096 * 2;
++pub const KERNEL_STACK_SIZE: usize = 4096 * 4;
+ /// kernel heap size
+ pub const KERNEL_HEAP_SIZE: usize = 0x200_0000;
+```
+
+修改的提交细节可查看：
+
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/commit/fa9263c77cb1e9979ac6173ce28b369ce973530e
 
 ---
 
