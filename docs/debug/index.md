@@ -86,13 +86,14 @@ sidebar_position: 3
 
 :::tip
 
-如果你不需要调试用户程序，这一步可以跳过。
+如无需调试用户程序，可跳过本节。
 
 :::
 
-多个用户程序之间内存地址存在重叠，一次最好只调试一个用户程序，以避免断点相互干扰。
+由于多个用户程序的内存地址可能重叠，为避免断点相互干扰，建议每次只调试一个用户程序。
 
-以调试 `user/src/bin/ch2b_hello_world.rs` 程序为例，需要修改 `user/Makefile` 文件，将基础测试修改为只运行一个指定程序：
+以调试 `user/src/bin/ch2b_hello_world.rs` 为例，需要修改
+`user/Makefile`，将基础测试仅运行该程序：
 
 ```diff
 diff --git forkSrcPrefix/Makefile forkDstPrefix/Makefile
@@ -110,7 +111,7 @@ index e52385322d38503e03f6daafb1f97864da261f63..95c0e6bbf9ca0e5b57012ca7662d84d6
  	endif
 ```
 
-在 `os` 文件夹下，运行 `make run` 进行验证，可以看到只运行了 `ch2b_hello_world.rs` 程序。
+修改后，在 `os` 目录下执行 `make run`，即可验证只运行了 `ch2b_hello_world.rs`：
 
 ```
 [kernel] Hello, world!
@@ -260,18 +261,18 @@ x /34gx $sp
 
 :::tip
 
-如果你不需要调试用户程序，这一步可以跳过。
+如无需调试用户程序，可跳过本节。
 
 :::
 
 ### 断开远程连接
 
-在 `__restore` 函数结束之前先执行 `disconnect` 断开连接：
+在 `__restore` 函数结束前，先在 GDB 中执行 `disconnect`，以断开与调试服务器的连接。
 
 ![before-user.webp](webp/light/before-user.webp#gh-light-mode-only)
 ![before-user.webp](webp/dark/before-user.webp#gh-dark-mode-only)
 
-可以观察到 `__restore` 函数的末尾存在 `sret` 指令，其执行后将返回用户态执行。
+此时可以看到 `__restore` 函数末尾有 `sret` 指令，执行后将切换到用户态继续运行。
 
 ### 配置调试环境
 
@@ -313,9 +314,10 @@ x /34gx $sp
 
 ### 无法查看变量
 
-在 `user/src/syscall.rs` 文件的 `syscall` 方法中无法查看变量，出现 `<optimized out>`。
+在调试 `user/src/syscall.rs` 文件的 `syscall` 方法时，可能会遇到变量显示为
+`<optimized out>` 的情况。
 
-可以使用编译器屏障指定内存顺序，参考修改：
+此时可以通过添加编译器屏障（compiler fence）来指定内存顺序，避免变量被优化掉。参考如下修改：
 
 ```diff
  src/syscall.rs | 6 ++++++
@@ -364,9 +366,9 @@ x /34gx $sp
 
 ### 内核栈空间不足
 
-在 `ch5` 中，由于内核栈空间不足，导致程序卡住无法正常运行。
+在 `ch5` 中，默认的内核栈空间较小，可能会导致程序卡住或无法正常运行。
 
-可以加大内核栈空间，参考修改：
+此时可以通过增大内核栈空间来解决，参考如下修改：
 
 ```diff
  os/src/config.rs            |   2 +-
