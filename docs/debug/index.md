@@ -11,7 +11,7 @@ sidebar_position: 3
 
 首先需要对代码进行一些配置的修改。
 
-:::danger
+:::warning
 
 Rust 在 `dev`（调试）和 `release`（发布）模式下行为差异较大：
 
@@ -107,7 +107,7 @@ Rust 在 `dev`（调试）和 `release`（发布）模式下行为差异较大�
 由于多个用户程序的内存地址可能重叠，为避免断点相互干扰，建议每次只调试一个用户程序。
 
 以调试 `user/src/bin/ch2b_hello_world.rs` 为例，需要修改
-`user/Makefile`，将基础测试仅运行该程序：
+`user/Makefile`，将基础测试的目标限定为该程序：
 
 ```diff
 diff --git forkSrcPrefix/Makefile forkDstPrefix/Makefile
