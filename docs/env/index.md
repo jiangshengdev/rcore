@@ -94,11 +94,13 @@ make -j$(sysctl -n hw.ncpu)
 ```
 
 :::info
+
 Homebrew 是 macOS（或 Linux）缺失的软件包的管理器。
 
 使用 Homebrew 安装 Apple（或您的 Linux 系统）没有预装但 **你需要的东西**。更多信息可以查看：
 
 https://brew.sh/zh-cn/
+
 :::
 
 ### 重命名可执行文件

@@ -156,6 +156,16 @@ make build
 
 ## 调试系统程序
 
+:::info
+
+[CLion](https://www.jetbrains.com/zh-cn/clion/)（非商业用途免费）是一款
+**适用于 C 和 C++ 的跨平台 IDE**。
+
+安装 [Rust 插件](https://plugins.jetbrains.com/plugin/22407-rust)
+后，CLion 也支持 Rust 代码的调试，并且其「远程调试」功能目前是 RustRover 所不具备的。
+
+:::
+
 ### 配置调试环境
 
 使用 CLion 打开 `<你的实验项目目录>/os` 项目目录。
