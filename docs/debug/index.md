@@ -404,3 +404,10 @@ x /34gx $sp
 ---
 
 调试相关的基本流程就整理到这里了。如果有更好的方法或遇到新问题，欢迎补充和交流。
+
+## 参考资料
+
+- [GDB 官方文档](https://sourceware.org/gdb/documentation/)
+- [GDB 检视内存官方文档](https://sourceware.org/gdb/current/onlinedocs/gdb.html/Memory.html#Memory)
+- [CLion 调试官方文档](https://www.jetbrains.com/help/clion/debugging-code.html)
+- [CLion 远程调试官方文档](https://www.jetbrains.com/help/clion/remote-debug.html)
