@@ -158,7 +158,7 @@ make build
 
 :::info
 
-[CLion](https://www.jetbrains.com/zh-cn/clion/)（非商业用途免费）是一款
+[CLion](https://www.jetbrains.com/zh-cn/clion/)（对非商业用途免费）是一款
 **适用于 C 和 C++ 的跨平台 IDE**。
 
 安装 [Rust 插件](https://plugins.jetbrains.com/plugin/22407-rust)
