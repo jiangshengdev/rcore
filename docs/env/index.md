@@ -157,8 +157,8 @@ Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
 
 如果你的环境配置正确，你应当会看到如下输出：
 
-![run.png](webp/light/run.webp#gh-light-mode-only)
-![run.png](webp/dark/run.webp#gh-dark-mode-only)
+![run.webp](webp/light/run.webp#gh-light-mode-only)
+![run.webp](webp/dark/run.webp#gh-dark-mode-only)
 
 ## 检查器依赖
 
@@ -251,8 +251,8 @@ make gdbserver
 
 执行结果如下：
 
-![gdbserver.png](webp/light/gdbserver.webp#gh-light-mode-only)
-![gdbserver.png](webp/dark/gdbserver.webp#gh-dark-mode-only)
+![gdbserver.webp](webp/light/gdbserver.webp#gh-light-mode-only)
+![gdbserver.webp](webp/dark/gdbserver.webp#gh-dark-mode-only)
 
 待后续调试完成后，通常 rCore 会自动关闭 QEMU。如果需要强制结束 QEMU，可以先按下
 `control + A`（即 `⌃ A`），再按下 `X`。
@@ -268,8 +268,8 @@ make gdbclient
 
 执行结果如下：
 
-![gdbclient.png](webp/light/gdbclient.webp#gh-light-mode-only)
-![gdbclient.png](webp/dark/gdbclient.webp#gh-dark-mode-only)
+![gdbclient.webp](webp/light/gdbclient.webp#gh-light-mode-only)
+![gdbclient.webp](webp/dark/gdbclient.webp#gh-dark-mode-only)
 
 可以按下 `control + D`（即 `⌃ D`）两次来退出 GDB。
 
