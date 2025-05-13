@@ -16,7 +16,9 @@
     "dev": "docusaurus start",
     "format": "prettier blog docs src --write",
     "webp": "./scripts/convert-png-to-webp.sh",
-    "svgo": "./scripts/convert-svg-to-svgo.sh"
+    "svgo": "./scripts/convert-svg-to-svgo.sh",
+    "memory-dot": "python3 scripts/generate_memory_dot.py scripts/mem.txt > scripts/memory.dot",
+    "memory-svg": "dot -Tsvg scripts/memory.dot -o scripts/memory.svg"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",
