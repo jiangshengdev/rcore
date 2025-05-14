@@ -17,8 +17,9 @@
     "format": "prettier blog docs src --write",
     "webp": "./scripts/convert-png-to-webp.sh",
     "svgo": "./scripts/convert-svg-to-svgo.sh",
-    "memory-dot": "python3 scripts/generate_memory_dot.py scripts/mem.txt > scripts/memory.dot",
-    "memory-svg": "dot -Tsvg scripts/memory.dot -o scripts/memory.svg"
+    "memory": "yarn memory-dot && yarn memory-svg",
+    "memory-dot": "python3 -m scripts.memory.generate_memory_dot scripts/memory/mem.txt > scripts/memory/memory.dot",
+    "memory-svg": "dot -Tsvg:cairo scripts/memory/memory.dot -o scripts/memory/memory.svg"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",
