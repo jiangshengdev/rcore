@@ -16,11 +16,11 @@ SPLINES = "spline"
 # 字体名称
 FONT = "SF Mono,monospace"
 # 字体大小
-FONT_SIZE = 10
+FONT_SIZE = 12
 # 表格单元格内边距
 CELL_PADDING = 4
 # 节点间距
-NODE_MARGIN = 0.01
+NODE_MARGIN = 0.125
 
 # 系统 UI 颜色：粉色
 SYSTEM_PINK_LIGHT = "#FF2D55"
@@ -59,11 +59,13 @@ class MemoryDotGenerator:
             text_color = "white"
             addr_bg = _hex_with_alpha(SYSTEM_PINK_DARK, 0.125)
             val_bg = _hex_with_alpha(SYSTEM_GREEN_DARK, 0.125)
+            cluster_color = "gray25"
         else:
             border_color = "#000000"
             text_color = "black"
             addr_bg = _hex_with_alpha(SYSTEM_PINK_LIGHT, 0.125)
             val_bg = _hex_with_alpha(SYSTEM_GREEN_LIGHT, 0.125)
+            cluster_color = "gray75"
         addr_border = border_color
 
         def make_node(name: str, addr: str, val: str, port1: str, port2: str) -> str:
@@ -87,7 +89,7 @@ class MemoryDotGenerator:
         ]
         dot_lines = [
             f"        subgraph cluster_{prefix} {{",
-            f"            color=\"gray75\";",
+            f"            color=\"{cluster_color}\";",
         ]
         # 节点生成
         for r, row in enumerate(matrix):

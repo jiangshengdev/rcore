@@ -42,17 +42,17 @@ def main():
             global_addr_map[addr] = (prefix, i)
     # 初始化 DOT 内容和图属性
     dot_lines = ["digraph MemoryLayout {"]
-    if args.theme == 'dark':
-        dot_lines.append("    graph [bgcolor=black];")
+    # 设置透明背景
+    dot_lines.append("    graph [bgcolor=transparent];")
     dot_lines.extend([
         f"    rankdir={RANKDIR};",
         f"    splines={SPLINES};",
-        "    nodesep=0.4;",
-        "    ranksep=0.05;",
+        "    nodesep=0.3;",
+        "    ranksep=0.6;",
         f"    node [shape=record, fontname=\"{FONT}\", fontsize={FONT_SIZE}, margin={NODE_MARGIN}" + (
             ", fontcolor=white" if args.theme == 'dark' else "") + "];",
         f"    edge [fontname=\"{FONT}\", fontsize={FONT_SIZE}" + (
-            ", fontcolor=white" if args.theme == 'dark' else "") + "];",
+            ", fontcolor=white, color=white" if args.theme == 'dark' else "") + "];",
         ""
     ])
     # 生成每个分组的子图节点和布局约束

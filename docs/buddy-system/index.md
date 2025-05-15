@@ -49,6 +49,9 @@ A buddy system allocator in pure Rust.
 0x80218db8:	0x0000000080218db0	0x0000000080218db8
 ```
 
+![memory.svg](svg/light/memory.svg#gh-light-mode-only)
+![memory.svg](svg/dark/memory.svg#gh-dark-mode-only)
+
 ![next-code.webp](webp/light/next-code.webp#gh-light-mode-only)
 ![next-code.webp](webp/dark/next-code.webp#gh-dark-mode-only)
 

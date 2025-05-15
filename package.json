@@ -18,12 +18,10 @@
     "webp": "./scripts/convert-png-to-webp.sh",
     "svgo": "./scripts/convert-svg-to-svgo.sh",
     "memory": "yarn memory-dot-light && yarn memory-svg-light && yarn memory-dot-dark && yarn memory-svg-dark",
-    "memory-dot": "python3 -m scripts.memory.generate_memory_dot scripts/memory/mem.txt > scripts/memory/memory.dot",
-    "memory-svg": "dot -Tsvg:cairo scripts/memory/memory.dot -o scripts/memory/memory.svg",
-    "memory-dot-light": "python3 -m scripts.memory.generate_memory_dot scripts/memory/mem.txt --theme light > scripts/memory/memory-light.dot",
-    "memory-svg-light": "dot -Tsvg:cairo scripts/memory/memory-light.dot -o scripts/memory/memory-light.svg",
-    "memory-dot-dark": "python3 -m scripts.memory.generate_memory_dot scripts/memory/mem.txt --theme dark > scripts/memory/memory-dark.dot",
-    "memory-svg-dark": "dot -Tsvg:cairo scripts/memory/memory-dark.dot -o scripts/memory/memory-dark.svg"
+    "memory-dot-light": "mkdir -p scripts/memory/light && python3 -m scripts.memory.generate_memory_dot scripts/memory/mem.txt --theme light > scripts/memory/light/memory.dot",
+    "memory-svg-light": "dot -Tsvg:cairo scripts/memory/light/memory.dot -o scripts/memory/light/memory.svg",
+    "memory-dot-dark": "mkdir -p scripts/memory/dark && python3 -m scripts.memory.generate_memory_dot scripts/memory/mem.txt --theme dark > scripts/memory/dark/memory.dot",
+    "memory-svg-dark": "dot -Tsvg:cairo scripts/memory/dark/memory.dot -o scripts/memory/dark/memory.svg"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",
