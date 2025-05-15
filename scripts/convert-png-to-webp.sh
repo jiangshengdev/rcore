@@ -41,7 +41,7 @@ for root in blog docs; do
         continue
       fi
       mkdir -p "$(dirname "$target")"
-      cwebp -lossless -z 9 -exact "$file" -o "$target"
+      cwebp -lossless -z 9 -exact -mt "$file" -o "$target"
       echo "已转换: $file -> $target"
     done
   done

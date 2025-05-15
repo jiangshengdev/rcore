@@ -9,7 +9,7 @@ from typing import List, Dict, Tuple, Any
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="获取输入文件路径和主题(light/dark)选项，解析命令行参数")
+    parser = argparse.ArgumentParser(description="获取输入文件路径和主题 (light/dark) 选项，解析命令行参数")
     parser.add_argument('file', nargs='?', help="GDB 内存输出文件路径；若为空则从标准输入读取内容")
     parser.add_argument('--theme', choices=['light', 'dark'], default='light', help="指定输出图的配色主题")
     return parser.parse_args()
