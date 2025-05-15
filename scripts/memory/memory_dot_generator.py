@@ -1,5 +1,6 @@
 import math
 from scripts.memory.parser import parse_gdb_output
+from typing import List, Dict
 
 # DOT 生成及内存格式化相关常量
 # 空指针的实际数值表示
@@ -43,13 +44,13 @@ def _hex_with_alpha(hex_color: str, alpha: float) -> str:
 class MemoryDotGenerator:
     """封装 GDB 输出解析与 Graphviz DOT 生成"""
 
-    def __init__(self, lines: list[str]) -> None:
+    def __init__(self, lines: List[str]) -> None:
         self.memory, self.addresses = parse_gdb_output(lines)
         if not self.addresses:
             raise ValueError("未能从输入中解析出任何地址。")
 
     @staticmethod
-    def to_dot(memory: dict[str, str], addresses: list[str], prefix: str = "", theme: str = "light") -> str:
+    def to_dot(memory: Dict[str, str], addresses: List[str], prefix: str = "", theme: str = "light") -> str:
         """生成 Graphviz DOT 格式字符串，支持 4 列矩阵布局"""
 
         # 根据主题设置边框和文字颜色，边框写死黑白，背景使用系统 UI 颜色
@@ -64,7 +65,6 @@ class MemoryDotGenerator:
             addr_bg = _hex_with_alpha(SYSTEM_PINK_LIGHT, 0.125)
             val_bg = _hex_with_alpha(SYSTEM_GREEN_LIGHT, 0.125)
         addr_border = border_color
-        val_border = border_color
 
         def make_node(name: str, addr: str, val: str, port1: str, port2: str) -> str:
             if val == DISPLAY_NULL_VAL:

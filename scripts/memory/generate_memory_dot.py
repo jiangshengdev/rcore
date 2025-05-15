@@ -5,6 +5,7 @@ from scripts.memory.memory_dot_generator import (
     MemoryDotGenerator, NULL_VAL,
     RANKDIR, SPLINES, FONT, FONT_SIZE, NODE_MARGIN
 )
+from typing import List, Dict, Tuple, Any
 
 
 def parse_args():
@@ -26,13 +27,17 @@ def main():
     # 按命令分组内存输出
     groups = parse_gdb_groups(lines)
     # 遍历每组，解析并收集地址与内存值，同时构建全局地址索引
-    group_infos: list[dict] = []
-    global_addr_map: dict[str, tuple[str, int]] = {}
+    group_infos: List[Dict[str, Any]] = []
+    global_addr_map: Dict[str, Tuple[str, int]] = {}
     for idx, group in enumerate(groups, 1):
         gen = MemoryDotGenerator(group['lines'])
         prefix = f"g{idx}_"
         all_addrs = gen.addresses.copy()
-        group_infos.append({'prefix': prefix, 'all_addrs': all_addrs, 'memory': gen.memory})
+        group_infos.append({
+            'prefix': prefix,
+            'all_addrs': all_addrs,
+            'memory': gen.memory
+        })
         for i, addr in enumerate(all_addrs):
             global_addr_map[addr] = (prefix, i)
     # 初始化 DOT 内容和图属性
