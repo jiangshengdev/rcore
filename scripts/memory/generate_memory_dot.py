@@ -44,15 +44,16 @@ def main():
     dot_lines = ["digraph MemoryLayout {"]
     # 设置透明背景
     dot_lines.append("    graph [bgcolor=transparent];")
+    light_color = "#1c1e21"
+    dark_color = "#e3e3e3"
+    font_color = light_color if args.theme == 'light' else dark_color
     dot_lines.extend([
         f"    rankdir={RANKDIR};",
         f"    splines={SPLINES};",
         "    nodesep=0.3;",
         "    ranksep=0.6;",
-        f"    node [shape=record, fontname=\"{FONT}\", fontsize={FONT_SIZE}, margin={NODE_MARGIN}" + (
-            ", fontcolor=white" if args.theme == 'dark' else "") + "];",
-        f"    edge [fontname=\"{FONT}\", fontsize={FONT_SIZE}" + (
-            ", fontcolor=white, color=white" if args.theme == 'dark' else "") + "];",
+        f"    node [shape=record, fontname=\"{FONT}\", fontsize={FONT_SIZE}, margin={NODE_MARGIN}, fontcolor=\"{font_color}\"];",
+        f"    edge [fontname=\"{FONT}\", fontsize={FONT_SIZE}, fontcolor=\"{font_color}\", color=\"{font_color}\"];",
         ""
     ])
     # 生成每个分组的子图节点和布局约束

@@ -55,14 +55,14 @@ class MemoryDotGenerator:
 
         # 根据主题设置边框和文字颜色，边框写死黑白，背景使用系统 UI 颜色
         if theme == 'dark':
-            border_color = "#FFFFFF"
-            text_color = "white"
+            border_color = "#e3e3e3"
+            text_color = "#e3e3e3"
             addr_bg = _hex_with_alpha(SYSTEM_PINK_DARK, 0.125)
             val_bg = _hex_with_alpha(SYSTEM_GREEN_DARK, 0.125)
             cluster_color = "gray25"
         else:
-            border_color = "#000000"
-            text_color = "black"
+            border_color = "#1c1e21"
+            text_color = "#1c1e21"
             addr_bg = _hex_with_alpha(SYSTEM_PINK_LIGHT, 0.125)
             val_bg = _hex_with_alpha(SYSTEM_GREEN_LIGHT, 0.125)
             cluster_color = "gray75"
