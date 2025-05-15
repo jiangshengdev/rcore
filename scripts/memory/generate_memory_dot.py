@@ -8,52 +8,54 @@ from scripts.memory.memory_dot_generator import (
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="解析 GDB 内存输出并生成 Graphviz DOT 格式文件。")
-    parser.add_argument('file', nargs='?', help="包含 GDB 内存输出的输入文件。如果未提供，则从标准输入读取。")
+    parser = argparse.ArgumentParser(description="获取输入文件路径和主题(light/dark)选项，解析命令行参数")
+    parser.add_argument('file', nargs='?', help="GDB 内存输出文件路径；若为空则从标准输入读取内容")
+    parser.add_argument('--theme', choices=['light', 'dark'], default='light', help="指定输出图的配色主题")
     return parser.parse_args()
 
 
 def main():
-    # 解析命令行参数并读取输入
+    """读取 GDB 输出、生成内存布局的 Graphviz DOT 文本并输出"""
     args = parse_args()
+    # 获取并按行拆分 GDB 输出
     if args.file:
         with open(args.file, 'r') as f:
             lines = f.read().splitlines()
     else:
         lines = sys.stdin.read().splitlines()
+    # 按命令分组内存输出
     groups = parse_gdb_groups(lines)
-    # 预处理分组信息，构建全局地址映射
-    group_infos = []
-    global_addr_map = {}
+    # 遍历每组，解析并收集地址与内存值，同时构建全局地址索引
+    group_infos: list[dict] = []
+    global_addr_map: dict[str, tuple[str, int]] = {}
     for idx, group in enumerate(groups, 1):
         gen = MemoryDotGenerator(group['lines'])
         prefix = f"g{idx}_"
-        # 构建 all_addrs 同 to_dot
         all_addrs = gen.addresses.copy()
-        # 记录组信息
         group_infos.append({'prefix': prefix, 'all_addrs': all_addrs, 'memory': gen.memory})
-        # 填充全局地址映射
         for i, addr in enumerate(all_addrs):
             global_addr_map[addr] = (prefix, i)
-    # 开始写入 DOT
-    dot_lines = [
-        "digraph MemoryLayout {",
+    # 初始化 DOT 内容和图属性
+    dot_lines = ["digraph MemoryLayout {"]
+    if args.theme == 'dark':
+        dot_lines.append("    graph [bgcolor=black];")
+    dot_lines.extend([
         f"    rankdir={RANKDIR};",
         f"    splines={SPLINES};",
-        f"    nodesep=0.4;",
-        f"    ranksep=0.05;",
-        f"    node [shape=record, fontname=\"{FONT}\", fontsize={FONT_SIZE}, margin={NODE_MARGIN}];",
-        f"    edge [fontname=\"{FONT}\", fontsize={FONT_SIZE}];",
+        "    nodesep=0.4;",
+        "    ranksep=0.05;",
+        f"    node [shape=record, fontname=\"{FONT}\", fontsize={FONT_SIZE}, margin={NODE_MARGIN}" + (
+            ", fontcolor=white" if args.theme == 'dark' else "") + "];",
+        f"    edge [fontname=\"{FONT}\", fontsize={FONT_SIZE}" + (
+            ", fontcolor=white" if args.theme == 'dark' else "") + "];",
         ""
-    ]
-    # 各组子图
+    ])
+    # 生成每个分组的子图节点和布局约束
     for info in group_infos:
         dot_lines.append(
-            MemoryDotGenerator.to_dot(
-                info['memory'], info['all_addrs'], prefix=info['prefix']
-            )
+            MemoryDotGenerator.to_dot(info['memory'], info['all_addrs'], prefix=info['prefix'], theme=args.theme)
         )
-    # 跨组真实连接: 指针值匹配任意已知地址
+    # 添加组间指针指向真实地址的连接
     dot_lines.append("")
     for info in group_infos:
         prefix = info['prefix']
@@ -62,7 +64,8 @@ def main():
             if val and val != NULL_VAL and val in global_addr_map:
                 tgt_prefix, tgt_i = global_addr_map[val]
                 src_port = 'next' if i == 0 else 'val'
-                dot_lines.append(f'    {prefix}node{i}:{src_port} -> {tgt_prefix}node{tgt_i}:addr;')
+                dot_lines.append(f"    {prefix}node{i}:{src_port} -> {tgt_prefix}node{tgt_i}:addr;")
+    # 结束 DOT 定义并打印输出
     dot_lines.append("}")
     print("\n".join(dot_lines))
 

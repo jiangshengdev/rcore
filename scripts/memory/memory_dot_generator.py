@@ -20,14 +20,24 @@ FONT_SIZE = 10
 CELL_PADDING = 4
 # 节点间距
 NODE_MARGIN = 0.01
-# 地址单元格边框颜色
-COLOR_ADDR_BORDER = "#FF2D55"
-# 数值单元格边框颜色
-COLOR_VAL_BORDER = "#34C759"
-# 地址单元格背景色
-COLOR_ADDR_BG = "#FFF2F7"
-# 数值单元格背景色
-COLOR_VAL_BG = "#E9FBEA"
+
+# 系统 UI 颜色：粉色
+SYSTEM_PINK_LIGHT = "#FF2D55"
+SYSTEM_PINK_DARK = "#FF375F"
+
+# 系统 UI 颜色：绿色
+SYSTEM_GREEN_LIGHT = "#34C759"
+SYSTEM_GREEN_DARK = "#30D158"
+
+
+# 根据给定十六进制颜色和透明度生成带 alpha 通道的 RGBA 颜色字符串
+def _hex_with_alpha(hex_color: str, alpha: float) -> str:
+    """将 #RRGGBB 颜色与 alpha 混合，返回 #RRGGBBAA"""
+    r = int(hex_color[1:3], 16)
+    g = int(hex_color[3:5], 16)
+    b = int(hex_color[5:7], 16)
+    a = int(alpha * 255)
+    return f"#{r:02X}{g:02X}{b:02X}{a:02X}"
 
 
 class MemoryDotGenerator:
@@ -39,17 +49,31 @@ class MemoryDotGenerator:
             raise ValueError("未能从输入中解析出任何地址。")
 
     @staticmethod
-    def to_dot(memory: dict[str, str], addresses: list[str], prefix: str = "") -> str:
+    def to_dot(memory: dict[str, str], addresses: list[str], prefix: str = "", theme: str = "light") -> str:
         """生成 Graphviz DOT 格式字符串，支持 4 列矩阵布局"""
+
+        # 根据主题设置边框和文字颜色，边框写死黑白，背景使用系统 UI 颜色
+        if theme == 'dark':
+            border_color = "#FFFFFF"
+            text_color = "white"
+            addr_bg = _hex_with_alpha(SYSTEM_PINK_DARK, 0.125)
+            val_bg = _hex_with_alpha(SYSTEM_GREEN_DARK, 0.125)
+        else:
+            border_color = "#000000"
+            text_color = "black"
+            addr_bg = _hex_with_alpha(SYSTEM_PINK_LIGHT, 0.125)
+            val_bg = _hex_with_alpha(SYSTEM_GREEN_LIGHT, 0.125)
+        addr_border = border_color
+        val_border = border_color
 
         def make_node(name: str, addr: str, val: str, port1: str, port2: str) -> str:
             if val == DISPLAY_NULL_VAL:
                 val = PADDED_NULL_DISPLAY
             return f'''        {name} [shape=none, margin={NODE_MARGIN}, label=<
-<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="{addr_border}">
   <TR>
-    <TD BGCOLOR="{COLOR_ADDR_BG}" PORT="{port1}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}">{addr}</TD>
-    <TD BGCOLOR="{COLOR_VAL_BG}" PORT="{port2}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}">{val}</TD>
+    <TD BGCOLOR="{addr_bg}" PORT="{port1}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{addr}</FONT></TD>
+    <TD BGCOLOR="{val_bg}" PORT="{port2}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{val}</FONT></TD>
   </TR>
 </TABLE>
 >];'''
