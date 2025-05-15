@@ -24,7 +24,7 @@ rCore 使用伙伴系统作为堆内存分配器。
 
 > https://github.com/LearningOS/2025s-rcore-jiangshengdev/blob/intrusive-linked-list/os/src/buddy_system/test.rs
 
-### 构建节点的值 
+### 构建节点的值
 
 首先进入 2 处的断点：
 
