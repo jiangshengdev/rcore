@@ -1,6 +1,7 @@
 import math
-from scripts.memory.parser import parse_gdb_output
 from typing import List, Dict
+
+from scripts.memory.parser import parse_gdb_output
 
 # DOT 生成及内存格式化相关常量
 # 空指针的实际数值表示

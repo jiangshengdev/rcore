@@ -1,11 +1,12 @@
-import sys
 import argparse
-from scripts.memory.parser import parse_gdb_groups
+import sys
+from typing import List, Dict, Tuple, Any
+
 from scripts.memory.memory_dot_generator import (
     MemoryDotGenerator, NULL_VAL,
     RANKDIR, SPLINES, FONT, FONT_SIZE, NODE_MARGIN
 )
-from typing import List, Dict, Tuple, Any
+from scripts.memory.parser import parse_gdb_groups
 
 
 def parse_args():
