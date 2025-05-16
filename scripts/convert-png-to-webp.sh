@@ -29,7 +29,9 @@ cd "$rootdir"
 
 # 定义单文件转换函数，并导出供 xargs 调用
 convert_one() {
-  file="$1"; imgdir="$2"; webpdir="$3"
+  file="$1"
+  imgdir="$2"
+  webpdir="$3"
   rel="${file#"$imgdir"/}"
   target="$webpdir/${rel%.png}.webp"
   mkdir -p "${target%/*}"
