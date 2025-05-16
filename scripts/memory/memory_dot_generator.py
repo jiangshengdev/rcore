@@ -72,13 +72,13 @@ class MemoryDotGenerator:
             if val == DISPLAY_NULL_VAL:
                 val = PADDED_NULL_DISPLAY
             return f'''        {name} [shape=none, margin={NODE_MARGIN}, label=<
-<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="{addr_border}">
-  <TR>
-    <TD BGCOLOR="{addr_bg}" PORT="{port1}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{addr}</FONT></TD>
-    <TD BGCOLOR="{val_bg}" PORT="{port2}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{val}</FONT></TD>
-  </TR>
-</TABLE>
->];'''
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="{addr_border}">
+                <TR>
+                    <TD BGCOLOR="{addr_bg}" PORT="{port1}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{addr}</FONT></TD>
+                    <TD BGCOLOR="{val_bg}" PORT="{port2}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{val}</FONT></TD>
+                </TR>
+            </TABLE>
+        >];'''
 
         all_addrs = addresses.copy()
         cols = 4
@@ -88,8 +88,8 @@ class MemoryDotGenerator:
             for r in range(rows)
         ]
         dot_lines = [
-            f"        subgraph cluster_{prefix} {{",
-            f"            color=\"{cluster_color}\";",
+            f"    subgraph cluster_{prefix} {{",
+            f"        color=\"{cluster_color}\";",
         ]
         # 节点生成
         for r, row in enumerate(matrix):
@@ -104,12 +104,12 @@ class MemoryDotGenerator:
         dot_lines.append("")
         # 水平对齐
         for r, row in enumerate(matrix):
-            dot_lines.append(f"            subgraph row_{prefix}_{r} {{")
-            dot_lines.append("                rank = same;")
+            dot_lines.append(f"        subgraph row_{prefix}_{r} {{")
+            dot_lines.append("            rank = same;")
             for c in range(len(row)):
                 idx = r * cols + c
-                dot_lines.append(f"                {prefix}node{idx};")
-            dot_lines.append("            }")
+                dot_lines.append(f"            {prefix}node{idx};")
+            dot_lines.append("        }")
         dot_lines.append("")
         # 垂直对齐隐形边
         for c in range(cols):
@@ -118,8 +118,8 @@ class MemoryDotGenerator:
                 idx2 = (r + 1) * cols + c
                 if idx2 < len(all_addrs):
                     dot_lines.append(
-                        f"            {prefix}node{idx1} -> {prefix}node{idx2} "
+                        f"        {prefix}node{idx1} -> {prefix}node{idx2} "
                         "[style=invis, constraint=false];"
                     )
-        dot_lines.append("        }")
+        dot_lines.append("    }")
         return "\n".join(dot_lines)
