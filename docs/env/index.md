@@ -227,7 +227,7 @@ Type "apropos word" to search for commands related to "word".
 
 可以按下 `control + D`（即 `⌃ D`）来退出 GDB。
 
-## 安装 GDB Dashboard
+## 安装 GDB dashboard
 
 :::tip
 
