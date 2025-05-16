@@ -33,11 +33,11 @@ list）来存储和管理空闲内存块的地址，以提升操作效率和空�
 ![values-code.webp](webp/light/values-code.webp#gh-light-mode-only)
 ![values-code.webp](webp/dark/values-code.webp#gh-dark-mode-only)
 
-此时可以查看 16 个节点组成的数组 `values` 的地址和值。为了便于调试和定位，每个节点的值都被赋予了有规律的数字。
+此时可以查看由 16 个元素组成的数组 `values` 的地址和值。为了便于调试和定位，每个元素的值都被赋予了有规律的数字。
 
 这些数值本身并不重要，关键在于它们的内存地址。测试用例中，这些地址位于栈上；而在实际内存分配时，这些地址会对应到分配区域的内部。
 
-`values` 数组的起始地址为 `0x80218d48`，下图显示了各个元素的值（即每个节点的初始内容）：
+`values` 数组的起始地址为 `0x80218d48`，下图显示了各个元素的值（即每个元素的初始内容）：
 
 ![values-debug.webp](webp/light/values-debug.webp#gh-light-mode-only)
 ![values-debug.webp](webp/dark/values-debug.webp#gh-dark-mode-only)
@@ -81,7 +81,7 @@ push】之前。
 这里 `0x80218e20` 是链表 `list` 的地址，存储的值 `0x80218dc0` 是当前 `head`
 节点的地址。
 
-继续查看节点数组的内容：
+继续查看数组中各个元素的内容：
 
 ```
 (gdb) x /16g 0x0000000080218d48
