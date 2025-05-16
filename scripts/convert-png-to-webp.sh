@@ -27,22 +27,35 @@ if [ -z "$rootdir" ]; then
 fi
 cd "$rootdir"
 
-# 只递归 blog 和 docs 目录
-for root in blog docs; do
-  find "$root" -type d -name "image" | while read -r imgdir; do
-    # 在 image 同级新建 webp 文件夹
-    webpdir="$(dirname "$imgdir")/webp"
-    mkdir -p "$webpdir"
-    find "$imgdir" -type f -name "*.png" | while read -r file; do
-      relpath="${file#"$imgdir"/}"
-      target="$webpdir/${relpath%.png}.webp"
-      if [ -f "$target" ]; then
-        echo "跳过已存在: $target"
-        continue
-      fi
-      mkdir -p "$(dirname "$target")"
-      cwebp -lossless -z 9 -exact -mt "$file" -o "$target"
-      echo "已转换: $file -> $target"
+# 定义单文件转换函数，并导出供 xargs 调用
+convert_one() {
+  file="$1"; imgdir="$2"; webpdir="$3"
+  rel="${file#"$imgdir"/}"
+  target="$webpdir/${rel%.png}.webp"
+  mkdir -p "${target%/*}"
+  cwebp -lossless -z 9 -exact -mt "$file" -o "$target"
+  echo "已转换: $file -> $target"
+}
+export -f convert_one
+
+# 动态获取物理核心数
+CPU_NUM=$(sysctl -n hw.physicalcpu 2>/dev/null || echo 2)
+
+# 收集待转换文件列表并并发执行
+(
+  for root in blog docs; do
+    find "$root" -type d -name "image" | while read -r imgdir; do
+      webpdir="$(dirname "$imgdir")/webp"
+      mkdir -p "$webpdir"
+      find "$imgdir" -type f -name "*.png" | while read -r file; do
+        rel="${file#"$imgdir"/}"
+        target="$webpdir/${rel%.png}.webp"
+        if [[ -f "$target" ]]; then
+          echo "跳过已存在: $target" >&2
+        else
+          printf '%s\0%s\0%s\0' "$file" "$imgdir" "$webpdir"
+        fi
+      done
     done
   done
-done
+) | xargs -0 -P "$CPU_NUM" -n 3 bash -c 'convert_one "$@"' _
