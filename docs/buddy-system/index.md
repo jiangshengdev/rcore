@@ -53,6 +53,24 @@ push】之前。
 可以看到链表 `list` 位于栈上，其地址为 `0x80218e20`。此时
 `head` 字段的值为 `0x0`，表示链表为空，没有任何节点被插入。
 
+```
+(gdb) p &list
+$1 = (*mut os::buddy_system::linked_list::LinkedList) 0x80218e20
+(gdb) p &list.head
+$2 = (*mut *mut usize) 0x80218e20
+(gdb) p list
+$3 = os::buddy_system::linked_list::LinkedList = {head = 0x0}
+(gdb) p list.head
+$4 = (*mut usize) 0x0
+```
+
+:::tip
+
+由于 `LinkedList` 结构体仅包含 `head` 一个字段，因此
+`&list` 与 `&list.head` 的地址相同，二者都为 `0x80218e20`。
+
+:::
+
 ![list-debug.webp](webp/light/list-debug.webp#gh-light-mode-only)
 ![list-debug.webp](webp/dark/list-debug.webp#gh-dark-mode-only)
 
@@ -78,8 +96,8 @@ push】之前。
 0x80218e20:	0x0000000080218dc0
 ```
 
-这里 `0x80218e20` 是链表 `list` 的地址，存储的值 `0x80218dc0` 是当前 `head`
-节点的地址。
+这里 `0x80218e20` 是链表 `list` 结构体的地址，存储的值 `0x80218dc0` 是
+`head` 字段存储的指针，指向链表的首节点（最近插入的节点）的地址。
 
 继续查看数组中各个元素的内容：
 
@@ -99,9 +117,10 @@ push】之前。
 `0x0`，表示链表尾部）。这样可以直观地看到链表的连接关系和节点内容。
 
 链表 `list` 所在的地址为 `0x80218e20`，该地址存储的值是 `values` 数组最后一个元素的地址
-`0x80218dc0`，也就是最后插入链表的节点地址。
+`0x80218dc0`，也就是最近插入链表的节点地址。
 
-这个最后插入的节点作为 `head` 节点，其值为下一个节点的地址 `0x80218db8`。
+这个最近插入的节点成为链表的首节点，其存储的值（`next`
+指针）为下一个节点的地址 `0x80218db8`。
 
 依次类推，每个节点的地址依次为
 `0x80218dc0`、`0x80218db8`、...、`0x80218d48`，每个节点的值为下一个节点的地址。最早插入的节点（地址为
@@ -134,7 +153,8 @@ push】之前。
 ![pop-code.webp](webp/light/pop-code.webp#gh-light-mode-only)
 ![pop-code.webp](webp/dark/pop-code.webp#gh-dark-mode-only)
 
-此时链表 `list` 所在的地址 `0x80218e20` 的值被赋值为 `0x0`，表示 `head` 节点已经为空。
+此时链表 `list` 所在的地址 `0x80218e20` 的值被赋值为
+`0x0`，表示 `head` 字段被设为 `null`，即链表已为空。
 
 ![pop-debug.webp](webp/light/pop-debug.webp#gh-light-mode-only)
 ![pop-debug.webp](webp/dark/pop-debug.webp#gh-dark-mode-only)
