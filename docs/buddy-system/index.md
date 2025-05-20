@@ -161,3 +161,69 @@ $4 = (*mut usize) 0x0
 
 如果使用「步过」按钮逐行执行，可以看到 `pop` 与 `push` 不同，移除元素时只有链表
 `list` 所在地址的值发生了改变。
+
+### 迭代器
+
+侵入式链表还实现了可变迭代器，支持查找与删除中间节点，与普通链表无较大差异。
+
+## 伙伴系统堆
+
+堆的代码可以查看：
+
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap
+
+此处为修改版本，为了方便调试相比原版略有改动，但整体思想不变。
+
+### 初始化
+
+相关代码可以查看：
+
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap/ctor.rs
+
+堆初始化后，调试查看变量可以看到其内部使用了多阶的链表来存储内存地址。
+
+![heap.webp](webp/light/heap.webp#gh-light-mode-only)
+![heap.webp](webp/dark/heap.webp#gh-dark-mode-only)
+
+以 32 阶为例：
+
+- 下标为 0 的链表一个节点代表 1 个字节，`1 << 0`
+- 下标为 1 的链表一个节点代表 2 个字节，`1 << 1`
+- 下标为 2 的链表一个节点代表 4 个字节，`1 << 2`
+- 下标为 3 的链表一个节点代表 8 个字节，`1 << 3`
+- ...
+- 下标为 31 的链表一个节点代表 2G 个字节，`1 << 31`
+
+### 添加内存区间
+
+相关代码可以查看：
+
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap/add.rs
+
+查看内存区间的起始地址在不超过其结束时最大可以放置到哪个阶。
+
+放置后，减去放置的部分计算出新的起始地址然后重复上一步，直至空间耗尽。
+
+### 分配内存
+
+相关代码可以查看：
+
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap/alloc.rs
+
+每次分配内存时，首先查看当前能满足需求的最小的阶其链表是否存在剩余节点（存在空闲内存）。
+
+如有则直接分配一个节点，否则向更高阶借用，每高一阶的可以分裂为 2 份提供给其低一阶使用。
+
+如到最高阶也没有更多节点，则分配失败。
+
+### 释放内存
+
+相关代码可以查看：
+
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap/alloc.rs
+
+每次释放内存时，直接将其空间返还给之前分配的阶（分配时能满足需求的最小的阶）
+
+然后在这一阶链表中迭代查找是否存在伙伴（其 2 者地址刚好等于上一阶分配后的 2 个地址），如果存在，则合并后插入上一阶。
+
+每上一阶则继续迭代查找伙伴并合并，直至找不到伙伴。
