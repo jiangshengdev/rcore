@@ -1,6 +1,5 @@
-import os
-
 import matplotlib.pyplot as plt
+import os
 from matplotlib.ticker import FuncFormatter
 
 # type: ignore
@@ -72,15 +71,15 @@ def plot_free_segment(ax, seg_list, xlim, color, title, align_last_left=False):
                 ha = 'left'
             # 标签内容：一行显示地址和右对齐的人类可读单位
             label = f"{hex(addr)}  {human_readable_size(size)}"
-            ax.text(addr, order, label, va='center', ha=ha, fontsize=6, fontfamily='monospace')
+            ax.text(addr, order, label, va='center', ha=ha, fontfamily='monospace')
             count += 1
-    ax.set_xlabel("Address", fontsize=8)
-    ax.set_ylabel("Order", fontsize=8)
+    ax.set_xlabel("Address")
+    ax.set_ylabel("Order")
     ax.set_yticks([o for o, _ in seg_list])
-    ax.set_yticklabels([str(o) for o, _ in seg_list], fontsize=7)
-    ax.set_xticklabels([hex(int(x)) for x in ax.get_xticks()], fontsize=7)
+    ax.set_yticklabels([str(o) for o, _ in seg_list])
+    ax.set_xticklabels([hex(int(x)) for x in ax.get_xticks()])
     ax.grid(True, axis='x', linestyle='--', alpha=0.5)
-    ax.set_title(title, fontsize=10)
+    ax.set_title(title)
 
 
 # 将脚本执行逻辑封装到 main 函数
@@ -99,30 +98,30 @@ def main():
     # 生成 light 风格
     os.makedirs("light", exist_ok=True)
     plt.style.use('default')
-    fig, (ax_top, ax_bottom) = plt.subplots(2, 1, sharey=True, figsize=(10, 8), gridspec_kw={'height_ratios': [1, 1]})
+    fig, (ax_top, ax_bottom) = plt.subplots(2, 1, sharey=True, figsize=(13, 13), gridspec_kw={'height_ratios': [1, 1]})
     plot_free_segment(ax_top, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
     plot_free_segment(ax_bottom, right_list, (0x200000000, 0x300000000), 'tab:blue',
                       "Buddy System Free List (High Address Segment)", align_last_left=True)
     plt.tight_layout()
-    plt.savefig("light/buddy-free-list.svg", format="svg", dpi=96)
+    plt.savefig("light/buddy-free-list.svg", format="svg", backend="cairo")
     plt.close(fig)
 
     # 生成 dark 风格
     os.makedirs("dark", exist_ok=True)
     plt.style.use('dark_background')
-    fig, (ax_top, ax_bottom) = plt.subplots(2, 1, sharey=True, figsize=(10, 8), gridspec_kw={'height_ratios': [1, 1]})
+    fig, (ax_top, ax_bottom) = plt.subplots(2, 1, sharey=True, figsize=(13, 13), gridspec_kw={'height_ratios': [1, 1]})
     plot_free_segment(ax_top, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
     plot_free_segment(ax_bottom, right_list, (0x200000000, 0x300000000), 'tab:blue',
                       "Buddy System Free List (High Address Segment)", align_last_left=True)
     plt.tight_layout()
-    plt.savefig("dark/buddy-free-list.svg", format="svg", dpi=96)
+    plt.savefig("dark/buddy-free-list.svg", format="svg", backend="cairo")
     plt.close(fig)
 
     # 可选：显示最后一次（dark）风格
     plt.style.use('dark_background')
-    fig, (ax_top, ax_bottom) = plt.subplots(2, 1, sharey=True, figsize=(10, 8), gridspec_kw={'height_ratios': [1, 1]})
+    fig, (ax_top, ax_bottom) = plt.subplots(2, 1, sharey=True, figsize=(13, 13), gridspec_kw={'height_ratios': [1, 1]})
     plot_free_segment(ax_top, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
     plot_free_segment(ax_bottom, right_list, (0x200000000, 0x300000000), 'tab:blue',
