@@ -1,11 +1,10 @@
 import os
-from typing import List, Tuple
+from typing import List, Tuple, Any
 
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
 from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 from matplotlib.ticker import FuncFormatter
-import numpy as np
 from numpy.typing import NDArray
 
 # 刻度数量常量
@@ -65,35 +64,36 @@ def tick_formatter(x_val: float, pos_val: int) -> str:
     return hex(int(x_val))
 
 
-def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tuple[int, int], color: str, title: str, align_last_left: bool = False) -> None:
+def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tuple[int, int], color: str, title: str,
+                      align_last_left: bool = False) -> None:
     ax.set_xlim(xlim[0], xlim[1])
     step: float = (xlim[1] - xlim[0]) / (TICK_COUNT - 1)
     xticks_values: List[float] = [xlim[0] + i * step for i in range(TICK_COUNT)]
-    ax.set_xticks(xticks_values) # type: ignore
+    ax.set_xticks(xticks_values)  # type: ignore[misc]
     ax.xaxis.set_major_formatter(FuncFormatter(tick_formatter))
     total = sum(len(addrs) for _, addrs in seg_list)
     count = 0
     for order, addrs in seg_list:
         for addr in addrs:
             size: int = 1 << order
-            ax.broken_barh([(addr, size)], (order - 0.4, 0.8), facecolors=color) # type: ignore
+            ax.broken_barh([(addr, size)], (order - 0.4, 0.8), facecolors=color)  # type: ignore[misc]
             if align_last_left:
                 ha = 'left' if count == total - 1 else 'right'
             else:
                 ha = 'left'
             label = f"{hex(addr)}  {human_readable_size(size)}"
-            ax.text(addr, order, label, va='center', ha=ha, fontfamily='monospace') # type: ignore
+            ax.text(addr, order, label, va='center', ha=ha, fontfamily='monospace')  # type: ignore[misc]
             count += 1
-    ax.set_xlabel("Address") # type: ignore
-    ax.set_ylabel("Order") # type: ignore
-    ax.set_yticks([o for o, _ in seg_list]) # type: ignore
-    ax.set_yticklabels([str(o) for o, _ in seg_list]) # type: ignore
-    
-    current_xticks: NDArray[np.float64] = ax.get_xticks() # type: ignore # Changed to np.float64
-    ax.set_xticklabels([hex(int(x)) for x in current_xticks]) # type: ignore
-    
-    ax.grid(True, axis='x', linestyle='--', alpha=0.5) # type: ignore
-    ax.set_title(title) # type: ignore
+    ax.set_xlabel("Address")  # type: ignore[misc]
+    ax.set_ylabel("Order")  # type: ignore[misc]
+    ax.set_yticks([o for o, _ in seg_list])  # type: ignore[misc]
+    ax.set_yticklabels([str(o) for o, _ in seg_list])  # type: ignore[misc]
+
+    current_xticks: NDArray[Any] = ax.get_xticks()  # type: ignore[misc]
+    ax.set_xticklabels([hex(int(x)) for x in current_xticks])  # type: ignore[misc]
+
+    ax.grid(True, axis='x', linestyle='--', alpha=0.5)  # type: ignore[misc]
+    ax.set_title(title)  # type: ignore[misc]
 
 
 # 将脚本执行逻辑封装到 main 函数
@@ -113,50 +113,53 @@ def main() -> None:
     os.makedirs("light", exist_ok=True)
     plt.style.use('default')
     fig_light: Figure
-    axs_light: NDArray[np.object_] # Type hint for the array of Axes
-    fig_light, axs_light = plt.subplots(2, 1, sharey=True, figsize=(13, 13), gridspec_kw={'height_ratios': [1, 1]}) # type: ignore
-    ax_top_light: Axes = axs_light[0]
-    ax_bottom_light: Axes = axs_light[1]
-    
+    axs_light: NDArray[Any]  # Type hint for the array of Axes
+    fig_light, axs_light = plt.subplots(2, 1, sharey=True, figsize=(13, 13),
+                                        gridspec_kw={'height_ratios': [1, 1]})  # type: ignore[misc]
+    ax_top_light: Axes = axs_light[0]  # type: ignore[assignment]
+    ax_bottom_light: Axes = axs_light[1]  # type: ignore[assignment]
+
     plot_free_segment(ax_top_light, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
     plot_free_segment(ax_bottom_light, right_list, (0x200000000, 0x300000000), 'tab:blue',
                       "Buddy System Free List (High Address Segment)", align_last_left=True)
     plt.tight_layout()
-    plt.savefig("light/buddy-free-list.svg", format="svg", backend="cairo") # type: ignore
+    plt.savefig("light/buddy-free-list.svg", format="svg", backend="cairo")  # type: ignore[misc]
     plt.close(fig_light)
 
     # 生成 dark 风格
     os.makedirs("dark", exist_ok=True)
     plt.style.use('dark_background')
     fig_dark: Figure
-    axs_dark: NDArray[np.object_] # Type hint for the array of Axes
-    fig_dark, axs_dark = plt.subplots(2, 1, sharey=True, figsize=(13, 13), gridspec_kw={'height_ratios': [1, 1]}) # type: ignore
-    ax_top_dark: Axes = axs_dark[0]
-    ax_bottom_dark: Axes = axs_dark[1]
+    axs_dark: NDArray[Any]  # Type hint for the array of Axes
+    fig_dark, axs_dark = plt.subplots(2, 1, sharey=True, figsize=(13, 13),
+                                      gridspec_kw={'height_ratios': [1, 1]})  # type: ignore[misc]
+    ax_top_dark: Axes = axs_dark[0]  # type: ignore[assignment]
+    ax_bottom_dark: Axes = axs_dark[1]  # type: ignore[assignment]
 
     plot_free_segment(ax_top_dark, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
     plot_free_segment(ax_bottom_dark, right_list, (0x200000000, 0x300000000), 'tab:blue',
                       "Buddy System Free List (High Address Segment)", align_last_left=True)
     plt.tight_layout()
-    plt.savefig("dark/buddy-free-list.svg", format="svg", backend="cairo") # type: ignore
+    plt.savefig("dark/buddy-free-list.svg", format="svg", backend="cairo")  # type: ignore[misc]
     plt.close(fig_dark)
 
     # 可选：显示最后一次（dark）风格
     plt.style.use('dark_background')
-    _fig_show: Figure # Marked as unused
-    axs_show: NDArray[np.object_] # Type hint for the array of Axes
-    _fig_show, axs_show = plt.subplots(2, 1, sharey=True, figsize=(13, 13), gridspec_kw={'height_ratios': [1, 1]}) # type: ignore
-    ax_top_show: Axes = axs_show[0]
-    ax_bottom_show: Axes = axs_show[1]
-    
+    _fig_show: Figure  # Marked as unused
+    axs_show: NDArray[Any]  # Type hint for the array of Axes
+    _fig_show, axs_show = plt.subplots(2, 1, sharey=True, figsize=(13, 13),
+                                       gridspec_kw={'height_ratios': [1, 1]})  # type: ignore[misc]
+    ax_top_show: Axes = axs_show[0]  # type: ignore[assignment]
+    ax_bottom_show: Axes = axs_show[1]  # type: ignore[assignment]
+
     plot_free_segment(ax_top_show, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
     plot_free_segment(ax_bottom_show, right_list, (0x200000000, 0x300000000), 'tab:blue',
                       "Buddy System Free List (High Address Segment)", align_last_left=True)
     plt.tight_layout()
-    plt.show() # type: ignore
+    plt.show()  # type: ignore[misc] 
 
 
 if __name__ == "__main__":
