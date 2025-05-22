@@ -4,54 +4,54 @@
  * work well for content-centric websites.
  */
 
-.language-riscv .token.comment {
+.prism-code .token.comment {
   color: #6e7781 !important; /* from: comment */
 }
 
-.language-riscv .token.string {
+.prism-code .token.string {
   color: #0a3069 !important; /* from: string */
 }
 
-.language-riscv .token.char {
+.prism-code .token.char {
   color: #0a3069 !important; /* reuse tokenColors.string */
 }
 
-.language-riscv .token.version-symbol {
+.prism-code .token.version-symbol {
   color: #0550ae !important; /* from: constant, support, meta.property-name */
 }
 
-.language-riscv .token.boolean {
+.prism-code .token.boolean {
   color: #116329 !important; /* from: entity.name.tag */
 }
 
-.language-riscv .token.directive {
+.prism-code .token.directive {
   color: #0550ae !important; /* from: support, meta.property-name */
 }
 
-.language-riscv .token.label {
+.prism-code .token.label {
   color: #8250df !important; /* from: entity.name.function */
 }
 
-.language-riscv .token.instruction {
+.prism-code .token.instruction {
   color: #cf222e !important; /* from: keyword */
 }
 
-.language-riscv .token.variable {
+.prism-code .token.variable {
   color: #953800 !important; /* from: entity.name, variable */
 }
 
-.language-riscv .token.number {
+.prism-code .token.number {
   color: #0550ae !important; /* from: constant */
 }
 
-.language-riscv .token.register {
+.prism-code .token.register {
   color: #953800 !important; /* from: entity.name, variable */
 }
 
-.language-riscv .token.operator {
+.prism-code .token.operator {
   color: #cf222e !important; /* from: keyword, storage */
 }
 
-.language-riscv .token.punctuation {
+.prism-code .token.punctuation {
   color: #1f2328 !important; /* from: variable.parameter.function, meta.block */
 }

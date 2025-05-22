@@ -4,54 +4,54 @@
  * work well for content-centric websites.
  */
 
-[data-theme='dark'] .language-riscv .token.comment {
+[data-theme='dark'] .prism-code .token.comment {
   color: #8b949e !important; /* from: comment */
 }
 
-[data-theme='dark'] .language-riscv .token.string {
+[data-theme='dark'] .prism-code .token.string {
   color: #a5d6ff !important; /* from: string */
 }
 
-[data-theme='dark'] .language-riscv .token.char {
+[data-theme='dark'] .prism-code .token.char {
   color: #a5d6ff !important; /* reuse tokenColors.string */
 }
 
-[data-theme='dark'] .language-riscv .token.version-symbol {
+[data-theme='dark'] .prism-code .token.version-symbol {
   color: #79c0ff !important; /* from: constant, support, meta.property-name */
 }
 
-[data-theme='dark'] .language-riscv .token.boolean {
+[data-theme='dark'] .prism-code .token.boolean {
   color: #7ee787 !important; /* from: entity.name.tag */
 }
 
-[data-theme='dark'] .language-riscv .token.directive {
+[data-theme='dark'] .prism-code .token.directive {
   color: #79c0ff !important; /* from: support, meta.property-name */
 }
 
-[data-theme='dark'] .language-riscv .token.label {
+[data-theme='dark'] .prism-code .token.label {
   color: #d2a8ff !important; /* from: entity.name.function */
 }
 
-[data-theme='dark'] .language-riscv .token.instruction {
+[data-theme='dark'] .prism-code .token.instruction {
   color: #ff7b72 !important; /* from: keyword */
 }
 
-[data-theme='dark'] .language-riscv .token.variable {
+[data-theme='dark'] .prism-code .token.variable {
   color: #ffa657 !important; /* from: entity.name, variable */
 }
 
-[data-theme='dark'] .language-riscv .token.number {
+[data-theme='dark'] .prism-code .token.number {
   color: #79c0ff !important; /* from: constant */
 }
 
-[data-theme='dark'] .language-riscv .token.register {
+[data-theme='dark'] .prism-code .token.register {
   color: #ffa657 !important; /* from: entity.name, variable */
 }
 
-[data-theme='dark'] .language-riscv .token.operator {
+[data-theme='dark'] .prism-code .token.operator {
   color: #ff7b72 !important; /* from: keyword, storage */
 }
 
-[data-theme='dark'] .language-riscv .token.punctuation {
+[data-theme='dark'] .prism-code .token.punctuation {
   color: #e6edf3 !important; /* from: variable.parameter.function, meta.block */
 }
