@@ -280,6 +280,11 @@ Heap {
 可以看到，由于地址必须按 `usize`（64 位系统下为 8 字节）对齐，最低三个阶次对应的块（1 B、2 B、4 B）无法存放任何有效区间，因此
 `free_list[0]`～`free_list[2]` 始终为空。整体累积的可用空间（`total` 字段）也比原始区间长度略小。
 
+下图展示了各阶空闲区块在内存地址空间中的分布情况：
+
+![buddy-free-list.svg](svg/light/buddy-free-list.svg#gh-light-mode-only)
+![buddy-free-list.svg](svg/dark/buddy-free-list.svg#gh-dark-mode-only)
+
 ### 分配内存
 
 相关代码见：
