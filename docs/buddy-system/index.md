@@ -237,6 +237,49 @@ $4 = (*mut usize) 0x0
 2. 将该块插入对应阶次的空闲链表。
 3. 将起始地址后移块大小，继续处理剩余区间。
 
+下面以区间 `[0x100000001, 0x2ffffffff)` 为例，演示添加内存后的 `Heap.free_list` 状态（各阶链表按索引从 0 到 31 列出）：
+
+```rust
+Heap {
+  user: 0x0, allocated: 0x0, total: 0x1fffffff0,
+  free_list[ 0]: [],
+  free_list[ 1]: [],
+  free_list[ 2]: [],
+  free_list[ 3]: [0x2fffffff0, 0x100000008],
+  free_list[ 4]: [0x2ffffffe0, 0x100000010],
+  free_list[ 5]: [0x2ffffffc0, 0x100000020],
+  free_list[ 6]: [0x2ffffff80, 0x100000040],
+  free_list[ 7]: [0x2ffffff00, 0x100000080],
+  free_list[ 8]: [0x2fffffe00, 0x100000100],
+  free_list[ 9]: [0x2fffffc00, 0x100000200],
+  free_list[10]: [0x2fffff800, 0x100000400],
+  free_list[11]: [0x2fffff000, 0x100000800],
+  free_list[12]: [0x2ffffe000, 0x100001000],
+  free_list[13]: [0x2ffffc000, 0x100002000],
+  free_list[14]: [0x2ffff8000, 0x100004000],
+  free_list[15]: [0x2ffff0000, 0x100008000],
+  free_list[16]: [0x2fffe0000, 0x100010000],
+  free_list[17]: [0x2fffc0000, 0x100020000],
+  free_list[18]: [0x2fff80000, 0x100040000],
+  free_list[19]: [0x2fff00000, 0x100080000],
+  free_list[20]: [0x2ffe00000, 0x100100000],
+  free_list[21]: [0x2ffc00000, 0x100200000],
+  free_list[22]: [0x2ff800000, 0x100400000],
+  free_list[23]: [0x2ff000000, 0x100800000],
+  free_list[24]: [0x2fe000000, 0x101000000],
+  free_list[25]: [0x2fc000000, 0x102000000],
+  free_list[26]: [0x2f8000000, 0x104000000],
+  free_list[27]: [0x2f0000000, 0x108000000],
+  free_list[28]: [0x2e0000000, 0x110000000],
+  free_list[29]: [0x2c0000000, 0x120000000],
+  free_list[30]: [0x280000000, 0x140000000],
+  free_list[31]: [0x200000000, 0x180000000]
+}
+```
+
+可以看到，由于地址必须按 `usize`（64 位系统下为 8 字节）对齐，最低三个阶次对应的块（1 B、2 B、4 B）无法存放任何有效区间，因此
+`free_list[0]`～`free_list[2]` 始终为空。整体累积的可用空间（`total` 字段）也比原始区间长度略小。
+
 ### 分配内存
 
 相关代码见：
