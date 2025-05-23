@@ -82,7 +82,7 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
             else:
                 ha = 'left'
             label = f"{hex(addr)}  {human_readable_size(size)}"
-            ax.text(addr, order, label, va='center', ha=ha, fontfamily='monospace')  # type: ignore[misc]
+            ax.text(addr, order, label, va='center', ha=ha, fontfamily='SF Mono')  # type: ignore[misc]
             count += 1
     ax.set_xlabel("Address")  # type: ignore[misc]
     ax.set_ylabel("Order")  # type: ignore[misc]
