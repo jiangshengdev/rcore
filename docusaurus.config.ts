@@ -4,6 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+const isVercel = process.env.VERCEL === '1';
 const config: Config = {
   title: 'rCore Study Blog',
   tagline: 'rCore are cool',
@@ -13,7 +14,7 @@ const config: Config = {
   url: 'https://rcore.jiangshengdev.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: isVercel ? '/' : '/rcore/', // Vercel 用根路径，GitHub Pages 用仓库名
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
