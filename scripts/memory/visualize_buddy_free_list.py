@@ -96,70 +96,70 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
     ax.set_title(title)  # type: ignore[misc]
 
 
-# 将脚本执行逻辑封装到 main 函数
-def main() -> None:
-    # 自动分割：高地址区间（右侧）和低地址区间（左侧）
+def split_address_ranges(free_list: List[Tuple[int, List[int]]]) -> Tuple[
+    List[Tuple[int, List[int]]], List[Tuple[int, List[int]]]]:
+    """将地址列表分割为低地址区间和高地址区间"""
     left_list: List[Tuple[int, List[int]]] = []
     right_list: List[Tuple[int, List[int]]] = []
+
     for order, addrs in free_list:
         left_addrs = [a for a in addrs if a < 0x200000000]
         right_addrs = [a for a in addrs if a >= 0x200000000]
+
         if left_addrs:
             left_list.append((order, left_addrs))
         if right_addrs:
             right_list.append((order, right_addrs))
 
-    # 生成 light 风格
-    os.makedirs("light", exist_ok=True)
-    plt.style.use('default')
-    fig_light: Figure
-    axs_light: Tuple[Axes, Axes]  # Type hint for the tuple of two Axes
-    fig_light, axs_light = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
-                                        gridspec_kw={'height_ratios': [1, 1]})
-    ax_top_light: Axes = axs_light[0]
-    ax_bottom_light: Axes = axs_light[1]
+    return left_list, right_list
 
-    plot_free_segment(ax_top_light, left_list, (0x100000000, 0x200000000), 'tab:orange',
+
+def create_and_plot_figure(left_list: List[Tuple[int, List[int]]],
+                           right_list: List[Tuple[int, List[int]]]) -> Figure:
+    """创建并绘制图表，返回Figure对象"""
+    fig: Figure
+    axs: Tuple[Axes, Axes]
+    fig, axs = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
+                            gridspec_kw={'height_ratios': [1, 1]})
+    ax_top: Axes = axs[0]
+    ax_bottom: Axes = axs[1]
+
+    plot_free_segment(ax_top, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
-    plot_free_segment(ax_bottom_light, right_list, (0x200000000, 0x300000000), 'tab:blue',
+    plot_free_segment(ax_bottom, right_list, (0x200000000, 0x300000000), 'tab:blue',
                       "Buddy System Free List (High Address Segment)", align_last_left=True)
     plt.tight_layout()
-    plt.savefig("light/buddy-free-list.svg", format="svg", backend="cairo")  # type: ignore[misc]
-    plt.close(fig_light)
+
+    return fig
+
+
+def save_figure_with_style(left_list: List[Tuple[int, List[int]]],
+                           right_list: List[Tuple[int, List[int]]],
+                           style: str, output_dir: str, filename: str) -> None:
+    """使用指定样式保存图表"""
+    os.makedirs(output_dir, exist_ok=True)
+    plt.style.use(style)
+
+    fig = create_and_plot_figure(left_list, right_list)
+    plt.savefig(f"{output_dir}/{filename}", format="svg", backend="cairo")  # type: ignore[misc]
+    plt.close(fig)
+
+
+# 将脚本执行逻辑封装到 main 函数
+def main() -> None:
+    # 自动分割：高地址区间（右侧）和低地址区间（左侧）
+    left_list, right_list = split_address_ranges(free_list)
+
+    # 生成 light 风格
+    save_figure_with_style(left_list, right_list, 'default', 'light', 'buddy-free-list.svg')
 
     # 生成 dark 风格
-    os.makedirs("dark", exist_ok=True)
-    plt.style.use('dark_background')
-    fig_dark: Figure
-    axs_dark: Tuple[Axes, Axes]  # Type hint for the tuple of two Axes
-    fig_dark, axs_dark = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
-                                      gridspec_kw={'height_ratios': [1, 1]})
-    ax_top_dark: Axes = axs_dark[0]
-    ax_bottom_dark: Axes = axs_dark[1]
-
-    plot_free_segment(ax_top_dark, left_list, (0x100000000, 0x200000000), 'tab:orange',
-                      "Buddy System Free List (Low Address Segment)")
-    plot_free_segment(ax_bottom_dark, right_list, (0x200000000, 0x300000000), 'tab:blue',
-                      "Buddy System Free List (High Address Segment)", align_last_left=True)
-    plt.tight_layout()
-    plt.savefig("dark/buddy-free-list.svg", format="svg", backend="cairo")  # type: ignore[misc]
-    plt.close(fig_dark)
+    save_figure_with_style(left_list, right_list, 'dark_background', 'dark', 'buddy-free-list.svg')
 
     # 可选：显示最后一次（dark）风格
     plt.style.use('dark_background')
-    _fig_show: Figure  # Marked as unused
-    axs_show: Tuple[Axes, Axes]  # Type hint for the tuple of two Axes
-    _fig_show, axs_show = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
-                                       gridspec_kw={'height_ratios': [1, 1]})
-    ax_top_show: Axes = axs_show[0]
-    ax_bottom_show: Axes = axs_show[1]
-
-    plot_free_segment(ax_top_show, left_list, (0x100000000, 0x200000000), 'tab:orange',
-                      "Buddy System Free List (Low Address Segment)")
-    plot_free_segment(ax_bottom_show, right_list, (0x200000000, 0x300000000), 'tab:blue',
-                      "Buddy System Free List (High Address Segment)", align_last_left=True)
-    plt.tight_layout()
-    plt.show()  # type: ignore[misc] 
+    create_and_plot_figure(left_list, right_list)
+    plt.show()  # type: ignore[misc]
 
 
 if __name__ == "__main__":
