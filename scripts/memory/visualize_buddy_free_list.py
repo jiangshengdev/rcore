@@ -77,7 +77,9 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
             ax.broken_barh([(addr, size)], (order - 0.4, 0.8), facecolors=color)  # type: ignore[misc]
             
             ha = 'left' if align_left else 'right'
-            x_pos = addr if align_left else addr + size
+            # 直接修改 x_pos 来调整文本位置，使用非常大的固定偏移量
+            offset = 10000000  # 使用更大的固定偏移值
+            x_pos = addr + offset if align_left else addr + size - offset
 
             raw_size_str = human_readable_size(size)
             # 左对齐时，保留 human_readable_size 的原始格式（可能包含其自身的对齐空格）
@@ -86,11 +88,8 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
             
             label_to_plot = f"{hex(addr)}{processed_size_str}"
             
-            # 使用 bbox 参数添加内边距
-            bbox_props = dict(pad=0.25, facecolor='none', edgecolor='none')
             ax.text(x_pos, order, label_to_plot, 
-                    va='center', ha=ha, fontfamily='SF Mono', 
-                    bbox=bbox_props)  # type: ignore[misc]
+                    va='center', ha=ha, fontfamily='SF Mono')  # type: ignore[misc]
             
     ax.set_xlabel("Address")  # type: ignore[misc]
     ax.set_ylabel("Order")  # type: ignore[misc]
