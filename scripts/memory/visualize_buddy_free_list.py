@@ -65,25 +65,36 @@ def tick_formatter(x_val: float, pos_val: int) -> str:
 
 
 def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tuple[int, int], color: str, title: str,
-                      align_last_left: bool = False) -> None:
+                      align_left: bool = False) -> None:
     ax.set_xlim(xlim[0], xlim[1])
     step: float = (xlim[1] - xlim[0]) / (TICK_COUNT - 1)
     xticks_values: List[float] = [xlim[0] + i * step for i in range(TICK_COUNT)]
     ax.set_xticks(xticks_values)  # type: ignore[misc]
     ax.xaxis.set_major_formatter(FuncFormatter(tick_formatter))
-    total = sum(len(addrs) for _, addrs in seg_list)
-    count = 0
     for order, addrs in seg_list:
         for addr in addrs:
             size: int = 1 << order
             ax.broken_barh([(addr, size)], (order - 0.4, 0.8), facecolors=color)  # type: ignore[misc]
-            if align_last_left:
-                ha = 'left' if count == total - 1 else 'right'
-            else:
+
+            padding_spaces = " "  # 一个空格用于内边距
+
+            if align_left:
                 ha = 'left'
-            label = f"{hex(addr)}  {human_readable_size(size)}"
-            ax.text(addr, order, label, va='center', ha=ha, fontfamily='SF Mono')  # type: ignore[misc]
-            count += 1
+                x_pos = addr
+                # For left align, use human_readable_size with its internal padding for column effect
+                readable_size_str = human_readable_size(size)
+                current_base_label = f"{hex(addr)}  {readable_size_str}"
+                label_to_plot = padding_spaces + current_base_label
+            else:  # align_right (inside the bar, from the right edge)
+                ha = 'right'
+                x_pos = addr + size
+                # For right align, strip leading spaces from human_readable_size 
+                # so content is closer to the bar's right edge.
+                stripped_readable_size = human_readable_size(size).lstrip()
+                current_base_label = f"{hex(addr)}  {stripped_readable_size}"
+                label_to_plot = current_base_label + padding_spaces
+
+            ax.text(x_pos, order, label_to_plot, va='center', ha=ha, fontfamily='SF Mono')  # type: ignore[misc]
     ax.set_xlabel("Address")  # type: ignore[misc]
     ax.set_ylabel("Order")  # type: ignore[misc]
     ax.set_yticks([o for o, _ in seg_list])  # type: ignore[misc]
@@ -125,9 +136,9 @@ def create_and_plot_figure(left_list: List[Tuple[int, List[int]]],
     ax_bottom: Axes = axs[1]
 
     plot_free_segment(ax_top, left_list, (0x100000000, 0x200000000), 'tab:orange',
-                      "Buddy System Free List (Low Address Segment)")
+                      "Buddy System Free List (Low Address Segment)", align_left=True)
     plot_free_segment(ax_bottom, right_list, (0x200000000, 0x300000000), 'tab:blue',
-                      "Buddy System Free List (High Address Segment)", align_last_left=True)
+                      "Buddy System Free List (High Address Segment)", align_left=False)
     plt.tight_layout()
 
     return fig
