@@ -75,26 +75,23 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
         for addr in addrs:
             size: int = 1 << order
             ax.broken_barh([(addr, size)], (order - 0.4, 0.8), facecolors=color)  # type: ignore[misc]
+            
+            ha = 'left' if align_left else 'right'
+            x_pos = addr if align_left else addr + size
 
-            padding_spaces = " "  # 一个空格用于内边距
-
-            if align_left:
-                ha = 'left'
-                x_pos = addr
-                # For left align, use human_readable_size with its internal padding for column effect
-                readable_size_str = human_readable_size(size)
-                current_base_label = f"{hex(addr)}  {readable_size_str}"
-                label_to_plot = padding_spaces + current_base_label
-            else:  # align_right (inside the bar, from the right edge)
-                ha = 'right'
-                x_pos = addr + size
-                # For right align, strip leading spaces from human_readable_size 
-                # so content is closer to the bar's right edge.
-                stripped_readable_size = human_readable_size(size).lstrip()
-                current_base_label = f"{hex(addr)}  {stripped_readable_size}"
-                label_to_plot = current_base_label + padding_spaces
-
-            ax.text(x_pos, order, label_to_plot, va='center', ha=ha, fontfamily='SF Mono')  # type: ignore[misc]
+            raw_size_str = human_readable_size(size)
+            # 左对齐时，保留 human_readable_size 的原始格式（可能包含其自身的对齐空格）
+            # 右对齐时，不再去除 human_readable_size 可能添加的前导空格
+            processed_size_str = raw_size_str
+            
+            label_to_plot = f"{hex(addr)}{processed_size_str}"
+            
+            # 使用 bbox 参数添加内边距
+            bbox_props = dict(pad=0.25, facecolor='none', edgecolor='none')
+            ax.text(x_pos, order, label_to_plot, 
+                    va='center', ha=ha, fontfamily='SF Mono', 
+                    bbox=bbox_props)  # type: ignore[misc]
+            
     ax.set_xlabel("Address")  # type: ignore[misc]
     ax.set_ylabel("Order")  # type: ignore[misc]
     ax.set_yticks([o for o, _ in seg_list])  # type: ignore[misc]
