@@ -113,11 +113,11 @@ def main() -> None:
     os.makedirs("light", exist_ok=True)
     plt.style.use('default')
     fig_light: Figure
-    axs_light: NDArray[Any]  # Type hint for the array of Axes
-    fig_light, axs_light = plt.subplots(2, 1, sharey=True, figsize=(13, 13),
-                                        gridspec_kw={'height_ratios': [1, 1]})  # type: ignore[misc]
-    ax_top_light: Axes = axs_light[0]  # type: ignore[assignment]
-    ax_bottom_light: Axes = axs_light[1]  # type: ignore[assignment]
+    axs_light: Tuple[Axes, Axes]  # Type hint for the tuple of two Axes
+    fig_light, axs_light = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
+                                        gridspec_kw={'height_ratios': [1, 1]})
+    ax_top_light: Axes = axs_light[0]
+    ax_bottom_light: Axes = axs_light[1]
 
     plot_free_segment(ax_top_light, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
@@ -131,11 +131,11 @@ def main() -> None:
     os.makedirs("dark", exist_ok=True)
     plt.style.use('dark_background')
     fig_dark: Figure
-    axs_dark: NDArray[Any]  # Type hint for the array of Axes
-    fig_dark, axs_dark = plt.subplots(2, 1, sharey=True, figsize=(13, 13),
-                                      gridspec_kw={'height_ratios': [1, 1]})  # type: ignore[misc]
-    ax_top_dark: Axes = axs_dark[0]  # type: ignore[assignment]
-    ax_bottom_dark: Axes = axs_dark[1]  # type: ignore[assignment]
+    axs_dark: Tuple[Axes, Axes]  # Type hint for the tuple of two Axes
+    fig_dark, axs_dark = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
+                                      gridspec_kw={'height_ratios': [1, 1]})
+    ax_top_dark: Axes = axs_dark[0]
+    ax_bottom_dark: Axes = axs_dark[1]
 
     plot_free_segment(ax_top_dark, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
@@ -148,11 +148,11 @@ def main() -> None:
     # 可选：显示最后一次（dark）风格
     plt.style.use('dark_background')
     _fig_show: Figure  # Marked as unused
-    axs_show: NDArray[Any]  # Type hint for the array of Axes
-    _fig_show, axs_show = plt.subplots(2, 1, sharey=True, figsize=(13, 13),
-                                       gridspec_kw={'height_ratios': [1, 1]})  # type: ignore[misc]
-    ax_top_show: Axes = axs_show[0]  # type: ignore[assignment]
-    ax_bottom_show: Axes = axs_show[1]  # type: ignore[assignment]
+    axs_show: Tuple[Axes, Axes]  # Type hint for the tuple of two Axes
+    _fig_show, axs_show = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
+                                       gridspec_kw={'height_ratios': [1, 1]})
+    ax_top_show: Axes = axs_show[0]
+    ax_bottom_show: Axes = axs_show[1]
 
     plot_free_segment(ax_top_show, left_list, (0x100000000, 0x200000000), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)")
