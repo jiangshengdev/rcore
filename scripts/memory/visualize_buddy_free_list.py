@@ -7,8 +7,13 @@ from matplotlib.figure import Figure
 from matplotlib.ticker import FuncFormatter
 from numpy.typing import NDArray
 
-# 刻度数量常量
+# Constants for memory visualization
 TICK_COUNT = 9
+ADDR_SPLIT_POINT = 0x200000000
+LOW_PLOT_XMIN = 0x100000000
+LOW_PLOT_XMAX = ADDR_SPLIT_POINT
+HIGH_PLOT_XMIN = ADDR_SPLIT_POINT
+HIGH_PLOT_XMAX = 0x300000000
 
 # 示例数据：每个元素为 (order, [addr1, addr2, ...])
 free_list: List[Tuple[int, List[int]]] = [
@@ -75,22 +80,17 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
         for addr in addrs:
             size: int = 1 << order
             ax.broken_barh([(addr, size)], (order - 0.4, 0.8), facecolors=color)  # type: ignore[misc]
-            
+
             ha = 'left' if align_left else 'right'
-            # 直接修改 x_pos 来调整文本位置，使用非常大的固定偏移量
-            offset = 10000000  # 使用更大的固定偏移值
+            offset = 10000000  # Offset for text positioning
             x_pos = addr + offset if align_left else addr + size - offset
 
             raw_size_str = human_readable_size(size)
-            # 左对齐时，保留 human_readable_size 的原始格式（可能包含其自身的对齐空格）
-            # 右对齐时，不再去除 human_readable_size 可能添加的前导空格
-            processed_size_str = raw_size_str
-            
-            label_to_plot = f"{hex(addr)}{processed_size_str}"
-            
-            ax.text(x_pos, order, label_to_plot, 
-                    va='center', ha=ha, fontfamily='SF Mono')  # type: ignore[misc]
-            
+            label_to_plot = f"{hex(addr)}{raw_size_str}"
+
+            ax.text(x_pos, order, label_to_plot,  # type: ignore[misc]
+                    va='center', ha=ha, fontfamily='SF Mono')
+
     ax.set_xlabel("Address")  # type: ignore[misc]
     ax.set_ylabel("Order")  # type: ignore[misc]
     ax.set_yticks([o for o, _ in seg_list])  # type: ignore[misc]
@@ -110,8 +110,8 @@ def split_address_ranges(free_list: List[Tuple[int, List[int]]]) -> Tuple[
     right_list: List[Tuple[int, List[int]]] = []
 
     for order, addrs in free_list:
-        left_addrs = [a for a in addrs if a < 0x200000000]
-        right_addrs = [a for a in addrs if a >= 0x200000000]
+        left_addrs = [a for a in addrs if a < ADDR_SPLIT_POINT]
+        right_addrs = [a for a in addrs if a >= ADDR_SPLIT_POINT]
 
         if left_addrs:
             left_list.append((order, left_addrs))
@@ -131,9 +131,9 @@ def create_and_plot_figure(left_list: List[Tuple[int, List[int]]],
     ax_top: Axes = axs[0]
     ax_bottom: Axes = axs[1]
 
-    plot_free_segment(ax_top, left_list, (0x100000000, 0x200000000), 'tab:orange',
+    plot_free_segment(ax_top, left_list, (LOW_PLOT_XMIN, LOW_PLOT_XMAX), 'tab:orange',
                       "Buddy System Free List (Low Address Segment)", align_left=True)
-    plot_free_segment(ax_bottom, right_list, (0x200000000, 0x300000000), 'tab:blue',
+    plot_free_segment(ax_bottom, right_list, (HIGH_PLOT_XMIN, HIGH_PLOT_XMAX), 'tab:blue',
                       "Buddy System Free List (High Address Segment)", align_left=False)
     plt.tight_layout()
 
