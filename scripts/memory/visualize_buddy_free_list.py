@@ -110,7 +110,7 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
     ax.tick_params(axis='both', colors=text_color)  # type: ignore[misc]
     ax.grid(True, axis='x', linestyle='--', alpha=0.5, color=text_color)  # type: ignore[misc]
     ax.set_title(title, color=text_color)  # type: ignore[misc]
-    
+
     # 设置边框颜色
     for spine in ax.spines.values():  # type: ignore[misc]
         spine.set_edgecolor(border_color)
@@ -142,7 +142,7 @@ def create_and_plot_figure(left_list: List[Tuple[int, List[int]]],
     colors = get_theme_colors(theme)
     orange_color = colors["system_orange"]
     blue_color = colors["system_blue"]
-    
+
     fig: Figure
     axs: Tuple[Axes, Axes]
     fig, axs = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
