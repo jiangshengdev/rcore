@@ -43,9 +43,10 @@ def main():
         for i, addr in enumerate(all_addrs):
             global_addr_map[addr] = (prefix, i)
     # 初始化 DOT 内容和图属性
-    dot_lines = ["digraph MemoryLayout {"]
-    # 设置透明背景
-    dot_lines.append("    graph [bgcolor=transparent];")
+    dot_lines = [
+        "digraph MemoryLayout {",
+        "    graph [bgcolor=transparent];"
+    ]
 
     # 获取主题颜色配置
     colors = get_theme_colors(args.theme)

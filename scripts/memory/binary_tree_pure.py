@@ -18,11 +18,8 @@ MAX_TREE_DEPTH = 10
 def draw_binary_tree(ax: Axes, theme: str = 'light') -> None:
     """绘制纯二叉树分形结构"""
 
-    # 获取主题颜色配置
     colors = get_theme_colors(theme)
     line_color = colors["tree_line"]
-
-    # 背景设置为透明（不设置任何背景色）
 
     def draw_branch(x: float, y: float, angle: float, length: float, order: int):
         """递归绘制树枝"""
@@ -50,8 +47,8 @@ def draw_binary_tree(ax: Axes, theme: str = 'light') -> None:
 
     draw_branch(0, -1.125, math.pi / 2, 1.125, 0)
 
-    ax.set_xlim(-2.5, 2.5)  # 稍微扩大X轴以确保完整显示
-    ax.set_ylim(-1.5, 2.5)  # Y轴更贴合实际树的高度
+    ax.set_xlim(-2.5, 2.5)
+    ax.set_ylim(-1.5, 2.5)
     ax.set_aspect('equal')
     ax.axis('off')
 
@@ -61,7 +58,6 @@ def create_pure_binary_tree(theme: str = 'light') -> Figure:
 
     fig = plt.figure(figsize=(13, 10))  # type: ignore
 
-    # 设置透明背景
     fig.patch.set_facecolor('none')
 
     ax = fig.add_subplot(111)  # type: ignore

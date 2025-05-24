@@ -111,13 +111,13 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
     ax.set_title(title, color=text_color)  # type: ignore[misc]
 
 
-def split_address_ranges(free_list: List[Tuple[int, List[int]]]) -> Tuple[
+def split_address_ranges(buddy_free_list: List[Tuple[int, List[int]]]) -> Tuple[
     List[Tuple[int, List[int]]], List[Tuple[int, List[int]]]]:
     """将地址列表分割为低地址区间和高地址区间"""
     left_list: List[Tuple[int, List[int]]] = []
     right_list: List[Tuple[int, List[int]]] = []
 
-    for order, addrs in free_list:
+    for order, addrs in buddy_free_list:
         left_addrs = [a for a in addrs if a < ADDR_SPLIT_POINT]
         right_addrs = [a for a in addrs if a >= ADDR_SPLIT_POINT]
 

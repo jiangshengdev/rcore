@@ -47,14 +47,14 @@ class MemoryDotGenerator:
         cluster_color = colors["cluster_color"]
         addr_border = border_color
 
-        def make_node(name: str, addr: str, val: str, port1: str, port2: str) -> str:
-            if val == DISPLAY_NULL_VAL:
-                val = PADDED_NULL_DISPLAY
+        def make_node(name: str, node_addr: str, node_val: str, port1: str, port2_name: str) -> str:
+            if node_val == DISPLAY_NULL_VAL:
+                node_val = PADDED_NULL_DISPLAY
             return f'''        {name} [shape=none, margin={NODE_MARGIN}, label=<
             <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="{addr_border}">
                 <TR>
-                    <TD BGCOLOR="{addr_bg}" PORT="{port1}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{addr}</FONT></TD>
-                    <TD BGCOLOR="{val_bg}" PORT="{port2}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{val}</FONT></TD>
+                    <TD BGCOLOR="{addr_bg}" PORT="{port1}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{node_addr}</FONT></TD>
+                    <TD BGCOLOR="{val_bg}" PORT="{port2_name}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{node_val}</FONT></TD>
                 </TR>
             </TABLE>
         >];'''
