@@ -323,3 +323,8 @@ Heap {
 ---
 
 到这里，已经介绍完伙伴系统的核心思想：用二次幂拆分与合并空闲块来应对不同大小的内存请求，并通过侵入式链表高效管理各阶空闲块；剩下的就是在实践中结合示例代码和调试流程亲自验证算法的运行效果了。
+
+![binary-tree-pure.svg](svg/light/binary-tree-pure.svg#gh-light-mode-only)
+![binary-tree-pure.svg](svg/dark/binary-tree-pure.svg#gh-dark-mode-only)
+
+_图示：纯粹的二叉树结构示意图，用于装饰，象征伙伴系统中内存块的分裂与合并过程，体现对称与递归美感。_
