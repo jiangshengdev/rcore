@@ -10,20 +10,19 @@ import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
+from colors import get_theme_colors
+
 MAX_TREE_DEPTH = 10
 
 
 def draw_binary_tree(ax: Axes, theme: str = 'light') -> None:
     """绘制纯二叉树分形结构"""
 
-    if theme == 'dark':
-        bg_color = '#1e1e1e'
-        line_color = '#b0b0b0'
-    else:
-        bg_color = 'white'
-        line_color = '#606060'
+    # 获取主题颜色配置
+    colors = get_theme_colors(theme)
+    line_color = colors["tree_line"]
 
-    ax.set_facecolor(bg_color)
+    # 背景设置为透明（不设置任何背景色）
 
     def draw_branch(x: float, y: float, angle: float, length: float, order: int):
         """递归绘制树枝"""
@@ -60,12 +59,10 @@ def draw_binary_tree(ax: Axes, theme: str = 'light') -> None:
 def create_pure_binary_tree(theme: str = 'light') -> Figure:
     """创建纯二叉树图形"""
 
-    fig = plt.figure(figsize=(13, 13))  # type: ignore
+    fig = plt.figure(figsize=(13, 10))  # type: ignore
 
-    if theme == 'dark':
-        fig.patch.set_facecolor('#1e1e1e')
-    else:
-        fig.patch.set_facecolor('white')
+    # 设置透明背景
+    fig.patch.set_facecolor('none')
 
     ax = fig.add_subplot(111)  # type: ignore
 
@@ -83,7 +80,7 @@ def save_binary_tree_svg(output_dir: str, theme: str = 'light') -> None:
     fig = create_pure_binary_tree(theme)
 
     filename = 'binary-tree-pure.svg'
-    plt.savefig(f"{output_dir}/{filename}", format="svg", backend="cairo")  # type: ignore
+    plt.savefig(f"{output_dir}/{filename}", format="svg", backend="cairo", transparent=True)  # type: ignore
     plt.close(fig)
     print(f"已保存: {output_dir}/{filename}")
 

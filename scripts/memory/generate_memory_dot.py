@@ -2,11 +2,12 @@ import argparse
 import sys
 from typing import List, Dict, Tuple, Any
 
-from scripts.memory.memory_dot_generator import (
+from colors import get_theme_colors
+from memory_dot_generator import (
     MemoryDotGenerator, NULL_VAL,
     RANKDIR, SPLINES, FONT, FONT_SIZE, NODE_MARGIN
 )
-from scripts.memory.parser import parse_gdb_groups
+from parser import parse_gdb_groups
 
 
 def parse_args():
@@ -45,9 +46,11 @@ def main():
     dot_lines = ["digraph MemoryLayout {"]
     # 设置透明背景
     dot_lines.append("    graph [bgcolor=transparent];")
-    light_color = "#1c1e21"
-    dark_color = "#e3e3e3"
-    font_color = light_color if args.theme == 'light' else dark_color
+
+    # 获取主题颜色配置
+    colors = get_theme_colors(args.theme)
+    font_color = colors["text_color"]
+
     dot_lines.extend([
         f"    rankdir={RANKDIR};",
         f"    splines={SPLINES};",

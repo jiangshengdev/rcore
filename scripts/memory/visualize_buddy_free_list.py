@@ -7,6 +7,8 @@ from matplotlib.figure import Figure
 from matplotlib.ticker import FuncFormatter
 from numpy.typing import NDArray
 
+from colors import get_theme_colors
+
 # Constants for memory visualization
 TICK_COUNT = 9
 ADDR_SPLIT_POINT = 0x200000000
@@ -70,7 +72,11 @@ def tick_formatter(x_val: float, pos_val: int) -> str:
 
 
 def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tuple[int, int], color: str, title: str,
-                      align_left: bool = False) -> None:
+                      align_left: bool = False, theme: str = "light") -> None:
+    # 获取主题颜色配置
+    colors = get_theme_colors(theme)
+    text_color = colors["text_color"]
+
     ax.set_xlim(xlim[0], xlim[1])
     step: float = (xlim[1] - xlim[0]) / (TICK_COUNT - 1)
     xticks_values: List[float] = [xlim[0] + i * step for i in range(TICK_COUNT)]
@@ -89,18 +95,20 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
             label_to_plot = f"{hex(addr)}{raw_size_str}"
 
             ax.text(x_pos, order, label_to_plot,  # type: ignore[misc]
-                    va='center', ha=ha, fontfamily='SF Mono')
+                    va='center', ha=ha, fontfamily='SF Mono', color=text_color)
 
-    ax.set_xlabel("Address")  # type: ignore[misc]
-    ax.set_ylabel("Order")  # type: ignore[misc]
+    ax.set_xlabel("Address", color=text_color)  # type: ignore[misc]
+    ax.set_ylabel("Order", color=text_color)  # type: ignore[misc]
     ax.set_yticks([o for o, _ in seg_list])  # type: ignore[misc]
-    ax.set_yticklabels([str(o) for o, _ in seg_list])  # type: ignore[misc]
+    ax.set_yticklabels([str(o) for o, _ in seg_list], color=text_color)  # type: ignore[misc]
 
     current_xticks: NDArray[Any] = ax.get_xticks()  # type: ignore[misc]
-    ax.set_xticklabels([hex(int(x)) for x in current_xticks])  # type: ignore[misc]
+    ax.set_xticklabels([hex(int(x)) for x in current_xticks], color=text_color)  # type: ignore[misc]
 
-    ax.grid(True, axis='x', linestyle='--', alpha=0.5)  # type: ignore[misc]
-    ax.set_title(title)  # type: ignore[misc]
+    # 设置刻度线颜色
+    ax.tick_params(axis='both', colors=text_color)  # type: ignore[misc]
+    ax.grid(True, axis='x', linestyle='--', alpha=0.5, color=text_color)  # type: ignore[misc]
+    ax.set_title(title, color=text_color)  # type: ignore[misc]
 
 
 def split_address_ranges(free_list: List[Tuple[int, List[int]]]) -> Tuple[
@@ -122,19 +130,27 @@ def split_address_ranges(free_list: List[Tuple[int, List[int]]]) -> Tuple[
 
 
 def create_and_plot_figure(left_list: List[Tuple[int, List[int]]],
-                           right_list: List[Tuple[int, List[int]]]) -> Figure:
+                           right_list: List[Tuple[int, List[int]]], theme: str = "light") -> Figure:
     """创建并绘制图表，返回Figure对象"""
     fig: Figure
     axs: Tuple[Axes, Axes]
     fig, axs = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
                             gridspec_kw={'height_ratios': [1, 1]})
+
+    # 设置图表背景为透明
+    fig.patch.set_alpha(0)  # type: ignore[misc]
+
     ax_top: Axes = axs[0]
     ax_bottom: Axes = axs[1]
 
+    # 设置子图背景为透明
+    ax_top.patch.set_alpha(0)  # type: ignore[misc]
+    ax_bottom.patch.set_alpha(0)  # type: ignore[misc]
+
     plot_free_segment(ax_top, left_list, (LOW_PLOT_XMIN, LOW_PLOT_XMAX), 'tab:orange',
-                      "Buddy System Free List (Low Address Segment)", align_left=True)
+                      "Buddy System Free List (Low Address Segment)", align_left=True, theme=theme)
     plot_free_segment(ax_bottom, right_list, (HIGH_PLOT_XMIN, HIGH_PLOT_XMAX), 'tab:blue',
-                      "Buddy System Free List (High Address Segment)", align_left=False)
+                      "Buddy System Free List (High Address Segment)", align_left=False, theme=theme)
     plt.tight_layout()
 
     return fig
@@ -147,8 +163,10 @@ def save_figure_with_style(left_list: List[Tuple[int, List[int]]],
     os.makedirs(output_dir, exist_ok=True)
     plt.style.use(style)
 
-    fig = create_and_plot_figure(left_list, right_list)
-    plt.savefig(f"{output_dir}/{filename}", format="svg", backend="cairo")  # type: ignore[misc]
+    # 根据样式确定主题
+    theme = "dark" if style == "dark_background" else "light"
+    fig = create_and_plot_figure(left_list, right_list, theme)
+    plt.savefig(f"{output_dir}/{filename}", format="svg", backend="cairo", transparent=True)  # type: ignore[misc]
     plt.close(fig)
 
 
@@ -165,7 +183,7 @@ def main() -> None:
 
     # 可选：显示最后一次（dark）风格
     plt.style.use('dark_background')
-    create_and_plot_figure(left_list, right_list)
+    create_and_plot_figure(left_list, right_list, "dark")
     plt.show()  # type: ignore[misc]
 
 

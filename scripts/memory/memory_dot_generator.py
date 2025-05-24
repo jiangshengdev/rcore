@@ -1,7 +1,8 @@
 import math
 from typing import List, Dict
 
-from scripts.memory.parser import parse_gdb_output
+from colors import get_theme_colors, hex_with_alpha
+from parser import parse_gdb_output
 
 # DOT 生成及内存格式化相关常量
 # 空指针的实际数值表示
@@ -23,24 +24,6 @@ CELL_PADDING = 4
 # 节点间距
 NODE_MARGIN = 0.125
 
-# 系统 UI 颜色：粉色
-SYSTEM_PINK_LIGHT = "#FF2D55"
-SYSTEM_PINK_DARK = "#FF375F"
-
-# 系统 UI 颜色：绿色
-SYSTEM_GREEN_LIGHT = "#34C759"
-SYSTEM_GREEN_DARK = "#30D158"
-
-
-# 根据给定十六进制颜色和透明度生成带 alpha 通道的 RGBA 颜色字符串
-def _hex_with_alpha(hex_color: str, alpha: float) -> str:
-    """将 #RRGGBB 颜色与 alpha 混合，返回 #RRGGBBAA"""
-    r = int(hex_color[1:3], 16)
-    g = int(hex_color[3:5], 16)
-    b = int(hex_color[5:7], 16)
-    a = int(alpha * 255)
-    return f"#{r:02X}{g:02X}{b:02X}{a:02X}"
-
 
 class MemoryDotGenerator:
     """封装 GDB 输出解析与 Graphviz DOT 生成"""
@@ -54,19 +37,14 @@ class MemoryDotGenerator:
     def to_dot(memory: Dict[str, str], addresses: List[str], prefix: str = "", theme: str = "light") -> str:
         """生成 Graphviz DOT 格式字符串，支持 4 列矩阵布局"""
 
-        # 根据主题设置边框和文字颜色，边框写死黑白，背景使用系统 UI 颜色
-        if theme == 'dark':
-            border_color = "#e3e3e3"
-            text_color = "#e3e3e3"
-            addr_bg = _hex_with_alpha(SYSTEM_PINK_DARK, 0.125)
-            val_bg = _hex_with_alpha(SYSTEM_GREEN_DARK, 0.125)
-            cluster_color = "gray25"
-        else:
-            border_color = "#1c1e21"
-            text_color = "#1c1e21"
-            addr_bg = _hex_with_alpha(SYSTEM_PINK_LIGHT, 0.125)
-            val_bg = _hex_with_alpha(SYSTEM_GREEN_LIGHT, 0.125)
-            cluster_color = "gray75"
+        # 获取主题颜色配置
+        colors = get_theme_colors(theme)
+
+        border_color = colors["border_color"]
+        text_color = colors["text_color"]
+        addr_bg = hex_with_alpha(colors["system_pink"], 0.125)
+        val_bg = hex_with_alpha(colors["system_green"], 0.125)
+        cluster_color = colors["cluster_color"]
         addr_border = border_color
 
         def make_node(name: str, addr: str, val: str, port1: str, port2: str) -> str:
