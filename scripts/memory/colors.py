@@ -14,6 +14,25 @@ SYSTEM_PINK_DARK = "#FF375F"
 SYSTEM_GREEN_LIGHT = "#34C759"
 SYSTEM_GREEN_DARK = "#30D158"
 
+# 系统 UI 颜色：蓝色
+SYSTEM_BLUE_LIGHT = '#007AFF'
+SYSTEM_BLUE_DARK = '#0A84FF'
+
+# 系统 UI 颜色：橙色
+SYSTEM_ORANGE_LIGHT = '#FF9500'
+SYSTEM_ORANGE_DARK = '#FF9F0A'
+
+# 系统 UI 颜色：灰色
+SYSTEM_GRAY = '#8E8E93'
+
+# 系统 UI 颜色：灰色2
+SYSTEM_GRAY2_LIGHT = '#AEAEB2'
+SYSTEM_GRAY2_DARK = '#636366'
+
+# 系统 UI 颜色：灰色3
+SYSTEM_GRAY3_LIGHT = '#C7C7CC'
+SYSTEM_GRAY3_DARK = '#48484A'
+
 
 def hex_with_alpha(hex_color: str, alpha: float) -> str:
     """
@@ -43,12 +62,14 @@ THEME_COLORS: Dict[str, Dict[str, Any]] = {
         "addr_bg": hex_with_alpha(SYSTEM_PINK_LIGHT, 0.125),
         "val_bg": hex_with_alpha(SYSTEM_GREEN_LIGHT, 0.125),
         # 集群颜色
-        "cluster_color": "gray75",
+        "cluster_color": SYSTEM_GRAY3_LIGHT,
         # 系统颜色
         "system_pink": SYSTEM_PINK_LIGHT,
         "system_green": SYSTEM_GREEN_LIGHT,
+        "system_blue": SYSTEM_BLUE_LIGHT,
+        "system_orange": SYSTEM_ORANGE_LIGHT,
         # 二叉树专用颜色
-        "tree_line": "#606060",
+        "tree_line": SYSTEM_GRAY,
     },
     "dark": {
         # 文字和边框颜色
@@ -58,12 +79,14 @@ THEME_COLORS: Dict[str, Dict[str, Any]] = {
         "addr_bg": hex_with_alpha(SYSTEM_PINK_DARK, 0.125),
         "val_bg": hex_with_alpha(SYSTEM_GREEN_DARK, 0.125),
         # 集群颜色
-        "cluster_color": "gray25",
+        "cluster_color": SYSTEM_GRAY3_DARK,
         # 系统颜色
         "system_pink": SYSTEM_PINK_DARK,
         "system_green": SYSTEM_GREEN_DARK,
+        "system_blue": SYSTEM_BLUE_DARK,
+        "system_orange": SYSTEM_ORANGE_DARK,
         # 二叉树专用颜色
-        "tree_line": "#b0b0b0",
+        "tree_line": SYSTEM_GRAY,
     }
 }
 

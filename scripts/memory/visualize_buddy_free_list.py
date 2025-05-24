@@ -76,6 +76,7 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
     # 获取主题颜色配置
     colors = get_theme_colors(theme)
     text_color = colors["text_color"]
+    border_color = colors["border_color"]
 
     ax.set_xlim(xlim[0], xlim[1])
     step: float = (xlim[1] - xlim[0]) / (TICK_COUNT - 1)
@@ -109,6 +110,11 @@ def plot_free_segment(ax: Axes, seg_list: List[Tuple[int, List[int]]], xlim: Tup
     ax.tick_params(axis='both', colors=text_color)  # type: ignore[misc]
     ax.grid(True, axis='x', linestyle='--', alpha=0.5, color=text_color)  # type: ignore[misc]
     ax.set_title(title, color=text_color)  # type: ignore[misc]
+    
+    # 设置边框颜色
+    for spine in ax.spines.values():  # type: ignore[misc]
+        spine.set_edgecolor(border_color)
+        spine.set_linewidth(1.0)
 
 
 def split_address_ranges(buddy_free_list: List[Tuple[int, List[int]]]) -> Tuple[
@@ -132,6 +138,11 @@ def split_address_ranges(buddy_free_list: List[Tuple[int, List[int]]]) -> Tuple[
 def create_and_plot_figure(left_list: List[Tuple[int, List[int]]],
                            right_list: List[Tuple[int, List[int]]], theme: str = "light") -> Figure:
     """创建并绘制图表，返回Figure对象"""
+    # 获取主题颜色配置
+    colors = get_theme_colors(theme)
+    orange_color = colors["system_orange"]
+    blue_color = colors["system_blue"]
+    
     fig: Figure
     axs: Tuple[Axes, Axes]
     fig, axs = plt.subplots(2, 1, sharey=True, figsize=(13, 13),  # type: ignore[misc]
@@ -147,9 +158,9 @@ def create_and_plot_figure(left_list: List[Tuple[int, List[int]]],
     ax_top.patch.set_alpha(0)  # type: ignore[misc]
     ax_bottom.patch.set_alpha(0)  # type: ignore[misc]
 
-    plot_free_segment(ax_top, left_list, (LOW_PLOT_XMIN, LOW_PLOT_XMAX), 'tab:orange',
+    plot_free_segment(ax_top, left_list, (LOW_PLOT_XMIN, LOW_PLOT_XMAX), orange_color,
                       "Buddy System Free List (Low Address Segment)", align_left=True, theme=theme)
-    plot_free_segment(ax_bottom, right_list, (HIGH_PLOT_XMIN, HIGH_PLOT_XMAX), 'tab:blue',
+    plot_free_segment(ax_bottom, right_list, (HIGH_PLOT_XMIN, HIGH_PLOT_XMAX), blue_color,
                       "Buddy System Free List (High Address Segment)", align_left=False, theme=theme)
     plt.tight_layout()
 
