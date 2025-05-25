@@ -140,7 +140,7 @@ All applications completed!
 修改完成后，需要执行：
 
 ```shell
-cd <你的实验项目目录>/os
+cd <实验仓库>/os
 make build
 ```
 
@@ -167,7 +167,7 @@ make build
 
 ### 配置调试环境
 
-使用 CLion 打开 `<你的实验项目目录>/os` 项目目录。
+使用 CLion 打开 `<实验仓库>/os` 项目目录。
 
 点击菜单中的「运行 -> 编辑配置...」，打开「运行/调试配置」弹窗。
 
@@ -182,7 +182,7 @@ make build
 - 'target remote' 实参：`localhost:1234`
 - 符号文件：
   - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/os`
-  - `<你的实验项目目录>/os/target/riscv64gc-unknown-none-elf/debug/os`
+  - `<实验仓库>/os/target/riscv64gc-unknown-none-elf/debug/os`
 
 ![debug-config-finish.webp](webp/light/debug-config-finish.webp#gh-light-mode-only)
 ![debug-config-finish.webp](webp/dark/debug-config-finish.webp#gh-dark-mode-only)
@@ -199,7 +199,7 @@ make build
 在项目 `os` 目录下执行如下命令以启动调试服务器端：
 
 ```shell
-cd <你的实验项目目录>/os
+cd <实验仓库>/os
 make gdbserver
 ```
 
@@ -244,7 +244,7 @@ disconnect
 在终端，启动另外一个调试客户端 `gdbclient`：
 
 ```shell
-cd <你的实验项目目录>/os
+cd <实验仓库>/os
 make gdbclient
 ```
 
@@ -299,7 +299,7 @@ x /34gx $sp
 
 ### 配置调试环境
 
-使用 CLion 打开 `<你的实验项目目录>/user` 项目目录。
+使用 CLion 打开 `<实验仓库>/user` 项目目录。
 
 点击菜单中的「运行 -> 编辑配置...」，打开「运行/调试配置」弹窗。
 
@@ -311,7 +311,7 @@ x /34gx $sp
 - 'target remote' 实参：`localhost:1234`
 - 符号文件：
   - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world`
-  - `<你的实验项目目录>/user/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world`
+  - `<实验仓库>/user/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world`
 
 ![user-config.webp](webp/light/user-config.webp#gh-light-mode-only)
 ![user-config.webp](webp/dark/user-config.webp#gh-dark-mode-only)
