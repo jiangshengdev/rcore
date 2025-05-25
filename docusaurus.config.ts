@@ -63,6 +63,10 @@ const config: Config = {
   ],
 
   themeConfig: {
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 4,
+    },
     // Replace with your project's social card
     image: 'img/social-card.png',
     navbar: {
