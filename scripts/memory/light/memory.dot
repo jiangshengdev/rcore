@@ -13,7 +13,7 @@ digraph MemoryLayout {
             <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="#1c1e21">
                 <TR>
                     <TD BGCOLOR="#FF2D551F" PORT="addr" ALIGN="LEFT" CELLPADDING="4"><FONT COLOR="#1c1e21">0x80218e20</FONT></TD>
-                    <TD BGCOLOR="#34C7591F" PORT="next" ALIGN="LEFT" CELLPADDING="4"><FONT COLOR="#1c1e21">0x80218dc0</FONT></TD>
+                    <TD BGCOLOR="#34C7591F" PORT="val" ALIGN="LEFT" CELLPADDING="4"><FONT COLOR="#1c1e21">0x80218dc0</FONT></TD>
                 </TR>
             </TABLE>
         >];
@@ -30,7 +30,7 @@ digraph MemoryLayout {
             <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="#1c1e21">
                 <TR>
                     <TD BGCOLOR="#FF2D551F" PORT="addr" ALIGN="LEFT" CELLPADDING="4"><FONT COLOR="#1c1e21">0x80218d48</FONT></TD>
-                    <TD BGCOLOR="#34C7591F" PORT="next" ALIGN="LEFT" CELLPADDING="4"><FONT COLOR="#1c1e21">0x00000000</FONT></TD>
+                    <TD BGCOLOR="#34C7591F" PORT="val" ALIGN="LEFT" CELLPADDING="4"><FONT COLOR="#1c1e21">0x00000000</FONT></TD>
                 </TR>
             </TABLE>
         >];
@@ -198,7 +198,7 @@ digraph MemoryLayout {
         g2_node11 -> g2_node15 [style=invis, constraint=false];
     }
 
-    g1_node0:next -> g2_node15:addr;
+    g1_node0:val -> g2_node15:addr;
     g2_node1:val -> g2_node0:addr;
     g2_node2:val -> g2_node1:addr;
     g2_node3:val -> g2_node2:addr;

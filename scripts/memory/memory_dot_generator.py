@@ -47,13 +47,13 @@ class MemoryDotGenerator:
         cluster_color = colors["cluster_color"]
         addr_border = border_color
 
-        def make_node(name: str, node_addr: str, node_val: str, port1: str, port2_name: str) -> str:
+        def make_node(name: str, node_addr: str, node_val: str, port1_name: str, port2_name: str) -> str:
             if node_val == DISPLAY_NULL_VAL:
                 node_val = PADDED_NULL_DISPLAY
             return f'''        {name} [shape=none, margin={NODE_MARGIN}, label=<
             <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="{addr_border}">
                 <TR>
-                    <TD BGCOLOR="{addr_bg}" PORT="{port1}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{node_addr}</FONT></TD>
+                    <TD BGCOLOR="{addr_bg}" PORT="{port1_name}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{node_addr}</FONT></TD>
                     <TD BGCOLOR="{val_bg}" PORT="{port2_name}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{node_val}</FONT></TD>
                 </TR>
             </TABLE>
@@ -74,7 +74,7 @@ class MemoryDotGenerator:
         for r, row in enumerate(matrix):
             for c, addr in enumerate(row):
                 idx = r * cols + c
-                port2 = 'next' if idx == 0 else 'val'
+                port2 = 'val'
                 dot_lines.append(make_node(
                     f"{prefix}node{idx}", addr,
                     memory.get(addr, DISPLAY_NULL_VAL),

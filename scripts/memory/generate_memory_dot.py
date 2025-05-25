@@ -74,7 +74,7 @@ def main():
             val = info['memory'].get(addr)
             if val and val != NULL_VAL and val in global_addr_map:
                 tgt_prefix, tgt_i = global_addr_map[val]
-                src_port = 'next' if i == 0 else 'val'
+                src_port = 'val'
                 dot_lines.append(f"    {prefix}node{i}:{src_port} -> {tgt_prefix}node{tgt_i}:addr;")
     # 结束 DOT 定义并打印输出
     dot_lines.append("}")
