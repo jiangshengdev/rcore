@@ -35,7 +35,7 @@ convert_one() {
   rel="${file#"$imgdir"/}"
   target="$webpdir/${rel%.png}.webp"
   mkdir -p "${target%/*}"
-  cwebp -lossless -z 9 -exact -mt "$file" -o "$target"
+  cwebp -lossless -z 9 -exact -mt -metadata icc "$file" -o "$target"
   echo "已转换: $file -> $target"
 }
 export -f convert_one
