@@ -5,7 +5,6 @@
 """
 
 __version__ = "1.0.0"
-__author__ = "rcore team"
 
 # 导出主要的类和函数，保持向后兼容
 from .core.generator import MemoryDotGenerator
