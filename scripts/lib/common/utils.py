@@ -5,10 +5,10 @@
 """
 
 import os
-from typing import Optional
+from typing import Optional, Tuple
 
 
-def find_project_root(marker_files: tuple = ("docusaurus.config.ts", "package.json")) -> Optional[str]:
+def find_project_root(marker_files: Tuple[str, ...] = ("docusaurus.config.ts", "package.json")) -> Optional[str]:
     """
     自动寻找项目根目录
     
