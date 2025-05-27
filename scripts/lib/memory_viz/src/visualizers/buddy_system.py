@@ -1,3 +1,7 @@
+"""
+伙伴系统可视化模块
+可视化伙伴系统的内存空闲列表
+"""
 import os
 from typing import List, Tuple, Any
 
@@ -7,7 +11,7 @@ from matplotlib.figure import Figure
 from matplotlib.ticker import FuncFormatter
 from numpy.typing import NDArray
 
-from colors import get_theme_colors
+from ..core.colors import get_theme_colors
 
 # Constants for memory visualization
 TICK_COUNT = 9
@@ -183,19 +187,24 @@ def save_figure_with_style(left_list: List[Tuple[int, List[int]]],
 
 # 将脚本执行逻辑封装到 main 函数
 def main() -> None:
+    # 获取当前模块的目录
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    output_base_dir = os.path.join(current_dir, '..', '..', 'output')
+    
+    # 确保输出目录存在
+    light_dir = os.path.join(output_base_dir, 'light')
+    dark_dir = os.path.join(output_base_dir, 'dark')
+    
     # 自动分割：高地址区间（右侧）和低地址区间（左侧）
     left_list, right_list = split_address_ranges(free_list)
 
-    # 生成 light 风格
-    save_figure_with_style(left_list, right_list, 'default', 'light', 'buddy-free-list.svg')
+    # 生成 light 风格 - 使用重构后的输出路径
+    save_figure_with_style(left_list, right_list, 'default', light_dir, 'buddy-free-list.svg')
 
-    # 生成 dark 风格
-    save_figure_with_style(left_list, right_list, 'dark_background', 'dark', 'buddy-free-list.svg')
+    # 生成 dark 风格 - 使用重构后的输出路径
+    save_figure_with_style(left_list, right_list, 'dark_background', dark_dir, 'buddy-free-list.svg')
 
-    # 可选：显示最后一次（dark）风格
-    plt.style.use('dark_background')
-    create_and_plot_figure(left_list, right_list, "dark")
-    plt.show()  # type: ignore[misc]
+    print("伙伴系统可视化文件已生成完成")
 
 
 if __name__ == "__main__":

@@ -15,9 +15,9 @@
     "typecheck": "tsc",
     "dev": "docusaurus start",
     "format": "prettier blog docs src --write",
-    "webp": "./scripts/convert-png-to-webp.sh",
-    "svgo": "./scripts/convert-svg-to-svgo.sh",
-    "memory": "./scripts/generate-memory.sh"
+    "webp": "./scripts/lib/image/convert-png-to-webp.sh",
+    "svgo": "./scripts/lib/image/convert-svg-to-svgo.sh",
+    "memory": "./scripts/lib/memory_viz/bin/generate-memory.sh"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",

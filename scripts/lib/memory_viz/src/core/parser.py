@@ -1,3 +1,7 @@
+"""
+GDB 输出解析模块
+解析 GDB 内存输出为结构化数据
+"""
 import re
 from typing import List, Dict, Tuple, Any, Optional
 

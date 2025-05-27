@@ -1,8 +1,12 @@
+"""
+内存 DOT 生成器模块
+封装 GDB 输出解析与 Graphviz DOT 生成功能
+"""
 import math
 from typing import List, Dict
 
-from colors import get_theme_colors, hex_with_alpha
-from parser import parse_gdb_output
+from .colors import get_theme_colors, hex_with_alpha
+from .parser import parse_gdb_output
 
 # DOT 生成及内存格式化相关常量
 # 空指针的实际数值表示

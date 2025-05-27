@@ -1,5 +1,5 @@
 """
-纯二叉树分形可视化
+纯二叉树分形可视化模块
 基于伙伴系统的面积1:2递归模式，生成纯图形的二叉树
 """
 
@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from colors import get_theme_colors
+from ..core.colors import get_theme_colors
 
 MAX_TREE_DEPTH = 10
 
@@ -83,13 +83,16 @@ def save_binary_tree_svg(output_dir: str, theme: str = 'light') -> None:
 
 def main() -> None:
     """主函数：生成纯二叉树图形"""
-
-    save_binary_tree_svg('light', 'light')
-
-    save_binary_tree_svg('dark', 'dark')
-
-    create_pure_binary_tree('light')
-    plt.show()  # type: ignore
+    # 获取当前模块的目录
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    output_base_dir = os.path.join(current_dir, '..', '..', 'output')
+    
+    # 确保输出目录存在
+    light_dir = os.path.join(output_base_dir, 'light')
+    dark_dir = os.path.join(output_base_dir, 'dark')
+    
+    save_binary_tree_svg(light_dir, 'light')
+    save_binary_tree_svg(dark_dir, 'dark')
 
     print("纯二叉树SVG文件已生成完成")
 

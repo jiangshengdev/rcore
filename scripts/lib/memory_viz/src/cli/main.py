@@ -1,13 +1,17 @@
+"""
+内存可视化命令行主程序
+读取 GDB 输出、生成内存布局的 Graphviz DOT 文本并输出
+"""
 import argparse
 import sys
 from typing import List, Dict, Tuple, Any
 
-from colors import get_theme_colors
-from memory_dot_generator import (
+from ..core.colors import get_theme_colors
+from ..core.generator import (
     MemoryDotGenerator, NULL_VAL,
     RANKDIR, SPLINES, FONT, FONT_SIZE, NODE_MARGIN
 )
-from parser import parse_gdb_groups
+from ..core.parser import parse_gdb_groups
 
 
 def parse_args():
