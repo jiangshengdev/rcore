@@ -190,11 +190,11 @@ def main() -> None:
     # 获取当前模块的目录
     current_dir = os.path.dirname(os.path.abspath(__file__))
     output_base_dir = os.path.join(current_dir, '..', '..', 'output')
-    
+
     # 确保输出目录存在
     light_dir = os.path.join(output_base_dir, 'light')
     dark_dir = os.path.join(output_base_dir, 'dark')
-    
+
     # 自动分割：高地址区间（右侧）和低地址区间（左侧）
     left_list, right_list = split_address_ranges(free_list)
 

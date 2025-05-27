@@ -19,13 +19,13 @@ def find_project_root(marker_files: Tuple[str, ...] = ("docusaurus.config.ts", "
         项目根目录的绝对路径，如果未找到则返回 None
     """
     current_dir = os.getcwd()
-    
+
     while current_dir != "/":
         for marker in marker_files:
             if os.path.isfile(os.path.join(current_dir, marker)):
                 return current_dir
         current_dir = os.path.dirname(current_dir)
-    
+
     return None
 
 

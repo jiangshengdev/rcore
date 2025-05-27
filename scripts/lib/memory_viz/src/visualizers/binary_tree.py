@@ -86,11 +86,11 @@ def main() -> None:
     # 获取当前模块的目录
     current_dir = os.path.dirname(os.path.abspath(__file__))
     output_base_dir = os.path.join(current_dir, '..', '..', 'output')
-    
+
     # 确保输出目录存在
     light_dir = os.path.join(output_base_dir, 'light')
     dark_dir = os.path.join(output_base_dir, 'dark')
-    
+
     save_binary_tree_svg(light_dir, 'light')
     save_binary_tree_svg(dark_dir, 'dark')
 
