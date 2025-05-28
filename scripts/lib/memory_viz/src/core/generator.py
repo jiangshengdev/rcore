@@ -5,7 +5,7 @@
 import math
 from typing import List, Dict
 
-from .colors import get_theme_colors, hex_with_alpha
+from .colors import get_theme_colors
 from .parser import parse_gdb_output
 
 # DOT 生成及内存格式化相关常量
@@ -46,8 +46,9 @@ class MemoryDotGenerator:
 
         border_color = colors["border_color"]
         text_color = colors["text_color"]
-        addr_bg = hex_with_alpha(colors["system_pink"], 0.125)
-        val_bg = hex_with_alpha(colors["system_green"], 0.125)
+        # 使用预定义的带透明度背景颜色
+        addr_bg = colors["addr_bg"]
+        val_bg = colors["val_bg"]
         cluster_color = colors["cluster_color"]
         addr_border = border_color
 
