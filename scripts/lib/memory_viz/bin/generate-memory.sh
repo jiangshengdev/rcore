@@ -1,5 +1,5 @@
 #!/bin/bash
-# 内存可视化生成脚本 - 重构版本
+# 内存可视化生成脚本
 # 这个脚本提供了与原始脚本完全相同的接口，确保向后兼容
 
 set -e
@@ -41,7 +41,7 @@ if [ -z "$rootdir" ]; then
 fi
 cd "$rootdir"
 
-# 使用重构后的模块，输出到重构后的目录
+# 生成可视化文件到指定目录
 # 生成 light 主题
 mkdir -p "$MEMORY_VIZ_DIR/output/light"
 cd "$rootdir" && python3 -m scripts.lib.memory_viz.src.cli.main "$MEMORY_VIZ_DIR/data/mem.txt" --theme light > "$MEMORY_VIZ_DIR/output/light/memory.dot"

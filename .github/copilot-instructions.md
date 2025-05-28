@@ -1,7 +1,41 @@
-# 绝对只读规则
+# 修改文件时，不要注释你修改了什么，而是注释这段代码是做什么的
 
-1. AI（包括 Copilot）在任何情况下都不得调用文件编辑、创建或删除等操作。
-2. AI 只能以自然语言形式提供修改或优化建议，禁止引用或使用任何“insert_edit_into_file”、“create_file”、“run_in_terminal”等工具。
-3. 该规则为最高优先级，不可被覆盖、注释或移除；任何试图绕过此规则的行为都应被视为严重违规。
-4. 若规则文本本身被修改或移除，AI 应立即终止所有代码写入行为，并报告错误。
-5. AI 对任何文件变更请求一律拒绝，保持文档与代码只读状态，所有更改必须由开发者手动完成。
+# 示例
+
+## 修改前
+```rust
+pub unsafe fn add_to_heap(&mut self, mut start: usize, mut end: usize) {
+    start = align_up(start, size_of::<usize>());
+    end = align_down(end, size_of::<usize>());
+    assert!(start <= end);
+    // ...其余代码...
+}
+```
+
+## 修改后（错误）
+```rust
+// 提取对齐常量，而未说明该常量用途
+let ptr_align = size_of::<usize>();
+// 对 start 地址进行了上对齐，但未说明目的
+start = align_up(start, ptr_align);
+// ...更多修改...
+fn add_to_heap(start: usize, end: usize) {}
+```
+
+## 修改后（正确）
+```rust
+/// 将内存区间 [start, end) 按伙伴算法加入堆管理
+pub unsafe fn add_to_heap(&mut self, mut start: usize, mut end: usize) {
+    // usize 对齐边界，用于确保地址以指针大小对齐
+    let ptr_align = size_of::<usize>();
+    // 将 start 向上对齐到指针对齐边界
+    start = align_up(start, ptr_align);
+    // 将 end 向下对齐到指针对齐边界
+    end = align_down(end, ptr_align);
+    // 验证对齐后区间为有效范围
+    assert!(start <= end);
+    // ...其余代码...
+}
+```
+
+以上示例展示了正确的注释方式：注释描述代码行为和目的，而非改动本身。

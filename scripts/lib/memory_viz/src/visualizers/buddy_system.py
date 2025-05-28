@@ -198,10 +198,10 @@ def main() -> None:
     # 自动分割：高地址区间（右侧）和低地址区间（左侧）
     left_list, right_list = split_address_ranges(free_list)
 
-    # 生成 light 风格 - 使用重构后的输出路径
+    # 生成 light 风格输出
     save_figure_with_style(left_list, right_list, 'default', light_dir, 'buddy-free-list.svg')
 
-    # 生成 dark 风格 - 使用重构后的输出路径
+    # 生成 dark 风格输出
     save_figure_with_style(left_list, right_list, 'dark_background', dark_dir, 'buddy-free-list.svg')
 
     print("伙伴系统可视化文件已生成完成")
