@@ -3,6 +3,7 @@
 # 示例
 
 ## 修改前
+
 ```rust
 pub unsafe fn add_to_heap(&mut self, mut start: usize, mut end: usize) {
     start = align_up(start, size_of::<usize>());
@@ -13,6 +14,7 @@ pub unsafe fn add_to_heap(&mut self, mut start: usize, mut end: usize) {
 ```
 
 ## 修改后（错误）
+
 ```rust
 // 提取对齐常量，而未说明该常量用途
 let ptr_align = size_of::<usize>();
@@ -23,6 +25,7 @@ fn add_to_heap(start: usize, end: usize) {}
 ```
 
 ## 修改后（正确）
+
 ```rust
 /// 将内存区间 [start, end) 按伙伴算法加入堆管理
 pub unsafe fn add_to_heap(&mut self, mut start: usize, mut end: usize) {
