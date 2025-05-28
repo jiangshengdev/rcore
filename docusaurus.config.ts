@@ -6,6 +6,11 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const isVercel = process.env.VERCEL === '1';
 const config: Config = {
+  future: {
+    experimental_faster: true,
+    v4: true,
+  },
+
   title: 'rCore Study Blog',
   tagline: 'rCore are cool',
   favicon: 'img/favicon.ico',
