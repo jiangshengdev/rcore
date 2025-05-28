@@ -59,8 +59,8 @@ THEME_COLORS: Dict[str, Dict[str, Any]] = {
         "text_color": "#1c1e21",
         "border_color": "#1c1e21",
         # 背景颜色 (带透明度)
-        "addr_bg": hex_with_alpha(SYSTEM_PINK_LIGHT, 0.125),
-        "val_bg": hex_with_alpha(SYSTEM_GREEN_LIGHT, 0.125),
+        "addr_bg": hex_with_alpha(SYSTEM_PINK_LIGHT, 0.18),
+        "val_bg": hex_with_alpha(SYSTEM_GREEN_LIGHT, 0.18),
         # 集群颜色
         "cluster_color": SYSTEM_GRAY3_LIGHT,
         # 系统颜色
@@ -76,8 +76,8 @@ THEME_COLORS: Dict[str, Dict[str, Any]] = {
         "text_color": "#e3e3e3",
         "border_color": "#e3e3e3",
         # 背景颜色 (带透明度)
-        "addr_bg": hex_with_alpha(SYSTEM_PINK_DARK, 0.125),
-        "val_bg": hex_with_alpha(SYSTEM_GREEN_DARK, 0.125),
+        "addr_bg": hex_with_alpha(SYSTEM_PINK_DARK, 0.18),
+        "val_bg": hex_with_alpha(SYSTEM_GREEN_DARK, 0.18),
         # 集群颜色
         "cluster_color": SYSTEM_GRAY3_DARK,
         # 系统颜色
