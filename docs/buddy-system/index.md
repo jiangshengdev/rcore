@@ -172,7 +172,7 @@ $4 = (*mut usize) 0x0
 
 堆的相关代码见：
 
-> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system-heap/os/src/buddy_system/heap
 
 为便于调试，本仓库在原版实现基础上做了少量调整，但核心原理保持一致。
 
@@ -180,7 +180,7 @@ $4 = (*mut usize) 0x0
 
 堆的初始化函数定义在 `ctor.rs` 中：
 
-> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap/ctor.rs
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/blob/buddy-system-heap/os/src/buddy_system/heap/ctor.rs
 
 调用 `Heap::<ORDER>::new()` 时，会创建一个长度为 `ORDER` 的空链表数组 `free_list`，并将 `user`、`allocated`、`total` 均置为
 0。通过调试可见，所有阶次的链表此时都为空，用于管理不同大小的空闲内存块：
@@ -229,7 +229,7 @@ $4 = (*mut usize) 0x0
 
 相关代码见：
 
-> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap/add.rs
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/blob/buddy-system-heap/os/src/buddy_system/heap/add.rs
 
 向堆中添加 `[start, end)` 区间时，先对起始和结束地址做指针对齐与校验。然后从对齐后的起点出发，循环执行以下步骤，直到空间耗尽：
 
@@ -289,7 +289,7 @@ Heap {
 
 相关代码见：
 
-> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap/alloc.rs
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/blob/buddy-system-heap/os/src/buddy_system/heap/alloc.rs
 
 分配过程：
 
@@ -305,7 +305,7 @@ Heap {
 
 相关代码见：
 
-> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/buddy-system/os/src/buddy_system/heap/alloc.rs
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/blob/buddy-system-heap/os/src/buddy_system/heap/alloc.rs
 
 释放过程：
 
