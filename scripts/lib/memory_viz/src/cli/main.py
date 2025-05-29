@@ -232,7 +232,8 @@ def main():
                     tgt_prefix = page_to_group_map[page_num]
                     # 生成页表指针，使用lhead指向整个集群
                     # 由于需要有一个实际的目标节点，我们指向第一个节点但使用lhead指向集群
-                    color = "red" if group_type == 'register' else "orange"  # 寄存器连接用红色
+                    # 寄存器连接使用红色，内存连接使用橙色
+                    color = colors["system_red"] if group_type == 'register' else colors["system_orange"]
                     dot_lines.append(
                         f"    {prefix}node{i}:page -> {tgt_prefix}node3 [color=\"{color}\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
     # 输出完整的 DOT 图形定义

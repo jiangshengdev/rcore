@@ -1145,9 +1145,9 @@ digraph MemoryLayout {
     g4_node2 -> g5_node2 [style=invis];
     g4_node3 -> g5_node3 [style=invis];
 
-    reg_node0:page -> g1_node3 [color="red", lhead="cluster_g1_", constraint=false];
-    g1_node2:page -> g4_node3 [color="orange", lhead="cluster_g4_", constraint=false];
-    g1_node7:page -> g2_node3 [color="orange", lhead="cluster_g2_", constraint=false];
-    g2_node7:page -> g3_node3 [color="orange", lhead="cluster_g3_", constraint=false];
-    g4_node1:page -> g5_node3 [color="orange", lhead="cluster_g5_", constraint=false];
+    reg_node0:page -> g1_node3 [color="#FF453A", lhead="cluster_g1_", constraint=false];
+    g1_node2:page -> g4_node3 [color="#FF9F0A", lhead="cluster_g4_", constraint=false];
+    g1_node7:page -> g2_node3 [color="#FF9F0A", lhead="cluster_g2_", constraint=false];
+    g2_node7:page -> g3_node3 [color="#FF9F0A", lhead="cluster_g3_", constraint=false];
+    g4_node1:page -> g5_node3 [color="#FF9F0A", lhead="cluster_g5_", constraint=false];
 }
