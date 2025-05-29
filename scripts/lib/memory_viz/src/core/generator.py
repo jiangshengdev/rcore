@@ -8,6 +8,60 @@ from typing import List, Dict, Optional
 from .colors import get_theme_colors
 from .parser import parse_gdb_output
 
+def _extract_page_number_core(pte_value: str) -> int:
+    """从页表项值中提取物理页号的核心逻辑
+    
+    Args:
+        pte_value: 页表项值，如 "0x20e97801"
+        
+    Returns:
+        物理页号（整数），如果无效则返回-1
+    """
+    try:
+        if not pte_value or pte_value == "0x0000000000000000" or pte_value == "0x0":
+            return -1
+            
+        # 移除 "0x" 前缀并转为整数
+        if pte_value.startswith("0x"):
+            pte_int = int(pte_value[2:], 16)
+        else:
+            pte_int = int(pte_value, 16)
+            
+        # 检查V位（最低位）是否为1，确保是有效页表项
+        if (pte_int & 0x1) == 0:
+            return -1
+            
+        # 右移10位得到物理页号
+        page_num = pte_int >> 10
+        return page_num
+    except (ValueError, TypeError):
+        return -1
+
+def extract_physical_page_number(pte_value: str) -> str:
+    """从页表项值中提取物理页号并格式化为显示字符串
+    
+    Args:
+        pte_value: 页表项值，如 "0x20e97801"
+        
+    Returns:
+        格式化的物理页号字符串，如 "0x20e97" 或空字符串（如果无效）
+    """
+    page_num = _extract_page_number_core(pte_value)
+    if page_num == -1:
+        return ""
+    return f"0x{page_num:x}"
+
+def extract_physical_page_number_int(pte_value: str) -> int:
+    """从页表项值中提取物理页号并返回整数
+
+    Args:
+        pte_value: 页表项值，如 "0x20e97801"
+
+    Returns:
+        物理页号（整数），如果不是有效页表项则返回-1
+    """
+    return _extract_page_number_core(pte_value)
+
 # DOT 生成及内存格式化相关常量
 # 空指针的实际数值表示
 NULL_VAL = "0x0000000000000000"
@@ -18,7 +72,7 @@ PADDED_NULL_DISPLAY = "0x00000000"
 # 子图布局方向：TB（自顶向下）
 RANKDIR = "TB"
 # 边的样式：使用平滑样条曲线
-SPLINES = "spline"
+SPLINES = "ortho"
 # 字体名称
 FONT = "SF Mono,monospace"
 # 字体大小
@@ -68,12 +122,22 @@ class MemoryDotGenerator:
                 node_val = PADDED_NULL_DISPLAY
             # 根据最大索引值动态计算宽度，在方括号前添加空格对齐
             index_display = f"{' ' * (index_width - len(str(index)))}[{index}]"
+            
+            # 提取物理页号用于显示，如果为0x0则显示空格
+            page_num_display = extract_physical_page_number(node_val)
+            if not page_num_display:
+                page_num_display = " "
+            
+            # 使用2行2列布局：第一行地址和值，第二行索引和物理页号
             return f'''        {name} [shape=none, margin={NODE_MARGIN}, label=<
             <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="{addr_border}">
                 <TR>
-                    <TD BGCOLOR="{index_bg}" PORT="index" ALIGN="CENTER" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{index_display}</FONT></TD>
-                    <TD BGCOLOR="{addr_bg}" PORT="{port1_name}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{node_addr}</FONT></TD>
-                    <TD BGCOLOR="{val_bg}" PORT="{port2_name}" ALIGN="LEFT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{node_val}</FONT></TD>
+                    <TD BGCOLOR="{addr_bg}" PORT="{port1_name}" ALIGN="RIGHT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{node_addr}</FONT></TD>
+                    <TD BGCOLOR="{val_bg}" PORT="{port2_name}" ALIGN="RIGHT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{node_val}</FONT></TD>
+                </TR>
+                <TR>
+                    <TD BGCOLOR="{index_bg}" PORT="index" ALIGN="RIGHT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{index_display}</FONT></TD>
+                    <TD BGCOLOR="{val_bg}" PORT="page" ALIGN="RIGHT" CELLPADDING="{CELL_PADDING}"><FONT COLOR="{text_color}">{page_num_display}</FONT></TD>
                 </TR>
             </TABLE>
         >];'''

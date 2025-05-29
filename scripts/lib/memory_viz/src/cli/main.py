@@ -11,7 +11,8 @@ from ..core.colors import get_theme_colors
 from ..core.filter import filter_zero_rows
 from ..core.generator import (
     MemoryDotGenerator, NULL_VAL,
-    RANKDIR, SPLINES, FONT, FONT_SIZE, NODE_MARGIN
+    RANKDIR, SPLINES, FONT, FONT_SIZE, NODE_MARGIN,
+    extract_physical_page_number_int
 )
 from ..core.parser import parse_gdb_groups
 
@@ -36,36 +37,6 @@ def extract_page_number_from_cmd(cmd: str) -> str:
         page_num = addr >> 12
         return f"Physical Page: 0x{page_num:x}"
     return cmd  # 如果解析失败，返回原命令
-
-
-def extract_pte_page_number(pte_value: str) -> int:
-    """从页表项值中提取物理页号
-
-    Args:
-        pte_value: 页表项值，如 "0x20e97801"
-
-    Returns:
-        物理页号（整数），如果不是有效页表项则返回-1
-    """
-    try:
-        if not pte_value or pte_value == NULL_VAL:
-            return -1
-
-        # 去掉 "0x" 前缀，转为整数
-        if pte_value.startswith("0x"):
-            pte_int = int(pte_value[2:], 16)
-        else:
-            pte_int = int(pte_value, 16)
-
-        # 检查V位（最低位）是否为1，确保是有效页表项
-        if (pte_int & 0x1) == 0:
-            return -1
-
-        # 右移10位得到物理页号
-        page_num = pte_int >> 10
-        return page_num
-    except (ValueError, TypeError):
-        return -1
 
 
 def main():
@@ -152,23 +123,6 @@ def main():
             )
         )
 
-    # 生成组内行内隐形边，确保每行内元素的水平对齐
-    dot_lines.append("")
-    for info in group_infos:
-        prefix = info['prefix']
-        filtered_addrs = info['filtered_addrs']
-
-        # 为每行内的相邻元素添加水平隐形边
-        for i in range(len(filtered_addrs) - 1):
-            # 检查当前元素和下一个元素是否在同一行
-            curr_row = i // args.columns
-            next_row = (i + 1) // args.columns
-
-            if curr_row == next_row:  # 同一行内的相邻元素
-                dot_lines.append(
-                    f"    {prefix}node{i} -> {prefix}node{i + 1};"
-                )
-
     # 生成组间垂直对齐边，连接上一组最后一行与下一组第一行的对应列元素
     dot_lines.append("")
     for i in range(len(group_infos) - 1):
@@ -206,15 +160,14 @@ def main():
 
             # 检查内存值是否为有效页表项，并生成页表指针
             elif val and val != NULL_VAL:
-                page_num = extract_pte_page_number(val)
+                page_num = extract_physical_page_number_int(val)
                 if page_num != -1 and page_num in page_to_group_map:
                     # 找到页表项指向的物理页号对应的组
                     tgt_prefix = page_to_group_map[page_num]
-                    src_port = 'val'
                     # 生成页表指针，使用lhead指向整个集群
                     # 由于需要有一个实际的目标节点，我们指向第一个节点但使用lhead指向集群
                     dot_lines.append(
-                        f"    {prefix}node{i}:{src_port} -> {tgt_prefix}node0:addr [color=\"orange\", style=\"dashed\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
+                        f"    {prefix}node{i}:page -> {tgt_prefix}node3 [color=\"orange\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
     # 输出完整的 DOT 图形定义
     dot_lines.append("}")
     print("\n".join(dot_lines))
