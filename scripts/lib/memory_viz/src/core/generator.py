@@ -6,7 +6,8 @@ import math
 from typing import List, Dict, Optional
 
 from .colors import get_theme_colors
-from .parser import parse_gdb_output
+from .parser import parse_gdb_output, extract_register_page_number_display
+
 
 def _extract_page_number_core(pte_value: str) -> int:
     """从页表项值中提取物理页号的核心逻辑
@@ -20,22 +21,23 @@ def _extract_page_number_core(pte_value: str) -> int:
     try:
         if not pte_value or pte_value == "0x0000000000000000" or pte_value == "0x0":
             return -1
-            
+
         # 移除 "0x" 前缀并转为整数
         if pte_value.startswith("0x"):
             pte_int = int(pte_value[2:], 16)
         else:
             pte_int = int(pte_value, 16)
-            
+
         # 检查V位（最低位）是否为1，确保是有效页表项
         if (pte_int & 0x1) == 0:
             return -1
-            
+
         # 右移10位得到物理页号
         page_num = pte_int >> 10
         return page_num
     except (ValueError, TypeError):
         return -1
+
 
 def extract_physical_page_number(pte_value: str) -> str:
     """从页表项值中提取物理页号并格式化为显示字符串
@@ -51,6 +53,7 @@ def extract_physical_page_number(pte_value: str) -> str:
         return ""
     return f"0x{page_num:x}"
 
+
 def extract_physical_page_number_int(pte_value: str) -> int:
     """从页表项值中提取物理页号并返回整数
 
@@ -61,6 +64,7 @@ def extract_physical_page_number_int(pte_value: str) -> int:
         物理页号（整数），如果不是有效页表项则返回-1
     """
     return _extract_page_number_core(pte_value)
+
 
 # DOT 生成及内存格式化相关常量
 # 空指针的实际数值表示
@@ -93,7 +97,8 @@ class MemoryDotGenerator:
 
     @staticmethod
     def to_dot(memory: Dict[str, str], addresses: List[str], prefix: str = "", theme: str = "light", columns: int = 4,
-               original_indices: Optional[Dict[str, int]] = None, label: Optional[str] = None) -> str:
+               original_indices: Optional[Dict[str, int]] = None, label: Optional[str] = None,
+               is_register: bool = False) -> str:
         """生成 Graphviz DOT 格式字符串，支持自定义列数的矩阵布局"""
 
         # 获取主题颜色配置
@@ -121,13 +126,24 @@ class MemoryDotGenerator:
             if node_val == DISPLAY_NULL_VAL:
                 node_val = PADDED_NULL_DISPLAY
             # 根据最大索引值动态计算宽度，在方括号前添加空格对齐
-            index_display = f"{' ' * (index_width - len(str(index)))}[{index}]"
-            
-            # 提取物理页号用于显示，如果为0x0则显示空格
-            page_num_display = extract_physical_page_number(node_val)
+            if is_register:
+                # 寄存器：索引显示为空格
+                index_display = " " * (index_width + 3)  # 与 [index] 格式保持相同宽度
+            else:
+                # 内存：正常显示索引
+                index_display = f"{' ' * (index_width - len(str(index)))}[{index}]"
+
+            # 根据是否为寄存器选择不同的页号提取方法
+            if is_register:
+                # 寄存器：使用寄存器专用的页号提取函数
+                page_num_display = extract_register_page_number_display(node_addr, node_val)
+            else:
+                # 内存：使用页表项的页号提取函数
+                page_num_display = extract_physical_page_number(node_val)
+
             if not page_num_display:
                 page_num_display = " "
-            
+
             # 使用2行2列布局：第一行地址和值，第二行索引和物理页号
             return f'''        {name} [shape=none, margin={NODE_MARGIN}, label=<
             <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="{addr_border}">

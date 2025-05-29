@@ -14,7 +14,14 @@ from ..core.generator import (
     RANKDIR, SPLINES, FONT, FONT_SIZE, NODE_MARGIN,
     extract_physical_page_number_int
 )
-from ..core.parser import parse_gdb_groups
+from ..core.parser import (
+    parse_gdb_groups,
+    contains_register_output,
+    parse_register_to_memory_format,
+    is_register_command,
+    is_register_value_line,
+    extract_register_page_number
+)
 
 
 def parse_args():
@@ -39,6 +46,23 @@ def extract_page_number_from_cmd(cmd: str) -> str:
     return cmd  # 如果解析失败，返回原命令
 
 
+def generate_group_label(group_type: str, data: Any) -> str:
+    """根据组类型生成合适的标题"""
+    if group_type == "register":
+        # 寄存器组：显示寄存器名称或通用标题
+        if isinstance(data, list) and len(data) > 0:
+            if len(data) == 1:
+                return f"Register: {data[0]}"
+            else:
+                return "Registers"
+        return "Registers"
+    elif group_type == "memory":
+        # 内存组：显示物理页号
+        return extract_page_number_from_cmd(str(data))
+    else:
+        return str(data)
+
+
 def main():
     """读取 GDB 输出、生成内存布局的 Graphviz DOT 文本并输出"""
     args = parse_args()
@@ -48,12 +72,39 @@ def main():
             lines = f.read().splitlines()
     else:
         lines = sys.stdin.read().splitlines()
-    # 将内存输出按 GDB 命令分组
-    groups = parse_gdb_groups(lines)
+
     # 解析每组地址与内存值，构建全局地址映射表
     group_infos: List[Dict[str, Any]] = []
     global_addr_map: Dict[str, Tuple[str, int]] = {}
     page_to_group_map: Dict[int, str] = {}  # 物理页号到组前缀的映射
+
+    # 检测并处理寄存器输出
+    if contains_register_output(lines):
+        # 分离寄存器和内存输出
+        register_lines = [line for line in lines if is_register_value_line(line)]
+        memory_lines = [line for line in lines if not is_register_command(line) and not is_register_value_line(line)]
+
+        # 处理寄存器组
+        if register_lines:
+            reg_memory, reg_addresses = parse_register_to_memory_format(register_lines)
+            register_group = {
+                'prefix': 'reg_',
+                'filtered_addrs': reg_addresses,
+                'memory': reg_memory,
+                'original_indices': {addr: i for i, addr in enumerate(reg_addresses)},
+                'cmd': generate_group_label("register", reg_addresses),
+                'group_type': 'register'
+            }
+            group_infos.append(register_group)
+
+            # 建立寄存器的全局映射（用于指针连接）
+            for i, addr in enumerate(reg_addresses):
+                global_addr_map[addr] = ('reg_', i)
+    else:
+        memory_lines = lines
+
+    # 将内存输出按 GDB 命令分组
+    groups = parse_gdb_groups(memory_lines)
 
     for idx, group in enumerate(groups, 1):
         gen = MemoryDotGenerator(group['lines'])
@@ -67,7 +118,7 @@ def main():
         filtered_addrs = filter_zero_rows(original_addrs, gen.memory, args.columns)
 
         # 从GDB命令中提取物理页号作为标签
-        page_label = extract_page_number_from_cmd(group.get('cmd', ''))
+        page_label = generate_group_label("memory", group.get('cmd', ''))
 
         # 提取物理页号并建立页号到组的映射
         cmd_str = group.get('cmd', '')
@@ -83,7 +134,8 @@ def main():
             'filtered_addrs': filtered_addrs,
             'original_indices': original_indices,
             'memory': gen.memory,
-            'cmd': page_label  # 使用物理页号作为标签
+            'cmd': page_label,  # 使用生成的标签
+            'group_type': 'memory'  # 标记组类型
         })
 
         # 为过滤后的地址建立全局索引，用于跨组指针解析
@@ -111,15 +163,20 @@ def main():
     ])
     # 为每个内存分组生成子图和节点定义
     for info in group_infos:
+        # 寄存器组使用单列布局，内存组使用用户指定的列数
+        columns = 1 if info.get('group_type') == 'register' else args.columns
+        is_register = info.get('group_type') == 'register'
+
         dot_lines.append(
             MemoryDotGenerator.to_dot(
                 info['memory'],
                 info['filtered_addrs'],
                 prefix=info['prefix'],
                 theme=args.theme,
-                columns=args.columns,
+                columns=columns,
                 original_indices=info['original_indices'],
-                label=info['cmd']  # 将 GDB 命令作为标签传递
+                label=info['cmd'],  # 将 GDB 命令作为标签传递
+                is_register=is_register  # 传递寄存器标识
             )
         )
 
@@ -150,6 +207,8 @@ def main():
     dot_lines.append("")
     for info in group_infos:
         prefix = info['prefix']
+        group_type = info.get('group_type', 'memory')
+
         for i, addr in enumerate(info['filtered_addrs']):
             val = info['memory'].get(addr)
             # 检查内存值是否为有效地址且存在于全局地址映射中
@@ -158,16 +217,24 @@ def main():
                 src_port = 'val'
                 dot_lines.append(f"    {prefix}node{i}:{src_port} -> {tgt_prefix}node{tgt_i}:addr;")
 
-            # 检查内存值是否为有效页表项，并生成页表指针
+            # 检查内存值或寄存器值是否指向有效页表项
             elif val and val != NULL_VAL:
-                page_num = extract_physical_page_number_int(val)
+                # 根据组类型使用不同的页号提取方法
+                if group_type == 'register':
+                    # 寄存器：使用特殊的寄存器页号提取函数
+                    page_num = extract_register_page_number(addr, val)
+                else:
+                    # 内存：使用普通的页表项页号提取函数
+                    page_num = extract_physical_page_number_int(val)
+
                 if page_num != -1 and page_num in page_to_group_map:
                     # 找到页表项指向的物理页号对应的组
                     tgt_prefix = page_to_group_map[page_num]
                     # 生成页表指针，使用lhead指向整个集群
                     # 由于需要有一个实际的目标节点，我们指向第一个节点但使用lhead指向集群
+                    color = "red" if group_type == 'register' else "orange"  # 寄存器连接用红色
                     dot_lines.append(
-                        f"    {prefix}node{i}:page -> {tgt_prefix}node3 [color=\"orange\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
+                        f"    {prefix}node{i}:page -> {tgt_prefix}node3 [color=\"{color}\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
     # 输出完整的 DOT 图形定义
     dot_lines.append("}")
     print("\n".join(dot_lines))

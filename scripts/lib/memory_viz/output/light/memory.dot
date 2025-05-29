@@ -8,6 +8,32 @@ digraph MemoryLayout {
     node [shape=record, fontname="SF Mono,monospace", fontsize=12, margin=0.125, fontcolor="#1c1e21"];
     edge [fontname="SF Mono,monospace", fontsize=12, fontcolor="#1c1e21", color="#1c1e21"];
 
+    subgraph cluster_reg_ {
+        color="#C7C7CC";
+        label="Register: satp";
+        fontname="SF Mono,monospace";
+        fontsize=12;
+        fontcolor="#1c1e21";
+
+        reg_node0 [shape=none, margin=0.125, label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" COLOR="#1c1e21">
+                <TR>
+                    <TD BGCOLOR="#FF2D552D" PORT="addr" ALIGN="RIGHT" CELLPADDING="4"><FONT COLOR="#1c1e21">satp</FONT></TD>
+                    <TD BGCOLOR="#34C7592D" PORT="val" ALIGN="RIGHT" CELLPADDING="4"><FONT COLOR="#1c1e21">0x8000000000083a5b</FONT></TD>
+                </TR>
+                <TR>
+                    <TD BGCOLOR="#007AFF2D" PORT="index" ALIGN="RIGHT" CELLPADDING="4"><FONT COLOR="#1c1e21">    </FONT></TD>
+                    <TD BGCOLOR="#34C7592D" PORT="page" ALIGN="RIGHT" CELLPADDING="4"><FONT COLOR="#1c1e21">0x83a5b</FONT></TD>
+                </TR>
+            </TABLE>
+        >];
+
+        subgraph row_reg__0 {
+            rank = same;
+            reg_node0;
+        }
+
+    }
     subgraph cluster_g1_ {
         color="#C7C7CC";
         label="Physical Page: 0x83a5b";
@@ -1101,6 +1127,7 @@ digraph MemoryLayout {
         g5_node39 -> g5_node43 [style=invis];
     }
 
+    reg_node0 -> g1_node0 [style=invis];
     g1_node4 -> g2_node0 [style=invis];
     g1_node5 -> g2_node1 [style=invis];
     g1_node6 -> g2_node2 [style=invis];
@@ -1118,6 +1145,7 @@ digraph MemoryLayout {
     g4_node2 -> g5_node2 [style=invis];
     g4_node3 -> g5_node3 [style=invis];
 
+    reg_node0:page -> g1_node3 [color="red", lhead="cluster_g1_", constraint=false];
     g1_node2:page -> g4_node3 [color="orange", lhead="cluster_g4_", constraint=false];
     g1_node7:page -> g2_node3 [color="orange", lhead="cluster_g2_", constraint=false];
     g2_node7:page -> g3_node3 [color="orange", lhead="cluster_g3_", constraint=false];
