@@ -3,11 +3,11 @@
 提供地址列表过滤功能，去除全为空值的行
 """
 import math
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 
-def filter_zero_rows(addresses: List[str], memory: Dict[str, str], columns: int, null_vals: List[str] = None) -> List[
-    str]:
+def filter_zero_rows(addresses: List[str], memory: Dict[str, str], columns: int,
+                     null_vals: Optional[List[str]] = None) -> List[str]:
     """
     过滤掉矩阵布局中全为空值的行
     
@@ -36,8 +36,8 @@ def filter_zero_rows(addresses: List[str], memory: Dict[str, str], columns: int,
     ]
 
     # 过滤掉所有值都为空的行（但保留包含原始索引0的行）
-    filtered_addrs = []
-    for row_idx, row in enumerate(initial_matrix):
+    filtered_addrs: List[str] = []
+    for row in initial_matrix:
         # 检查当前行是否包含原始索引为0的地址
         contains_index_zero = any(
             addresses.index(addr) == 0

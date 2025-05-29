@@ -7,6 +7,10 @@ import math
 import sys
 from typing import List, Dict, Tuple, Any
 
+# 定义类型别名来改善类型推断
+GdbGroup = Dict[str, Any]  # GDB 命令组的类型
+GroupInfo = Dict[str, Any]  # 组信息的类型
+
 from ..core.colors import get_theme_colors
 from ..core.filter import filter_zero_rows
 from ..core.generator import (
@@ -50,11 +54,16 @@ def generate_group_label(group_type: str, data: Any) -> str:
     """根据组类型生成合适的标题"""
     if group_type == "register":
         # 寄存器组：显示寄存器名称或通用标题
-        if isinstance(data, list) and len(data) > 0:
-            if len(data) == 1:
-                return f"Register: {data[0]}"
-            else:
-                return "Registers"
+        try:
+            # 使用类型守卫来确保安全的类型检查
+            if hasattr(data, '__len__') and hasattr(data, '__getitem__'):
+                if len(data) > 0:
+                    if len(data) == 1:
+                        return f"Register: {data[0]}"
+                    else:
+                        return "Registers"
+        except (TypeError, IndexError):
+            pass
         return "Registers"
     elif group_type == "memory":
         # 内存组：显示物理页号
@@ -87,7 +96,8 @@ def main():
         # 处理寄存器组
         if register_lines:
             reg_memory, reg_addresses = parse_register_to_memory_format(register_lines)
-            register_group = {
+            # 明确定义寄存器组信息结构
+            register_group: GroupInfo = {
                 'prefix': 'reg_',
                 'filtered_addrs': reg_addresses,
                 'memory': reg_memory,
