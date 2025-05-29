@@ -11,11 +11,11 @@ from typing import List, Dict, Tuple, Any
 GdbGroup = Dict[str, Any]  # GDB 命令组的类型
 GroupInfo = Dict[str, Any]  # 组信息的类型
 
+from ..core.config import DEFAULT_THEME, DEFAULT_COLUMNS, RANKDIR, SPLINES, FONT, FONT_SIZE, NODE_MARGIN, THEME_CHOICES
 from ..core.colors import get_theme_colors
 from ..core.filter import filter_zero_rows
 from ..core.generator import (
     MemoryDotGenerator, NULL_VAL,
-    RANKDIR, SPLINES, FONT, FONT_SIZE, NODE_MARGIN,
     extract_physical_page_number_int
 )
 from ..core.parser import (
@@ -24,7 +24,9 @@ from ..core.parser import (
     parse_register_to_memory_format,
     is_register_command,
     is_register_value_line,
-    extract_register_page_number
+    extract_register_page_number,
+    extract_page_number_from_string,
+    format_page_number_label
 )
 
 
@@ -32,22 +34,9 @@ def parse_args():
     """解析命令行参数，配置文件输入和主题选项"""
     parser = argparse.ArgumentParser(description="生成内存布局的 Graphviz DOT 可视化")
     parser.add_argument('file', nargs='?', help="GDB 内存输出文件路径；若为空则从标准输入读取内容")
-    parser.add_argument('--theme', choices=['light', 'dark'], default='light', help="指定输出图的配色主题")
-    parser.add_argument('--columns', type=int, default=4, help="指定内存布局的列数（默认为4列）")
+    parser.add_argument('--theme', choices=THEME_CHOICES, default=DEFAULT_THEME, help="指定输出图的配色主题")
+    parser.add_argument('--columns', type=int, default=DEFAULT_COLUMNS, help="指定内存布局的列数（默认为4列）")
     return parser.parse_args()
-
-
-def extract_page_number_from_cmd(cmd: str) -> str:
-    """从GDB命令中提取起始地址并计算物理页号"""
-    import re
-    # 匹配GDB命令中的地址，例如：(gdb) x /512g 0x83A5B000
-    match = re.search(r'0x([0-9a-fA-F]+)', cmd)
-    if match:
-        addr = int(match.group(1), 16)
-        # 右移12位得到物理页号
-        page_num = addr >> 12
-        return f"Physical Page: 0x{page_num:x}"
-    return cmd  # 如果解析失败，返回原命令
 
 
 def generate_group_label(group_type: str, data: Any) -> str:
@@ -67,7 +56,7 @@ def generate_group_label(group_type: str, data: Any) -> str:
         return "Registers"
     elif group_type == "memory":
         # 内存组：显示物理页号
-        return extract_page_number_from_cmd(str(data))
+        return format_page_number_label(str(data))
     else:
         return str(data)
 
@@ -132,11 +121,8 @@ def main():
 
         # 提取物理页号并建立页号到组的映射
         cmd_str = group.get('cmd', '')
-        import re
-        match = re.search(r'0x([0-9a-fA-F]+)', cmd_str)
-        if match:
-            addr = int(match.group(1), 16)
-            page_num = addr >> 12  # 计算物理页号
+        page_num = extract_page_number_from_string(cmd_str)
+        if page_num is not None:
             page_to_group_map[page_num] = prefix
 
         group_infos.append({

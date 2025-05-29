@@ -3,12 +3,17 @@
 可视化伙伴系统的内存空闲列表
 """
 import os
+import sys
 from typing import List, Tuple, Any
 
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.ticker import FuncFormatter
+
+# 添加项目根目录到路径，用于导入公共工具
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../.."))
+from scripts.lib.common.utils import ensure_dir, get_file_dir
 from numpy.typing import NDArray
 
 from ..core.colors import get_theme_colors
@@ -175,7 +180,7 @@ def save_figure_with_style(left_list: List[Tuple[int, List[int]]],
                            right_list: List[Tuple[int, List[int]]],
                            style: str, output_dir: str, filename: str) -> None:
     """使用指定样式保存图表"""
-    os.makedirs(output_dir, exist_ok=True)
+    ensure_dir(output_dir)
     plt.style.use(style)
 
     # 根据样式确定主题
@@ -188,7 +193,7 @@ def save_figure_with_style(left_list: List[Tuple[int, List[int]]],
 # 将脚本执行逻辑封装到 main 函数
 def main() -> None:
     # 获取当前模块的目录
-    current_dir = os.path.dirname(os.path.abspath(__file__))
+    current_dir = get_file_dir(__file__)
     output_base_dir = os.path.join(current_dir, '..', '..', 'output')
 
     # 确保输出目录存在

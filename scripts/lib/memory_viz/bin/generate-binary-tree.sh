@@ -3,9 +3,11 @@
 
 set -e
 
-# 获取脚本目录并加载通用辅助函数
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/common.sh"
+# 导入通用工具函数
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+
+# 获取脚本目录
+SCRIPT_DIR="$(get_script_dir)"
 
 # 检查依赖工具
 check_dependencies python3

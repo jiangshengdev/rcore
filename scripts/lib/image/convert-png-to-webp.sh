@@ -1,30 +1,17 @@
 #!/bin/bash
 set -e
 
+# 导入通用Shell工具函数
+source "$(dirname "${BASH_SOURCE[0]}")/../common/shell_utils.sh"
+
 # 检查 cwebp 是否安装
 command -v cwebp >/dev/null 2>&1 || {
   echo "请先安装 cwebp（brew install webp）" >&2
   exit 1
 }
 
-# 自动寻找 rcore 根目录（包含 docusaurus.config.ts 或 package.json）
-find_root() {
-  local dir="$PWD"
-  while [[ "$dir" != "/" ]]; do
-    if [[ -f "$dir/docusaurus.config.ts" || -f "$dir/package.json" ]]; then
-      echo "$dir"
-      return 0
-    fi
-    dir="$(dirname "$dir")"
-  done
-  return 1
-}
-
-rootdir="$(find_root)"
-if [ -z "$rootdir" ]; then
-  echo "未找到 rcore 根目录（缺少 docusaurus.config.ts 或 package.json）" >&2
-  exit 1
-fi
+# 获取项目根目录
+rootdir="$(get_project_root)"
 cd "$rootdir"
 
 # 定义单文件转换函数，并导出供 xargs 调用
@@ -34,7 +21,7 @@ convert_one() {
   webpdir="$3"
   rel="${file#"$imgdir"/}"
   target="$webpdir/${rel%.png}.webp"
-  mkdir -p "${target%/*}"
+  ensure_parent_dir "$target"
   cwebp -lossless -z 9 -exact -mt -metadata icc "$file" -o "$target"
   echo "已转换: $file -> $target"
 }
@@ -48,7 +35,7 @@ CPU_NUM=$(sysctl -n hw.physicalcpu 2>/dev/null || echo 2)
   for root in blog docs; do
     find "$root" -type d -name "image" | while read -r imgdir; do
       webpdir="$(dirname "$imgdir")/webp"
-      mkdir -p "$webpdir"
+      ensure_dir "$webpdir"
       find "$imgdir" -type f -name "*.png" | while read -r file; do
         rel="${file#"$imgdir"/}"
         target="$webpdir/${rel%.png}.webp"

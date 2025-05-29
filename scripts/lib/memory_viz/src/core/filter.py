@@ -5,6 +5,8 @@
 import math
 from typing import List, Dict, Optional
 
+from .config import DEFAULT_NULL_VALUES, DISPLAY_NULL_VAL
+
 
 def filter_zero_rows(addresses: List[str], memory: Dict[str, str], columns: int,
                      null_vals: Optional[List[str]] = None) -> List[str]:
@@ -15,13 +17,13 @@ def filter_zero_rows(addresses: List[str], memory: Dict[str, str], columns: int,
         addresses: 原始地址列表
         memory: 地址到值的映射
         columns: 矩阵列数
-        null_vals: 被视为空值的值列表，默认为 ["0x0000000000000000", "0x0"]
+        null_vals: 被视为空值的值列表，默认使用配置中的默认空值列表
     
     Returns:
         过滤后的地址列表
     """
     if null_vals is None:
-        null_vals = ["0x0000000000000000", "0x0"]
+        null_vals = DEFAULT_NULL_VALUES
 
     if not addresses:
         return []
@@ -46,7 +48,7 @@ def filter_zero_rows(addresses: List[str], memory: Dict[str, str], columns: int,
 
         # 检查这一行是否所有地址的值都为空
         is_all_zero = all(
-            memory.get(addr, "0x0") in null_vals
+            memory.get(addr, DISPLAY_NULL_VAL) in null_vals
             for addr in row
         )
 

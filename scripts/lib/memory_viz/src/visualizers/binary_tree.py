@@ -5,6 +5,11 @@
 
 import math
 import os
+import sys
+
+# 添加项目根目录到路径，用于导入公共工具
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../.."))
+from scripts.lib.common.utils import ensure_dir, get_file_dir
 
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
@@ -71,7 +76,7 @@ def create_pure_binary_tree(theme: str = 'light') -> Figure:
 
 def save_binary_tree_svg(output_dir: str, theme: str = 'light') -> None:
     """保存二叉树为SVG格式"""
-    os.makedirs(output_dir, exist_ok=True)
+    ensure_dir(output_dir)
 
     fig = create_pure_binary_tree(theme)
 
@@ -84,7 +89,7 @@ def save_binary_tree_svg(output_dir: str, theme: str = 'light') -> None:
 def main() -> None:
     """主函数：生成纯二叉树图形"""
     # 获取当前模块的目录
-    current_dir = os.path.dirname(os.path.abspath(__file__))
+    current_dir = get_file_dir(__file__)
     output_base_dir = os.path.join(current_dir, '..', '..', 'output')
 
     # 确保输出目录存在

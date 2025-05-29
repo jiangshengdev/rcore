@@ -4,8 +4,11 @@
 
 set -e
 
+# 导入通用工具函数
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+
 # 获取脚本目录
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(get_script_dir)"
 
 # 调用内存布局可视化生成脚本
 "$SCRIPT_DIR/generate-memory-layout.sh"

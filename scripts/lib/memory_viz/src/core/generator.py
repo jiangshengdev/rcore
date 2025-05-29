@@ -6,6 +6,11 @@ import math
 from typing import List, Dict, Optional
 
 from .colors import get_theme_colors
+from .config import (
+    FONT, FONT_SIZE, CELL_PADDING, NODE_MARGIN,
+    NULL_VAL, DISPLAY_NULL_VAL, PADDED_NULL_DISPLAY, PTE_PPN_SHIFT,
+    DEFAULT_THEME, DEFAULT_COLUMNS
+)
 from .parser import parse_gdb_output, extract_register_page_number_display
 
 
@@ -19,7 +24,8 @@ def _extract_page_number_core(pte_value: str) -> int:
         物理页号（整数），如果无效则返回-1
     """
     try:
-        if not pte_value or pte_value == "0x0000000000000000" or pte_value == "0x0":
+        # 使用配置中的常量检查空值
+        if not pte_value or pte_value == NULL_VAL or pte_value == DISPLAY_NULL_VAL:
             return -1
 
         # 移除 "0x" 前缀并转为整数
@@ -32,8 +38,8 @@ def _extract_page_number_core(pte_value: str) -> int:
         if (pte_int & 0x1) == 0:
             return -1
 
-        # 右移10位得到物理页号
-        page_num = pte_int >> 10
+        # 使用配置中的位移常量提取物理页号
+        page_num = pte_int >> PTE_PPN_SHIFT
         return page_num
     except (ValueError, TypeError):
         return -1
@@ -66,27 +72,6 @@ def extract_physical_page_number_int(pte_value: str) -> int:
     return _extract_page_number_core(pte_value)
 
 
-# DOT 生成及内存格式化相关常量
-# 空指针的实际数值表示
-NULL_VAL = "0x0000000000000000"
-# 空指针的显示值
-DISPLAY_NULL_VAL = "0x0"
-# 空指针的填充后显示
-PADDED_NULL_DISPLAY = "0x00000000"
-# 子图布局方向：TB（自顶向下）
-RANKDIR = "TB"
-# 边的样式：使用平滑样条曲线
-SPLINES = "ortho"
-# 字体名称
-FONT = "SF Mono,monospace"
-# 字体大小
-FONT_SIZE = 12
-# 表格单元格内边距
-CELL_PADDING = 4
-# 节点间距
-NODE_MARGIN = 0.125
-
-
 class MemoryDotGenerator:
     """封装 GDB 输出解析与 Graphviz DOT 生成"""
 
@@ -96,7 +81,8 @@ class MemoryDotGenerator:
             raise ValueError("未能从输入中解析出任何地址。")
 
     @staticmethod
-    def to_dot(memory: Dict[str, str], addresses: List[str], prefix: str = "", theme: str = "light", columns: int = 4,
+    def to_dot(memory: Dict[str, str], addresses: List[str], prefix: str = "", theme: str = DEFAULT_THEME,
+               columns: int = DEFAULT_COLUMNS,
                original_indices: Optional[Dict[str, int]] = None, label: Optional[str] = None,
                is_register: bool = False) -> str:
         """生成 Graphviz DOT 格式字符串，支持自定义列数的矩阵布局"""

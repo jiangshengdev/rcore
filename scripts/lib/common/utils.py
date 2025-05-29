@@ -39,6 +39,18 @@ def ensure_dir(path: str) -> None:
     os.makedirs(path, exist_ok=True)
 
 
+def ensure_parent_dir(file_path: str) -> None:
+    """
+    为文件创建父目录
+    
+    Args:
+        file_path: 文件路径
+    """
+    parent_dir = os.path.dirname(file_path)
+    if parent_dir:
+        ensure_dir(parent_dir)
+
+
 def get_script_dir() -> str:
     """
     获取当前脚本所在目录
@@ -47,3 +59,16 @@ def get_script_dir() -> str:
         脚本目录的绝对路径
     """
     return os.path.dirname(os.path.abspath(__file__))
+
+
+def get_file_dir(file_path: str) -> str:
+    """
+    获取指定文件所在目录
+    
+    Args:
+        file_path: 文件路径 (通常是 __file__)
+        
+    Returns:
+        文件目录的绝对路径
+    """
+    return os.path.dirname(os.path.abspath(file_path))
