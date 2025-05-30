@@ -3,6 +3,7 @@ unlisted: true
 ---
 
 import CodeBlock from '@theme/CodeBlock';
+import VirtualMemory from './_virtual-memory.pre.mdx';
 
 import memcpy from '!!raw-loader!./memcpy.s';
 import saxpy from '!!raw-loader!./saxpy.s';
@@ -15,7 +16,11 @@ import vvaddint32 from '!!raw-loader!./vvaddint32.s';
 
 # 代码高亮
 
-测试 RISC-V 汇编代码语法高亮显示。
+## ANSI
+
+<VirtualMemory />
+
+## RISC-V
 
 <CodeBlock language="riscv">{memcpy}</CodeBlock>
 <CodeBlock language="riscv">{saxpy}</CodeBlock>

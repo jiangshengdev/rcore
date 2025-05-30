@@ -1,0 +1,475 @@
+[0mjiangsheng@M2-Max os % LOG=DEBUG make run[0m
+(rustup target list | grep "riscv64gc-unknown-none-elf (installed)") || rustup target add riscv64gc-unknown-none-elf[0m
+riscv64gc-unknown-none-elf (installed)[0m
+cargo install cargo-binutils[0m
+[0;32;1m    Updating[0m crates.io index[0m
+[0;32;1m     Ignored[0m package `cargo-binutils v0.3.6` is already installed, use --force to override[0m
+rustup component add rust-src[0m
+[0;1minfo: [0mcomponent 'rust-src' is up to date[0m
+rustup component add llvm-tools-preview[0m
+[0;1minfo: [0mcomponent 'llvm-tools' for target 'aarch64-apple-darwin' is up to date[0m
+[0;32;1m     Removed[0m 2013 files, 462.6MiB total[0m
+target/riscv64gc-unknown-none-elf/debug/ch2b_bad_address target/riscv64gc-unknown-none-elf/debug/ch2b_bad_instructions target/riscv64gc-unknown-none-elf/debug/ch2b_bad_register target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world target/riscv64gc-unknown-none-elf/debug/ch2b_power_3 target/riscv64gc-unknown-none-elf/debug/ch2b_power_5 target/riscv64gc-unknown-none-elf/debug/ch2b_power_7 target/riscv64gc-unknown-none-elf/debug/ch3b_yield0 target/riscv64gc-unknown-none-elf/debug/ch3b_yield1 target/riscv64gc-unknown-none-elf/debug/ch3b_yield2 target/riscv64gc-unknown-none-elf/debug/ch4b_sbrk[0m
+[0;32;1m   Compiling[0m scopeguard v1.2.0[0m
+[0;32;1m   Compiling[0m spin v0.7.1[0m
+[0;32;1m   Compiling[0m bitflags v1.3.2[0m
+[0;32;1m   Compiling[0m lock_api v0.4.6[0m
+[0;32;1m   Compiling[0m buddy_system_allocator v0.6.0[0m
+[0;32;1m   Compiling[0m spin v0.9.8[0m
+[0;32;1m   Compiling[0m lazy_static v1.5.0[0m
+[0;32;1m   Compiling[0m user_lib v0.1.0 (/Users/jiangsheng/GitHub/2025s-rcore-jiangshengdev/user)[0m
+[0;32;1m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 1.19s[0m
+Platform: qemu[0m
+[0;32;1m   Compiling[0m os v0.1.0 (/Users/jiangsheng/GitHub/2025s-rcore-jiangshengdev/os)[0m
+[0;32;1m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 0.39s[0m
+[rustsbi] RustSBI version 0.3.0-alpha.2, adapting to RISC-V SBI v1.0.0[0m
+.______       __    __      _______.___________.  _______..______   __[0m
+|   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |[0m
+|  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |[0m
+|      /     |  |  |  |    \   \       |  |      \   \    |   _  < |  |[0m
+|  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |[0m
+| _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|[0m
+[rustsbi] Implementation     : RustSBI-QEMU Version 0.2.0-alpha.2[0m
+[rustsbi] Platform Name      : riscv-virtio,qemu[0m
+[rustsbi] Platform SMP       : 1[0m
+[rustsbi] Platform Memory    : 0x80000000..0x88000000[0m
+[rustsbi] Boot HART          : 0[0m
+[rustsbi] Device Tree Region : 0x87000000..0x87000ef2[0m
+[rustsbi] Firmware Address   : 0x80000000[0m
+[rustsbi] Supervisor Address : 0x80200000[0m
+[rustsbi] pmp01: 0x00000000..0x80000000 (-wr)[0m
+[rustsbi] pmp02: 0x80000000..0x80200000 (---)[0m
+[rustsbi] pmp03: 0x80200000..0x88000000 (xwr)[0m
+[rustsbi] pmp04: 0x88000000..0x00000000 (-wr)[0m
+[kernel] Hello, world![0m
+[0;32m[DEBUG] [kernel] .rodata [0x8022a000, 0x80232000)[0m[0m
+[0;34m[ INFO] [kernel] .data [0x80232000, 0x81a4a000)[0m[0m
+[0;93m[ WARN] [kernel] boot_stack top=bottom=0x81a5a000, lower_bound=0x81a4a000[0m[0m
+[0;31m[ERROR] [kernel] .bss [0x81a5a000, 0x83a5b000)[0m[0m
+[0;36mStackFrameAllocator {[0m[0m
+[0;36m    current: 0x83a5b,[0m[0m
+[0;36m    end: 0x88000,[0m[0m
+[0;36m    recycled: [],[0m[0m
+[0;36m}[0m[0m
+[0;32mTrampoline mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;34m[ INFO] .text [0x80200000, 0x8022a000)[0m[0m
+[0;34m[ INFO] .rodata [0x8022a000, 0x80232000)[0m[0m
+[0;34m[ INFO] .data [0x80232000, 0x81a4a000)[0m[0m
+[0;34m[ INFO] .bss [0x81a4a000, 0x83a5b000)[0m[0m
+[0;34m[ INFO] mapping .text section[0m[0m
+[0;36m.text section mapping:[0m[0m
+[0;36mVPN:0x0080200 -> PPN:0x0080200[0m[0m
+[0;36m...[0m[0m
+[0;36mVPN:0x0080229 -> PPN:0x0080229[0m[0m
+[0;36m42×[0m[0m
+[0;36mPermissions: R | X[0m[0m
+[0;34m[ INFO] mapping .rodata section[0m[0m
+[0;33m.rodata section mapping:[0m[0m
+[0;33mVPN:0x008022a -> PPN:0x008022a	VPN:0x008022b -> PPN:0x008022b	VPN:0x008022c -> PPN:0x008022c	[0m[0m
+[0;33mVPN:0x008022d -> PPN:0x008022d	VPN:0x008022e -> PPN:0x008022e	VPN:0x008022f -> PPN:0x008022f	[0m[0m
+[0;33mVPN:0x0080230 -> PPN:0x0080230	VPN:0x0080231 -> PPN:0x0080231	[0m[0m
+[0;33mPermissions: R[0m[0m
+[0;34m[ INFO] mapping .data section[0m[0m
+[0;35m.data section mapping:[0m[0m
+[0;35mVPN:0x0080232 -> PPN:0x0080232[0m[0m
+[0;35m...[0m[0m
+[0;35mVPN:0x0081a49 -> PPN:0x0081a49[0m[0m
+[0;35m6168×[0m[0m
+[0;35mPermissions: R | W[0m[0m
+[0;34m[ INFO] mapping .bss section[0m[0m
+[0;34m.bss section mapping:[0m[0m
+[0;34mVPN:0x0081a4a -> PPN:0x0081a4a[0m[0m
+[0;34m...[0m[0m
+[0;34mVPN:0x0083a5a -> PPN:0x0083a5a[0m[0m
+[0;34m8209×[0m[0m
+[0;34mPermissions: R | W[0m[0m
+[0;34m[ INFO] mapping physical memory[0m[0m
+[0;32mPhysical memory section mapping:[0m[0m
+[0;32mVPN:0x0083a5b -> PPN:0x0083a5b[0m[0m
+[0;32m...[0m[0m
+[0;32mVPN:0x0087fff -> PPN:0x0087fff[0m[0m
+[0;32m17829×[0m[0m
+[0;32mPermissions: R | W[0m[0m
+[kernel] back to world![0m
+重映射测试通过！[0m
+初始化 TASK_MANAGER[0m
+num_app = 11[0m
+应用程序: 0[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083aa1	VPN:0x0000001 -> PPN:0x0083aa4	VPN:0x0000002 -> PPN:0x0083aa5	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083aa6	VPN:0x0000004 -> PPN:0x0083aa7	VPN:0x0000005 -> PPN:0x0083aa8	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083aa9	VPN:0x0000007 -> PPN:0x0083aaa	VPN:0x0000008 -> PPN:0x0083aab	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083aac	VPN:0x000000a -> PPN:0x0083aad	VPN:0x000000b -> PPN:0x0083aae	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083aaf	VPN:0x000000d -> PPN:0x0083ab0	VPN:0x000000e -> PPN:0x0083ab1	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083ab2	VPN:0x0000010 -> PPN:0x0083ab3	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083ab4	VPN:0x0000013 -> PPN:0x0083ab5	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083ab6	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7fffffd -> PPN:0x0083ab7	VPN:0x7fffffe -> PPN:0x0083ab8	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 1[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083abc	VPN:0x0000001 -> PPN:0x0083abf	VPN:0x0000002 -> PPN:0x0083ac0	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083ac1	VPN:0x0000004 -> PPN:0x0083ac2	VPN:0x0000005 -> PPN:0x0083ac3	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083ac4	VPN:0x0000007 -> PPN:0x0083ac5	VPN:0x0000008 -> PPN:0x0083ac6	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083ac7	VPN:0x000000a -> PPN:0x0083ac8	VPN:0x000000b -> PPN:0x0083ac9	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083aca	VPN:0x000000d -> PPN:0x0083acb	VPN:0x000000e -> PPN:0x0083acc	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083acd	VPN:0x0000010 -> PPN:0x0083ace	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083acf	VPN:0x0000013 -> PPN:0x0083ad0	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083ad1	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7fffffa -> PPN:0x0083ad2	VPN:0x7fffffb -> PPN:0x0083ad3	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 2[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083ad7	VPN:0x0000001 -> PPN:0x0083ada	VPN:0x0000002 -> PPN:0x0083adb	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083adc	VPN:0x0000004 -> PPN:0x0083add	VPN:0x0000005 -> PPN:0x0083ade	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083adf	VPN:0x0000007 -> PPN:0x0083ae0	VPN:0x0000008 -> PPN:0x0083ae1	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083ae2	VPN:0x000000a -> PPN:0x0083ae3	VPN:0x000000b -> PPN:0x0083ae4	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083ae5	VPN:0x000000d -> PPN:0x0083ae6	VPN:0x000000e -> PPN:0x0083ae7	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083ae8	VPN:0x0000010 -> PPN:0x0083ae9	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083aea	VPN:0x0000013 -> PPN:0x0083aeb	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083aec	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7fffff7 -> PPN:0x0083aed	VPN:0x7fffff8 -> PPN:0x0083aee	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 3[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083af2	VPN:0x0000001 -> PPN:0x0083af5	VPN:0x0000002 -> PPN:0x0083af6	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083af7	VPN:0x0000004 -> PPN:0x0083af8	VPN:0x0000005 -> PPN:0x0083af9	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083afa	VPN:0x0000007 -> PPN:0x0083afb	VPN:0x0000008 -> PPN:0x0083afc	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083afd	VPN:0x000000a -> PPN:0x0083afe	VPN:0x000000b -> PPN:0x0083aff	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083b00	VPN:0x000000d -> PPN:0x0083b01	VPN:0x000000e -> PPN:0x0083b02	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083b03	VPN:0x0000010 -> PPN:0x0083b04	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083b05	VPN:0x0000013 -> PPN:0x0083b06	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083b07	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7fffff4 -> PPN:0x0083b08	VPN:0x7fffff5 -> PPN:0x0083b09	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 4[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083b0d	VPN:0x0000001 -> PPN:0x0083b10	VPN:0x0000002 -> PPN:0x0083b11	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083b12	VPN:0x0000004 -> PPN:0x0083b13	VPN:0x0000005 -> PPN:0x0083b14	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083b15	VPN:0x0000007 -> PPN:0x0083b16	VPN:0x0000008 -> PPN:0x0083b17	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083b18	VPN:0x000000a -> PPN:0x0083b19	VPN:0x000000b -> PPN:0x0083b1a	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083b1b	VPN:0x000000d -> PPN:0x0083b1c	VPN:0x000000e -> PPN:0x0083b1d	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083b1e	VPN:0x0000010 -> PPN:0x0083b1f	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083b20	VPN:0x0000013 -> PPN:0x0083b21	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083b22	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7fffff1 -> PPN:0x0083b23	VPN:0x7fffff2 -> PPN:0x0083b24	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 5[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083b28	VPN:0x0000001 -> PPN:0x0083b2b	VPN:0x0000002 -> PPN:0x0083b2c	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083b2d	VPN:0x0000004 -> PPN:0x0083b2e	VPN:0x0000005 -> PPN:0x0083b2f	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083b30	VPN:0x0000007 -> PPN:0x0083b31	VPN:0x0000008 -> PPN:0x0083b32	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083b33	VPN:0x000000a -> PPN:0x0083b34	VPN:0x000000b -> PPN:0x0083b35	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083b36	VPN:0x000000d -> PPN:0x0083b37	VPN:0x000000e -> PPN:0x0083b38	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083b39	VPN:0x0000010 -> PPN:0x0083b3a	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083b3b	VPN:0x0000013 -> PPN:0x0083b3c	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083b3d	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7ffffee -> PPN:0x0083b3e	VPN:0x7ffffef -> PPN:0x0083b3f	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 6[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083b43	VPN:0x0000001 -> PPN:0x0083b46	VPN:0x0000002 -> PPN:0x0083b47	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083b48	VPN:0x0000004 -> PPN:0x0083b49	VPN:0x0000005 -> PPN:0x0083b4a	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083b4b	VPN:0x0000007 -> PPN:0x0083b4c	VPN:0x0000008 -> PPN:0x0083b4d	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083b4e	VPN:0x000000a -> PPN:0x0083b4f	VPN:0x000000b -> PPN:0x0083b50	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083b51	VPN:0x000000d -> PPN:0x0083b52	VPN:0x000000e -> PPN:0x0083b53	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083b54	VPN:0x0000010 -> PPN:0x0083b55	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083b56	VPN:0x0000013 -> PPN:0x0083b57	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083b58	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7ffffeb -> PPN:0x0083b59	VPN:0x7ffffec -> PPN:0x0083b5a	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 7[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083b5e	VPN:0x0000001 -> PPN:0x0083b61	VPN:0x0000002 -> PPN:0x0083b62	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083b63	VPN:0x0000004 -> PPN:0x0083b64	VPN:0x0000005 -> PPN:0x0083b65	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083b66	VPN:0x0000007 -> PPN:0x0083b67	VPN:0x0000008 -> PPN:0x0083b68	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083b69	VPN:0x000000a -> PPN:0x0083b6a	VPN:0x000000b -> PPN:0x0083b6b	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083b6c	VPN:0x000000d -> PPN:0x0083b6d	VPN:0x000000e -> PPN:0x0083b6e	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083b6f	VPN:0x0000010 -> PPN:0x0083b70	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083b71	VPN:0x0000013 -> PPN:0x0083b72	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083b73	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7ffffe8 -> PPN:0x0083b74	VPN:0x7ffffe9 -> PPN:0x0083b75	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 8[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083b79	VPN:0x0000001 -> PPN:0x0083b7c	VPN:0x0000002 -> PPN:0x0083b7d	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083b7e	VPN:0x0000004 -> PPN:0x0083b7f	VPN:0x0000005 -> PPN:0x0083b80	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083b81	VPN:0x0000007 -> PPN:0x0083b82	VPN:0x0000008 -> PPN:0x0083b83	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083b84	VPN:0x000000a -> PPN:0x0083b85	VPN:0x000000b -> PPN:0x0083b86	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083b87	VPN:0x000000d -> PPN:0x0083b88	VPN:0x000000e -> PPN:0x0083b89	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083b8a	VPN:0x0000010 -> PPN:0x0083b8b	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083b8c	VPN:0x0000013 -> PPN:0x0083b8d	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083b8e	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7ffffe5 -> PPN:0x0083b8f	VPN:0x7ffffe6 -> PPN:0x0083b90	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 9[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083b94	VPN:0x0000001 -> PPN:0x0083b97	VPN:0x0000002 -> PPN:0x0083b98	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083b99	VPN:0x0000004 -> PPN:0x0083b9a	VPN:0x0000005 -> PPN:0x0083b9b	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083b9c	VPN:0x0000007 -> PPN:0x0083b9d	VPN:0x0000008 -> PPN:0x0083b9e	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083b9f	VPN:0x000000a -> PPN:0x0083ba0	VPN:0x000000b -> PPN:0x0083ba1	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083ba2	VPN:0x000000d -> PPN:0x0083ba3	VPN:0x000000e -> PPN:0x0083ba4	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083ba5	VPN:0x0000010 -> PPN:0x0083ba6	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083ba7	VPN:0x0000013 -> PPN:0x0083ba8	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083ba9	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7ffffe2 -> PPN:0x0083baa	VPN:0x7ffffe3 -> PPN:0x0083bab	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 10[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083baf	VPN:0x0000001 -> PPN:0x0083bb2	VPN:0x0000002 -> PPN:0x0083bb3	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083bb4	VPN:0x0000004 -> PPN:0x0083bb5	VPN:0x0000005 -> PPN:0x0083bb6	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083bb7	VPN:0x0000007 -> PPN:0x0083bb8	VPN:0x0000008 -> PPN:0x0083bb9	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083bba	VPN:0x000000a -> PPN:0x0083bbb	VPN:0x000000b -> PPN:0x0083bbc	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083bbd	VPN:0x000000d -> PPN:0x0083bbe	VPN:0x000000e -> PPN:0x0083bbf	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083bc0	VPN:0x0000010 -> PPN:0x0083bc1	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083bc2	VPN:0x0000013 -> PPN:0x0083bc3	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083bc4	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7ffffdf -> PPN:0x0083bc5	VPN:0x7ffffe0 -> PPN:0x0083bc6	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+[内核] 应用程序中的非法指令，内核已终止它。[0m
+[内核] 应用程序中的非法指令，内核已终止它。[0m
+Hello, world from user mode program![0m
+power_3 [10000/200000][0m
+power_3 [20000/200000][0m
+power_3 [30000/200000][0m
+power_3 [40000/200000][0m
+power_5 [10000/140000][0m
+power_5 [20000/140000][0m
+power_5 [30000/140000][0m
+power_5 [40000/140000][0m
+power_5 [50000/140000][0m
+power_5 [60000/140000][0m
+power_5 [70000/140000][0m
+power_5 [80000/140000][0m
+power_5 [90000/140000][0m
+power_5 [100000/140000][0m
+power_5 [110000/140000][0m
+power_5 [120000/140000][0m
+power_7 [10000/160000][0m
+power_7 [20000/160000][0m
+power_7 [30000/160000][0m
+power_7 [40000/160000][0m
+power_7 [50000/160000][0m
+power_7 [60000/160000][0m
+power_7 [70000/160000][0m
+power_7 [80000/160000][0m
+power_7 [90000/160000][0m
+power_7 [100000/160000][0m
+power_7 [110000/160000][0m
+AAAAAAAAAA [1/5][0m
+BBBBBBBBBB [1/5][0m
+CCCCCCCCCC [1/5][0m
+Test sbrk start.[0m
+origin break point = 14000[0m
+one page allocated,  break point = 15000[0m
+try write to allocated page[0m
+write ok[0m
+Panicked at library/core/src/panicking.rs:220, unsafe precondition(s) violated: ptr::write_volatile requires that the pointer argument is aligned and non-null[0m
+power_3 [50000/200000][0m
+power_3 [60000/200000][0m
+power_3 [70000/200000][0m
+power_3 [80000/200000][0m
+power_3 [90000/200000][0m
+power_3 [100000/200000][0m
+power_3 [110000/200000][0m
+power_3 [120000/200000][0m
+power_3 [130000/200000][0m
+power_3 [140000/200000][0m
+power_3 [150000/200000][0m
+power_3 [160000/200000][0m
+power_5 [130000/140000][0m
+power_5 [140000/140000][0m
+5^140000 = 386471875(MOD 998244353)[0m
+Test power_5 OK![0m
+power_7 [120000/160000][0m
+power_7 [130000/160000][0m
+power_7 [140000/160000][0m
+power_7 [150000/160000][0m
+power_7 [160000/160000][0m
+7^160000 = 667897727(MOD 998244353)[0m
+Test power_7 OK![0m
+AAAAAAAAAA [2/5][0m
+BBBBBBBBBB [2/5][0m
+CCCCCCCCCC [2/5][0m
+10 page allocated,  break point = 1f000[0m
+11 page DEALLOCATED,  break point = 14000[0m
+try DEALLOCATED more one page, should be failed.[0m
+Test sbrk almost OK![0m
+now write to deallocated page, should cause page fault.[0m
+[内核] 应用程序中的页面错误，错误地址 = 0x14000，错误指令 = 0x628，内核已终止它。[0m
+power_3 [170000/200000][0m
+power_3 [180000/200000][0m
+power_3 [190000/200000][0m
+power_3 [200000/200000][0m
+3^200000 = 871008973(MOD 998244353)[0m
+Test power_3 OK![0m
+AAAAAAAAAA [3/5][0m
+BBBBBBBBBB [3/5][0m
+CCCCCCCCCC [3/5][0m
+AAAAAAAAAA [4/5][0m
+BBBBBBBBBB [4/5][0m
+CCCCCCCCCC [4/5][0m
+AAAAAAAAAA [5/5][0m
+BBBBBBBBBB [5/5][0m
+CCCCCCCCCC [5/5][0m
+Test write A OK![0m
+Test write B OK![0m
+Test write C OK![0m
+[kernel] Panicked at src/task/mod.rs:312 所有应用程序已完成！[0m
+jiangsheng@M2-Max os % [0m

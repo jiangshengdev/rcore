@@ -1,0 +1,167 @@
+/* 黑色 */
+.term-fg30 {
+  color: #212121;
+}
+
+/* 红色 */
+.term-fg31 {
+  color: #c30771;
+}
+
+/* 绿色 */
+.term-fg32 {
+  color: #10a778;
+}
+
+/* 黄色 */
+.term-fg33 {
+  color: #a89c14;
+}
+
+/* 蓝色 */
+.term-fg34 {
+  color: #008ec4;
+}
+
+/* 洋红色 */
+.term-fg35 {
+  color: #523c79;
+}
+
+/* 青色 */
+.term-fg36 {
+  color: #20a5ba;
+}
+
+/* 白色 */
+.term-fg37 {
+  color: #8e8e93;
+}
+
+/* high intense colors */
+/* 高亮绿色（特殊） */
+.term-fgi1 {
+  color: #009991;
+}
+
+/* 高亮黑色 */
+.term-fgi90 {
+  color: #212121;
+}
+
+/* 高亮红色 */
+.term-fgi91 {
+  color: #fb007a;
+}
+
+/* 高亮绿色 */
+.term-fgi92 {
+  color: #009991;
+}
+
+/* 高亮黄色 */
+.term-fgi93 {
+  color: #cca300;
+}
+
+/* 高亮蓝色 */
+.term-fgi94 {
+  color: #038ec9;
+}
+
+/* 高亮洋红色 */
+.term-fgi95 {
+  color: #6855de;
+}
+
+/* 高亮青色 */
+.term-fgi96 {
+  color: #4fb8cc;
+}
+
+/* 高亮白色 */
+.term-fgi97 {
+  color: #aeaeb2;
+}
+
+/* 背景颜色样式 */
+/* 黑色背景 */
+.term-bg40 {
+  background: #212121;
+}
+
+/* 红色背景 */
+.term-bg41 {
+  background: #c30771;
+}
+
+/* 绿色背景 */
+.term-bg42 {
+  background: #10a778;
+}
+
+/* 黄色背景 */
+.term-bg43 {
+  background: #a89c14;
+}
+
+/* 蓝色背景 */
+.term-bg44 {
+  background: #008ec4;
+}
+
+/* 洋红色背景 */
+.term-bg45 {
+  background: #523c79;
+}
+
+/* 青色背景 */
+.term-bg46 {
+  background: #20a5ba;
+}
+
+/* 白色背景 */
+.term-bg47 {
+  background: #8e8e93;
+}
+
+/* 高亮背景颜色样式 */
+/* 高亮黑色背景 */
+.term-bgi100 {
+  background: #212121;
+}
+
+/* 高亮红色背景 */
+.term-bgi101 {
+  background: #fb007a;
+}
+
+/* 高亮绿色背景 */
+.term-bgi102 {
+  background: #009991;
+}
+
+/* 高亮黄色背景 */
+.term-bgi103 {
+  background: #cca300;
+}
+
+/* 高亮蓝色背景 */
+.term-bgi104 {
+  background: #038ec9;
+}
+
+/* 高亮洋红色背景 */
+.term-bgi105 {
+  background: #6855de;
+}
+
+/* 高亮青色背景 */
+.term-bgi106 {
+  background: #4fb8cc;
+}
+
+/* 高亮白色背景 */
+.term-bgi107 {
+  background: #aeaeb2;
+}

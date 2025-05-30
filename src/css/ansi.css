@@ -1,0 +1,46 @@
+.term-container {
+}
+
+.term-container img {
+  max-width: 100%;
+}
+
+.term-container time {
+  padding-right: 1ex;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* 加粗文本样式 */
+.term-fg1 {
+  font-weight: bolder;
+}
+
+/* 弱化文本样式（降低强度） - 与灰色基本相同 */
+.term-fg2 {
+  font-weight: lighter;
+}
+
+/* 斜体文本样式 */
+.term-fg3 {
+  font-style: italic;
+}
+
+/* 下划线文本样式 */
+.term-fg4 {
+  text-decoration: underline;
+}
+
+/* 闪烁文本样式 */
+.term-fg5 {
+  animation: blink-animation 1s steps(3, start) infinite;
+}
+
+/* 删除线文本样式 */
+.term-fg9 {
+  text-decoration: line-through;
+}

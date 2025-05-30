@@ -1,0 +1,474 @@
+<div className="term-container"><pre><code>LOG=DEBUG make run
+(rustup target list | grep &quot;riscv64gc-unknown-none-elf (installed)&quot;) || rustup target add riscv64gc-unknown-none-elf
+riscv64gc-unknown-none-elf (installed)
+cargo install cargo-binutils
+<span className="term-fg32 term-fg1">    Updating</span> crates.io index
+<span className="term-fg32 term-fg1">     Ignored</span> package &#96;cargo-binutils v0.3.6&#96; is already installed, use --force to override
+rustup component add rust-src
+<span className="term-fg1">info: </span>component &#39;rust-src&#39; is up to date
+rustup component add llvm-tools-preview
+<span className="term-fg1">info: </span>component &#39;llvm-tools&#39; for target &#39;aarch64-apple-darwin&#39; is up to date
+<span className="term-fg32 term-fg1">     Removed</span> 2013 files, 462.6MiB total
+target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch2b&#95;bad&#95;address target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch2b&#95;bad&#95;instructions target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch2b&#95;bad&#95;register target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch2b&#95;hello&#95;world target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch2b&#95;power&#95;3 target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch2b&#95;power&#95;5 target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch2b&#95;power&#95;7 target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch3b&#95;yield0 target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch3b&#95;yield1 target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch3b&#95;yield2 target&#47;riscv64gc-unknown-none-elf&#47;debug&#47;ch4b&#95;sbrk
+<span className="term-fg32 term-fg1">   Compiling</span> scopeguard v1.2.0
+<span className="term-fg32 term-fg1">   Compiling</span> spin v0.7.1
+<span className="term-fg32 term-fg1">   Compiling</span> bitflags v1.3.2
+<span className="term-fg32 term-fg1">   Compiling</span> lock&#95;api v0.4.6
+<span className="term-fg32 term-fg1">   Compiling</span> buddy&#95;system&#95;allocator v0.6.0
+<span className="term-fg32 term-fg1">   Compiling</span> spin v0.9.8
+<span className="term-fg32 term-fg1">   Compiling</span> lazy&#95;static v1.5.0
+<span className="term-fg32 term-fg1">   Compiling</span> user&#95;lib v0.1.0 (&#47;Users&#47;jiangsheng&#47;GitHub&#47;2025s-rcore-jiangshengdev&#47;user)
+<span className="term-fg32 term-fg1">    Finished</span> &#96;dev&#96; profile &#91;unoptimized + debuginfo&#93; target(s) in 1.19s
+Platform: qemu
+<span className="term-fg32 term-fg1">   Compiling</span> os v0.1.0 (&#47;Users&#47;jiangsheng&#47;GitHub&#47;2025s-rcore-jiangshengdev&#47;os)
+<span className="term-fg32 term-fg1">    Finished</span> &#96;dev&#96; profile &#91;unoptimized + debuginfo&#93; target(s) in 0.39s
+&#91;rustsbi&#93; RustSBI version 0.3.0-alpha.2, adapting to RISC-V SBI v1.0.0
+.&#95;&#95;&#95;&#95;&#95;&#95;       &#95;&#95;    &#95;&#95;      &#95;&#95;&#95;&#95;&#95;&#95;&#95;.&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;.  &#95;&#95;&#95;&#95;&#95;&#95;&#95;..&#95;&#95;&#95;&#95;&#95;&#95;   &#95;&#95;
+|   &#95;  &#92;     |  |  |  |    &#47;       |           | &#47;       ||   &#95;  &#92; |  |
+|  |&#95;)  |    |  |  |  |   |   (----&#96;---|  |----&#96;|   (----&#96;|  |&#95;)  ||  |
+|      &#47;     |  |  |  |    &#92;   &#92;       |  |      &#92;   &#92;    |   &#95;  &lt; |  |
+|  |&#92;  &#92;----.|  &#96;--&#39;  |.----)   |      |  |  .----)   |   |  |&#95;)  ||  |
+| &#95;| &#96;.&#95;&#95;&#95;&#95;&#95;| &#92;&#95;&#95;&#95;&#95;&#95;&#95;&#47; |&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#47;       |&#95;&#95;|  |&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#47;    |&#95;&#95;&#95;&#95;&#95;&#95;&#47; |&#95;&#95;|
+&#91;rustsbi&#93; Implementation     : RustSBI-QEMU Version 0.2.0-alpha.2
+&#91;rustsbi&#93; Platform Name      : riscv-virtio,qemu
+&#91;rustsbi&#93; Platform SMP       : 1
+&#91;rustsbi&#93; Platform Memory    : 0x80000000..0x88000000
+&#91;rustsbi&#93; Boot HART          : 0
+&#91;rustsbi&#93; Device Tree Region : 0x87000000..0x87000ef2
+&#91;rustsbi&#93; Firmware Address   : 0x80000000
+&#91;rustsbi&#93; Supervisor Address : 0x80200000
+&#91;rustsbi&#93; pmp01: 0x00000000..0x80000000 (-wr)
+&#91;rustsbi&#93; pmp02: 0x80000000..0x80200000 (---)
+&#91;rustsbi&#93; pmp03: 0x80200000..0x88000000 (xwr)
+&#91;rustsbi&#93; pmp04: 0x88000000..0x00000000 (-wr)
+&#91;kernel&#93; Hello, world!
+<span className="term-fg32">&#91;DEBUG&#93; &#91;kernel&#93; .rodata &#91;0x8022a000, 0x80232000)</span>
+<span className="term-fg34">&#91; INFO&#93; &#91;kernel&#93; .data &#91;0x80232000, 0x81a4a000)</span>
+<span className="term-fgi93">&#91; WARN&#93; &#91;kernel&#93; boot&#95;stack top=bottom=0x81a5a000, lower&#95;bound=0x81a4a000</span>
+<span className="term-fg31">&#91;ERROR&#93; &#91;kernel&#93; .bss &#91;0x81a5a000, 0x83a5b000)</span>
+<span className="term-fg36">StackFrameAllocator &#123;</span>
+<span className="term-fg36">    current: 0x83a5b,</span>
+<span className="term-fg36">    end: 0x88000,</span>
+<span className="term-fg36">    recycled: &#91;&#93;,</span>
+<span className="term-fg36">&#125;</span>
+<span className="term-fg32">Trampoline mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fg34">&#91; INFO&#93; .text &#91;0x80200000, 0x8022a000)</span>
+<span className="term-fg34">&#91; INFO&#93; .rodata &#91;0x8022a000, 0x80232000)</span>
+<span className="term-fg34">&#91; INFO&#93; .data &#91;0x80232000, 0x81a4a000)</span>
+<span className="term-fg34">&#91; INFO&#93; .bss &#91;0x81a4a000, 0x83a5b000)</span>
+<span className="term-fg34">&#91; INFO&#93; mapping .text section</span>
+<span className="term-fg36">.text section mapping:</span>
+<span className="term-fg36">VPN:0x0080200 -&gt; PPN:0x0080200</span>
+<span className="term-fg36">...</span>
+<span className="term-fg36">VPN:0x0080229 -&gt; PPN:0x0080229</span>
+<span className="term-fg36">42×</span>
+<span className="term-fg36">Permissions: R | X</span>
+<span className="term-fg34">&#91; INFO&#93; mapping .rodata section</span>
+<span className="term-fg33">.rodata section mapping:</span>
+<span className="term-fg33">VPN:0x008022a -&gt; PPN:0x008022a	VPN:0x008022b -&gt; PPN:0x008022b	VPN:0x008022c -&gt; PPN:0x008022c	</span>
+<span className="term-fg33">VPN:0x008022d -&gt; PPN:0x008022d	VPN:0x008022e -&gt; PPN:0x008022e	VPN:0x008022f -&gt; PPN:0x008022f	</span>
+<span className="term-fg33">VPN:0x0080230 -&gt; PPN:0x0080230	VPN:0x0080231 -&gt; PPN:0x0080231	</span>
+<span className="term-fg33">Permissions: R</span>
+<span className="term-fg34">&#91; INFO&#93; mapping .data section</span>
+<span className="term-fg35">.data section mapping:</span>
+<span className="term-fg35">VPN:0x0080232 -&gt; PPN:0x0080232</span>
+<span className="term-fg35">...</span>
+<span className="term-fg35">VPN:0x0081a49 -&gt; PPN:0x0081a49</span>
+<span className="term-fg35">6168×</span>
+<span className="term-fg35">Permissions: R | W</span>
+<span className="term-fg34">&#91; INFO&#93; mapping .bss section</span>
+<span className="term-fg34">.bss section mapping:</span>
+<span className="term-fg34">VPN:0x0081a4a -&gt; PPN:0x0081a4a</span>
+<span className="term-fg34">...</span>
+<span className="term-fg34">VPN:0x0083a5a -&gt; PPN:0x0083a5a</span>
+<span className="term-fg34">8209×</span>
+<span className="term-fg34">Permissions: R | W</span>
+<span className="term-fg34">&#91; INFO&#93; mapping physical memory</span>
+<span className="term-fg32">Physical memory section mapping:</span>
+<span className="term-fg32">VPN:0x0083a5b -&gt; PPN:0x0083a5b</span>
+<span className="term-fg32">...</span>
+<span className="term-fg32">VPN:0x0087fff -&gt; PPN:0x0087fff</span>
+<span className="term-fg32">17829×</span>
+<span className="term-fg32">Permissions: R | W</span>
+&#91;kernel&#93; back to world!
+重映射测试通过！
+初始化 TASK&#95;MANAGER
+num&#95;app = 11
+应用程序: 0
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083aa1	VPN:0x0000001 -&gt; PPN:0x0083aa4	VPN:0x0000002 -&gt; PPN:0x0083aa5	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083aa6	VPN:0x0000004 -&gt; PPN:0x0083aa7	VPN:0x0000005 -&gt; PPN:0x0083aa8	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083aa9	VPN:0x0000007 -&gt; PPN:0x0083aaa	VPN:0x0000008 -&gt; PPN:0x0083aab	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083aac	VPN:0x000000a -&gt; PPN:0x0083aad	VPN:0x000000b -&gt; PPN:0x0083aae	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083aaf	VPN:0x000000d -&gt; PPN:0x0083ab0	VPN:0x000000e -&gt; PPN:0x0083ab1	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083ab2	VPN:0x0000010 -&gt; PPN:0x0083ab3	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083ab4	VPN:0x0000013 -&gt; PPN:0x0083ab5	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083ab6	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7fffffd -&gt; PPN:0x0083ab7	VPN:0x7fffffe -&gt; PPN:0x0083ab8	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 1
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083abc	VPN:0x0000001 -&gt; PPN:0x0083abf	VPN:0x0000002 -&gt; PPN:0x0083ac0	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083ac1	VPN:0x0000004 -&gt; PPN:0x0083ac2	VPN:0x0000005 -&gt; PPN:0x0083ac3	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083ac4	VPN:0x0000007 -&gt; PPN:0x0083ac5	VPN:0x0000008 -&gt; PPN:0x0083ac6	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083ac7	VPN:0x000000a -&gt; PPN:0x0083ac8	VPN:0x000000b -&gt; PPN:0x0083ac9	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083aca	VPN:0x000000d -&gt; PPN:0x0083acb	VPN:0x000000e -&gt; PPN:0x0083acc	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083acd	VPN:0x0000010 -&gt; PPN:0x0083ace	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083acf	VPN:0x0000013 -&gt; PPN:0x0083ad0	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083ad1	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7fffffa -&gt; PPN:0x0083ad2	VPN:0x7fffffb -&gt; PPN:0x0083ad3	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 2
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083ad7	VPN:0x0000001 -&gt; PPN:0x0083ada	VPN:0x0000002 -&gt; PPN:0x0083adb	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083adc	VPN:0x0000004 -&gt; PPN:0x0083add	VPN:0x0000005 -&gt; PPN:0x0083ade	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083adf	VPN:0x0000007 -&gt; PPN:0x0083ae0	VPN:0x0000008 -&gt; PPN:0x0083ae1	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083ae2	VPN:0x000000a -&gt; PPN:0x0083ae3	VPN:0x000000b -&gt; PPN:0x0083ae4	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083ae5	VPN:0x000000d -&gt; PPN:0x0083ae6	VPN:0x000000e -&gt; PPN:0x0083ae7	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083ae8	VPN:0x0000010 -&gt; PPN:0x0083ae9	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083aea	VPN:0x0000013 -&gt; PPN:0x0083aeb	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083aec	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7fffff7 -&gt; PPN:0x0083aed	VPN:0x7fffff8 -&gt; PPN:0x0083aee	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 3
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083af2	VPN:0x0000001 -&gt; PPN:0x0083af5	VPN:0x0000002 -&gt; PPN:0x0083af6	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083af7	VPN:0x0000004 -&gt; PPN:0x0083af8	VPN:0x0000005 -&gt; PPN:0x0083af9	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083afa	VPN:0x0000007 -&gt; PPN:0x0083afb	VPN:0x0000008 -&gt; PPN:0x0083afc	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083afd	VPN:0x000000a -&gt; PPN:0x0083afe	VPN:0x000000b -&gt; PPN:0x0083aff	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083b00	VPN:0x000000d -&gt; PPN:0x0083b01	VPN:0x000000e -&gt; PPN:0x0083b02	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083b03	VPN:0x0000010 -&gt; PPN:0x0083b04	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083b05	VPN:0x0000013 -&gt; PPN:0x0083b06	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083b07	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7fffff4 -&gt; PPN:0x0083b08	VPN:0x7fffff5 -&gt; PPN:0x0083b09	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 4
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083b0d	VPN:0x0000001 -&gt; PPN:0x0083b10	VPN:0x0000002 -&gt; PPN:0x0083b11	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083b12	VPN:0x0000004 -&gt; PPN:0x0083b13	VPN:0x0000005 -&gt; PPN:0x0083b14	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083b15	VPN:0x0000007 -&gt; PPN:0x0083b16	VPN:0x0000008 -&gt; PPN:0x0083b17	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083b18	VPN:0x000000a -&gt; PPN:0x0083b19	VPN:0x000000b -&gt; PPN:0x0083b1a	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083b1b	VPN:0x000000d -&gt; PPN:0x0083b1c	VPN:0x000000e -&gt; PPN:0x0083b1d	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083b1e	VPN:0x0000010 -&gt; PPN:0x0083b1f	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083b20	VPN:0x0000013 -&gt; PPN:0x0083b21	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083b22	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7fffff1 -&gt; PPN:0x0083b23	VPN:0x7fffff2 -&gt; PPN:0x0083b24	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 5
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083b28	VPN:0x0000001 -&gt; PPN:0x0083b2b	VPN:0x0000002 -&gt; PPN:0x0083b2c	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083b2d	VPN:0x0000004 -&gt; PPN:0x0083b2e	VPN:0x0000005 -&gt; PPN:0x0083b2f	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083b30	VPN:0x0000007 -&gt; PPN:0x0083b31	VPN:0x0000008 -&gt; PPN:0x0083b32	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083b33	VPN:0x000000a -&gt; PPN:0x0083b34	VPN:0x000000b -&gt; PPN:0x0083b35	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083b36	VPN:0x000000d -&gt; PPN:0x0083b37	VPN:0x000000e -&gt; PPN:0x0083b38	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083b39	VPN:0x0000010 -&gt; PPN:0x0083b3a	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083b3b	VPN:0x0000013 -&gt; PPN:0x0083b3c	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083b3d	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7ffffee -&gt; PPN:0x0083b3e	VPN:0x7ffffef -&gt; PPN:0x0083b3f	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 6
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083b43	VPN:0x0000001 -&gt; PPN:0x0083b46	VPN:0x0000002 -&gt; PPN:0x0083b47	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083b48	VPN:0x0000004 -&gt; PPN:0x0083b49	VPN:0x0000005 -&gt; PPN:0x0083b4a	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083b4b	VPN:0x0000007 -&gt; PPN:0x0083b4c	VPN:0x0000008 -&gt; PPN:0x0083b4d	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083b4e	VPN:0x000000a -&gt; PPN:0x0083b4f	VPN:0x000000b -&gt; PPN:0x0083b50	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083b51	VPN:0x000000d -&gt; PPN:0x0083b52	VPN:0x000000e -&gt; PPN:0x0083b53	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083b54	VPN:0x0000010 -&gt; PPN:0x0083b55	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083b56	VPN:0x0000013 -&gt; PPN:0x0083b57	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083b58	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7ffffeb -&gt; PPN:0x0083b59	VPN:0x7ffffec -&gt; PPN:0x0083b5a	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 7
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083b5e	VPN:0x0000001 -&gt; PPN:0x0083b61	VPN:0x0000002 -&gt; PPN:0x0083b62	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083b63	VPN:0x0000004 -&gt; PPN:0x0083b64	VPN:0x0000005 -&gt; PPN:0x0083b65	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083b66	VPN:0x0000007 -&gt; PPN:0x0083b67	VPN:0x0000008 -&gt; PPN:0x0083b68	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083b69	VPN:0x000000a -&gt; PPN:0x0083b6a	VPN:0x000000b -&gt; PPN:0x0083b6b	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083b6c	VPN:0x000000d -&gt; PPN:0x0083b6d	VPN:0x000000e -&gt; PPN:0x0083b6e	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083b6f	VPN:0x0000010 -&gt; PPN:0x0083b70	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083b71	VPN:0x0000013 -&gt; PPN:0x0083b72	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083b73	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7ffffe8 -&gt; PPN:0x0083b74	VPN:0x7ffffe9 -&gt; PPN:0x0083b75	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 8
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083b79	VPN:0x0000001 -&gt; PPN:0x0083b7c	VPN:0x0000002 -&gt; PPN:0x0083b7d	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083b7e	VPN:0x0000004 -&gt; PPN:0x0083b7f	VPN:0x0000005 -&gt; PPN:0x0083b80	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083b81	VPN:0x0000007 -&gt; PPN:0x0083b82	VPN:0x0000008 -&gt; PPN:0x0083b83	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083b84	VPN:0x000000a -&gt; PPN:0x0083b85	VPN:0x000000b -&gt; PPN:0x0083b86	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083b87	VPN:0x000000d -&gt; PPN:0x0083b88	VPN:0x000000e -&gt; PPN:0x0083b89	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083b8a	VPN:0x0000010 -&gt; PPN:0x0083b8b	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083b8c	VPN:0x0000013 -&gt; PPN:0x0083b8d	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083b8e	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7ffffe5 -&gt; PPN:0x0083b8f	VPN:0x7ffffe6 -&gt; PPN:0x0083b90	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 9
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083b94	VPN:0x0000001 -&gt; PPN:0x0083b97	VPN:0x0000002 -&gt; PPN:0x0083b98	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083b99	VPN:0x0000004 -&gt; PPN:0x0083b9a	VPN:0x0000005 -&gt; PPN:0x0083b9b	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083b9c	VPN:0x0000007 -&gt; PPN:0x0083b9d	VPN:0x0000008 -&gt; PPN:0x0083b9e	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083b9f	VPN:0x000000a -&gt; PPN:0x0083ba0	VPN:0x000000b -&gt; PPN:0x0083ba1	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083ba2	VPN:0x000000d -&gt; PPN:0x0083ba3	VPN:0x000000e -&gt; PPN:0x0083ba4	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083ba5	VPN:0x0000010 -&gt; PPN:0x0083ba6	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083ba7	VPN:0x0000013 -&gt; PPN:0x0083ba8	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083ba9	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7ffffe2 -&gt; PPN:0x0083baa	VPN:0x7ffffe3 -&gt; PPN:0x0083bab	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+应用程序: 10
+<span className="term-fg32">Trampoline (App) mapped:</span>
+<span className="term-fg32">VPN:0x7ffffff -&gt; PPN:0x0080201</span>
+<span className="term-fg32">Permissions: R | X</span>
+<span className="term-fgi91">.text section mapping:</span>
+<span className="term-fgi91">VPN:0x0000000 -&gt; PPN:0x0083baf	VPN:0x0000001 -&gt; PPN:0x0083bb2	VPN:0x0000002 -&gt; PPN:0x0083bb3	</span>
+<span className="term-fgi91">VPN:0x0000003 -&gt; PPN:0x0083bb4	VPN:0x0000004 -&gt; PPN:0x0083bb5	VPN:0x0000005 -&gt; PPN:0x0083bb6	</span>
+<span className="term-fgi91">VPN:0x0000006 -&gt; PPN:0x0083bb7	VPN:0x0000007 -&gt; PPN:0x0083bb8	VPN:0x0000008 -&gt; PPN:0x0083bb9	</span>
+<span className="term-fgi91">Permissions: R | X | U</span>
+<span className="term-fgi93">.rodata section mapping:</span>
+<span className="term-fgi93">VPN:0x0000009 -&gt; PPN:0x0083bba	VPN:0x000000a -&gt; PPN:0x0083bbb	VPN:0x000000b -&gt; PPN:0x0083bbc	</span>
+<span className="term-fgi93">Permissions: R | U</span>
+<span className="term-fgi92">.data, .bss section mapping:</span>
+<span className="term-fgi92">VPN:0x000000c -&gt; PPN:0x0083bbd	VPN:0x000000d -&gt; PPN:0x0083bbe	VPN:0x000000e -&gt; PPN:0x0083bbf	</span>
+<span className="term-fgi92">VPN:0x000000f -&gt; PPN:0x0083bc0	VPN:0x0000010 -&gt; PPN:0x0083bc1	</span>
+<span className="term-fgi92">Permissions: R | W | U</span>
+<span className="term-fgi93">User stack section mapping:</span>
+<span className="term-fgi93">VPN:0x0000012 -&gt; PPN:0x0083bc2	VPN:0x0000013 -&gt; PPN:0x0083bc3	</span>
+<span className="term-fgi93">Permissions: R | W | U</span>
+<span className="term-fgi94">User sbrk section mapping:</span>
+<span className="term-fgi95">TrapContext section mapping:</span>
+<span className="term-fgi95">VPN:0x7fffffe -&gt; PPN:0x0083bc4	</span>
+<span className="term-fgi95">Permissions: R | W</span>
+<span className="term-fgi93">Kernel stack section mapping:</span>
+<span className="term-fgi93">VPN:0x7ffffdf -&gt; PPN:0x0083bc5	VPN:0x7ffffe0 -&gt; PPN:0x0083bc6	</span>
+<span className="term-fgi93">Permissions: R | W</span>
+&#91;内核&#93; 应用程序中的非法指令，内核已终止它。
+&#91;内核&#93; 应用程序中的非法指令，内核已终止它。
+Hello, world from user mode program!
+power&#95;3 &#91;10000&#47;200000&#93;
+power&#95;3 &#91;20000&#47;200000&#93;
+power&#95;3 &#91;30000&#47;200000&#93;
+power&#95;3 &#91;40000&#47;200000&#93;
+power&#95;5 &#91;10000&#47;140000&#93;
+power&#95;5 &#91;20000&#47;140000&#93;
+power&#95;5 &#91;30000&#47;140000&#93;
+power&#95;5 &#91;40000&#47;140000&#93;
+power&#95;5 &#91;50000&#47;140000&#93;
+power&#95;5 &#91;60000&#47;140000&#93;
+power&#95;5 &#91;70000&#47;140000&#93;
+power&#95;5 &#91;80000&#47;140000&#93;
+power&#95;5 &#91;90000&#47;140000&#93;
+power&#95;5 &#91;100000&#47;140000&#93;
+power&#95;5 &#91;110000&#47;140000&#93;
+power&#95;5 &#91;120000&#47;140000&#93;
+power&#95;7 &#91;10000&#47;160000&#93;
+power&#95;7 &#91;20000&#47;160000&#93;
+power&#95;7 &#91;30000&#47;160000&#93;
+power&#95;7 &#91;40000&#47;160000&#93;
+power&#95;7 &#91;50000&#47;160000&#93;
+power&#95;7 &#91;60000&#47;160000&#93;
+power&#95;7 &#91;70000&#47;160000&#93;
+power&#95;7 &#91;80000&#47;160000&#93;
+power&#95;7 &#91;90000&#47;160000&#93;
+power&#95;7 &#91;100000&#47;160000&#93;
+power&#95;7 &#91;110000&#47;160000&#93;
+AAAAAAAAAA &#91;1&#47;5&#93;
+BBBBBBBBBB &#91;1&#47;5&#93;
+CCCCCCCCCC &#91;1&#47;5&#93;
+Test sbrk start.
+origin break point = 14000
+one page allocated,  break point = 15000
+try write to allocated page
+write ok
+Panicked at library&#47;core&#47;src&#47;panicking.rs:220, unsafe precondition(s) violated: ptr::write&#95;volatile requires that the pointer argument is aligned and non-null
+power&#95;3 &#91;50000&#47;200000&#93;
+power&#95;3 &#91;60000&#47;200000&#93;
+power&#95;3 &#91;70000&#47;200000&#93;
+power&#95;3 &#91;80000&#47;200000&#93;
+power&#95;3 &#91;90000&#47;200000&#93;
+power&#95;3 &#91;100000&#47;200000&#93;
+power&#95;3 &#91;110000&#47;200000&#93;
+power&#95;3 &#91;120000&#47;200000&#93;
+power&#95;3 &#91;130000&#47;200000&#93;
+power&#95;3 &#91;140000&#47;200000&#93;
+power&#95;3 &#91;150000&#47;200000&#93;
+power&#95;3 &#91;160000&#47;200000&#93;
+power&#95;5 &#91;130000&#47;140000&#93;
+power&#95;5 &#91;140000&#47;140000&#93;
+5^140000 = 386471875(MOD 998244353)
+Test power&#95;5 OK!
+power&#95;7 &#91;120000&#47;160000&#93;
+power&#95;7 &#91;130000&#47;160000&#93;
+power&#95;7 &#91;140000&#47;160000&#93;
+power&#95;7 &#91;150000&#47;160000&#93;
+power&#95;7 &#91;160000&#47;160000&#93;
+7^160000 = 667897727(MOD 998244353)
+Test power&#95;7 OK!
+AAAAAAAAAA &#91;2&#47;5&#93;
+BBBBBBBBBB &#91;2&#47;5&#93;
+CCCCCCCCCC &#91;2&#47;5&#93;
+10 page allocated,  break point = 1f000
+11 page DEALLOCATED,  break point = 14000
+try DEALLOCATED more one page, should be failed.
+Test sbrk almost OK!
+now write to deallocated page, should cause page fault.
+&#91;内核&#93; 应用程序中的页面错误，错误地址 = 0x14000，错误指令 = 0x628，内核已终止它。
+power&#95;3 &#91;170000&#47;200000&#93;
+power&#95;3 &#91;180000&#47;200000&#93;
+power&#95;3 &#91;190000&#47;200000&#93;
+power&#95;3 &#91;200000&#47;200000&#93;
+3^200000 = 871008973(MOD 998244353)
+Test power&#95;3 OK!
+AAAAAAAAAA &#91;3&#47;5&#93;
+BBBBBBBBBB &#91;3&#47;5&#93;
+CCCCCCCCCC &#91;3&#47;5&#93;
+AAAAAAAAAA &#91;4&#47;5&#93;
+BBBBBBBBBB &#91;4&#47;5&#93;
+CCCCCCCCCC &#91;4&#47;5&#93;
+AAAAAAAAAA &#91;5&#47;5&#93;
+BBBBBBBBBB &#91;5&#47;5&#93;
+CCCCCCCCCC &#91;5&#47;5&#93;
+Test write A OK!
+Test write B OK!
+Test write C OK!
+&#91;kernel&#93; Panicked at src&#47;task&#47;mod.rs:312 所有应用程序已完成！</code></pre></div>

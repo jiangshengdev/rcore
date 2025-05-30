@@ -59,8 +59,11 @@ const config: Config = {
         theme: {
           customCss: [
             './src/css/custom.css',
-            './src/css/light.css',
-            './src/css/dark.css',
+            './src/css/ansi.css',
+            './src/css/light/prism.css',
+            './src/css/light/ansi.css',
+            './src/css/dark/prism.css',
+            './src/css/dark/ansi.css',
           ],
         },
       } satisfies Preset.Options,

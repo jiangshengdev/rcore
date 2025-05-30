@@ -4,21 +4,22 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
+    "start": "docusaurus start --no-open",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
+    "serve": "docusaurus serve --no-open",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "dev": "docusaurus start",
+    "dev": "docusaurus start --no-open",
     "format": "prettier blog docs src --write",
     "webp": "./scripts/lib/image/convert-png-to-webp.sh",
     "svgo": "./scripts/lib/image/convert-svg-to-svgo.sh",
     "pre-memory": "uv venv && uv sync",
-    "memory": "uv run ./scripts/lib/memory_viz/bin/generate-memory.sh"
+    "memory": "uv run ./scripts/lib/memory_viz/bin/generate-memory.sh",
+    "ansi-to-mdx": "./scripts/lib/ansi/bin/convert-ansi-to-mdx.sh"
   },
   "dependencies": {
     "@docusaurus/core": "^3.8.0",
