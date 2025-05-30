@@ -21,7 +21,8 @@ convert_one() {
   webpdir="$3"
   rel="${file#"$imgdir"/}"
   target="$webpdir/${rel%.png}.webp"
-  ensure_parent_dir "$target"
+  # 确保目标文件的父目录存在
+  mkdir -p "$(dirname "$target")"
   cwebp -lossless -z 9 -exact -mt -metadata icc "$file" -o "$target"
   echo "已转换: $file -> $target"
 }
