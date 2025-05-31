@@ -1,0 +1,52 @@
+[0m[kernel] Hello, world![0m
+[0;32m[DEBUG] [kernel] .rodata [0x8022a000, 0x80232000)[0m[0m
+[0;34m[ INFO] [kernel] .data [0x80232000, 0x81a4a000)[0m[0m
+[0;93m[ WARN] [kernel] boot_stack top=bottom=0x81a5a000, lower_bound=0x81a4a000[0m[0m
+[0;31m[ERROR] [kernel] .bss [0x81a5a000, 0x83a5b000)[0m[0m
+[0;36mStackFrameAllocator {[0m[0m
+[0;36m    current: 0x83a5b,[0m[0m
+[0;36m    end: 0x88000,[0m[0m
+[0;36m    recycled: [],[0m[0m
+[0;36m}[0m[0m
+[0;32mTrampoline mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;34m[ INFO] .text [0x80200000, 0x8022a000)[0m[0m
+[0;34m[ INFO] .rodata [0x8022a000, 0x80232000)[0m[0m
+[0;34m[ INFO] .data [0x80232000, 0x81a4a000)[0m[0m
+[0;34m[ INFO] .bss [0x81a4a000, 0x83a5b000)[0m[0m
+[0;34m[ INFO] mapping .text section[0m[0m
+[0;36m.text section mapping:[0m[0m
+[0;36mVPN:0x0080200 -> PPN:0x0080200[0m[0m
+[0;36m...[0m[0m
+[0;36mVPN:0x0080229 -> PPN:0x0080229[0m[0m
+[0;36m42×[0m[0m
+[0;36mPermissions: R | X[0m[0m
+[0;34m[ INFO] mapping .rodata section[0m[0m
+[0;33m.rodata section mapping:[0m[0m
+[0;33mVPN:0x008022a -> PPN:0x008022a	VPN:0x008022b -> PPN:0x008022b	VPN:0x008022c -> PPN:0x008022c	[0m[0m
+[0;33mVPN:0x008022d -> PPN:0x008022d	VPN:0x008022e -> PPN:0x008022e	VPN:0x008022f -> PPN:0x008022f	[0m[0m
+[0;33mVPN:0x0080230 -> PPN:0x0080230	VPN:0x0080231 -> PPN:0x0080231	[0m[0m
+[0;33mPermissions: R[0m[0m
+[0;34m[ INFO] mapping .data section[0m[0m
+[0;35m.data section mapping:[0m[0m
+[0;35mVPN:0x0080232 -> PPN:0x0080232[0m[0m
+[0;35m...[0m[0m
+[0;35mVPN:0x0081a49 -> PPN:0x0081a49[0m[0m
+[0;35m6168×[0m[0m
+[0;35mPermissions: R | W[0m[0m
+[0;34m[ INFO] mapping .bss section[0m[0m
+[0;34m.bss section mapping:[0m[0m
+[0;34mVPN:0x0081a4a -> PPN:0x0081a4a[0m[0m
+[0;34m...[0m[0m
+[0;34mVPN:0x0083a5a -> PPN:0x0083a5a[0m[0m
+[0;34m8209×[0m[0m
+[0;34mPermissions: R | W[0m[0m
+[0;34m[ INFO] mapping physical memory[0m[0m
+[0;32mPhysical memory section mapping:[0m[0m
+[0;32mVPN:0x0083a5b -> PPN:0x0083a5b[0m[0m
+[0;32m...[0m[0m
+[0;32mVPN:0x0087fff -> PPN:0x0087fff[0m[0m
+[0;32m17829×[0m[0m
+[0;32mPermissions: R | W[0m[0m
+[kernel] back to world![0m

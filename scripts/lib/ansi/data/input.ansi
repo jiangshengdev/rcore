@@ -18,10 +18,10 @@ target/riscv64gc-unknown-none-elf/debug/ch2b_bad_address target/riscv64gc-unknow
 [0;32;1m   Compiling[0m spin v0.9.8[0m
 [0;32;1m   Compiling[0m lazy_static v1.5.0[0m
 [0;32;1m   Compiling[0m user_lib v0.1.0 (/Users/jiangsheng/GitHub/2025s-rcore-jiangshengdev/user)[0m
-[0;32;1m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 1.19s[0m
+[0;32;1m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 1.22s[0m
 Platform: qemu[0m
 [0;32;1m   Compiling[0m os v0.1.0 (/Users/jiangsheng/GitHub/2025s-rcore-jiangshengdev/os)[0m
-[0;32;1m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 0.39s[0m
+[0;32;1m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 0.61s[0m
 [rustsbi] RustSBI version 0.3.0-alpha.2, adapting to RISC-V SBI v1.0.0[0m
 .______       __    __      _______.___________.  _______..______   __[0m
 |   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |[0m
@@ -400,7 +400,6 @@ power_5 [80000/140000][0m
 power_5 [90000/140000][0m
 power_5 [100000/140000][0m
 power_5 [110000/140000][0m
-power_5 [120000/140000][0m
 power_7 [10000/160000][0m
 power_7 [20000/160000][0m
 power_7 [30000/160000][0m
@@ -412,6 +411,8 @@ power_7 [80000/160000][0m
 power_7 [90000/160000][0m
 power_7 [100000/160000][0m
 power_7 [110000/160000][0m
+power_7 [120000/160000][0m
+power_7 [130000/160000][0m
 AAAAAAAAAA [1/5][0m
 BBBBBBBBBB [1/5][0m
 CCCCCCCCCC [1/5][0m
@@ -433,12 +434,11 @@ power_3 [130000/200000][0m
 power_3 [140000/200000][0m
 power_3 [150000/200000][0m
 power_3 [160000/200000][0m
+power_5 [120000/140000][0m
 power_5 [130000/140000][0m
 power_5 [140000/140000][0m
 5^140000 = 386471875(MOD 998244353)[0m
 Test power_5 OK![0m
-power_7 [120000/160000][0m
-power_7 [130000/160000][0m
 power_7 [140000/160000][0m
 power_7 [150000/160000][0m
 power_7 [160000/160000][0m

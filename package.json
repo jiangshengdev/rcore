@@ -19,7 +19,8 @@
     "svgo": "./scripts/lib/image/convert-svg-to-svgo.sh",
     "pre-memory": "uv venv && uv sync",
     "memory": "uv run ./scripts/lib/memory_viz/bin/generate-memory.sh",
-    "ansi-to-mdx": "./scripts/lib/ansi/bin/convert-ansi-to-mdx.sh"
+    "ansi-to-mdx-test": "./scripts/lib/ansi/bin/convert-ansi-to-mdx-test.sh",
+    "ansi-to-mdx": "./scripts/lib/ansi/bin/convert-ansi-to-mdx-docs.sh"
   },
   "dependencies": {
     "@docusaurus/core": "^3.8.0",
