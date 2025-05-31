@@ -15,4 +15,4 @@ export PYTHONPATH="$PROJECT_ROOT:$PROJECT_ROOT/scripts:$PYTHONPATH"
 
 # 直接调用 Python CLI，传递所有参数
 # Python CLI 现在处理所有功能：参数解析、文件验证、环境检查、转换等
-cd "$PROJECT_ROOT/scripts" && python3 "lib/ansi/src/cli/main.py" convert "$@"
+cd "$PROJECT_ROOT" && python3 -m scripts.lib.ansi.src.cli.main convert "$@"

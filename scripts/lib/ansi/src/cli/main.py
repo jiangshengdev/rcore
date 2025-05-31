@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """
-ANSI 到 MDX 转换器命令行工具
+ANSI 到 MDX 转换器命令行工具 - 重构版本
 
 将 ANSI 文件转换为 Docusaurus 兼容的 MDX 格式。
-完整流程：ANSI -> HTML -> MDX
-
-增强版本集成了环境验证、配置管理和更强的错误处理能力。
+重构后的版本提供更简洁的接口和更好的性能。
 """
 
 import argparse
@@ -17,16 +15,17 @@ from typing import Optional
 # 添加项目路径到 Python 路径
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
-
-# 添加 scripts 目录到路径
 scripts_path = project_root / "scripts"
 sys.path.insert(0, str(scripts_path))
 
 try:
-    from lib.ansi.src.core.mdx_formatter import MdxFormatter, MdxFormatterError
-    from lib.ansi.src.utils.terminal_utils import TerminalUtils, TerminalToHtmlError
-    from lib.ansi.src.utils.environment import EnvironmentValidator, validate_files
-    from lib.ansi.src.config import get_config, validate_config
+    from ..core.conversion_pipeline import convert_ansi_to_mdx
+    from ..core.config_manager import get_config, validate_config
+    from ..utils.common import setup_logging, validate_files
+    from ..utils.exceptions import AnsiConverterError, MdxFormatterError, TerminalToHtmlError
+    from ..utils.environment import EnvironmentValidator
+    from ..core.mdx_formatter import MdxFormatter
+    from ..utils.terminal_utils import TerminalUtils
 except ImportError as e:
     print(f"导入错误: {e}")
     print("请确保在正确的目录中运行此脚本")
@@ -47,7 +46,7 @@ def setup_logging(verbose: bool = False, use_config: bool = True):
     else:
         level_name = "DEBUG" if verbose else "INFO"
         format_str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    
+
     level = getattr(logging, level_name, logging.INFO)
     logging.basicConfig(
         level=level,
@@ -61,29 +60,29 @@ def setup_logging(verbose: bool = False, use_config: bool = True):
 def check_environment_and_config() -> bool:
     """检查环境和配置 - 新增的综合检查函数"""
     logger = logging.getLogger(__name__)
-    
+
     try:
         # 验证配置
         if not validate_config():
             logger.error("配置验证失败")
             return False
-        
+
         # 验证环境
         validator = EnvironmentValidator()
         if not validator.validate_environment():
             logger.error("环境验证失败")
             return False
-        
+
         logger.debug("环境和配置检查完成")
         return True
-        
+
     except Exception as e:
         logger.error(f"环境检查过程中出错: {e}")
         return False
 
 
-def convert_ansi_to_mdx(input_file: str, output_file: str, title: Optional[str] = None, 
-                       verbose: bool = False, skip_env_check: bool = False) -> bool:
+def convert_ansi_to_mdx(input_file: str, output_file: str, title: Optional[str] = None,
+                        verbose: bool = False, skip_env_check: bool = False) -> bool:
     """
     转换 ANSI 文件为 MDX 格式 - 增强版本
     完整流程：ANSI -> HTML -> MDX
@@ -107,24 +106,24 @@ def convert_ansi_to_mdx(input_file: str, output_file: str, title: Optional[str] 
             if not check_environment_and_config():
                 logger.error("环境检查失败，无法继续")
                 return False
-        
+
         # 文件验证 - 使用新的验证模块
         files_valid, validation_errors = validate_files(input_file, output_file)
         if not files_valid:
             for error in validation_errors:
                 logger.error(error)
             return False
-        
+
         # 获取配置以支持默认路径处理
         config = get_config()
-        
+
         # 转换为绝对路径
         input_path = Path(input_file)
         output_path = Path(output_file)
-        
+
         if not input_path.is_absolute():
             input_path = config.get_absolute_input_path(input_file)
-        
+
         if not output_path.is_absolute():
             output_path = config.get_absolute_output_path(output_file)
 
@@ -166,7 +165,7 @@ def convert_ansi_to_mdx(input_file: str, output_file: str, title: Optional[str] 
         else:
             # 未知文件类型：尝试作为 ANSI 处理
             logger.warning(f"⚠️  未知文件类型，尝试作为 ANSI 文件处理: {input_file}")
-            
+
             # 读取文件内容检查是否包含 ANSI 转义序列
             with open(input_path, 'r', encoding='utf-8', errors='replace') as f:
                 content = f.read()
@@ -245,16 +244,16 @@ def convert_batch(input_dir: str, output_dir: str, pattern: str = "*.ansi",
         if not check_environment_and_config():
             logger.error("环境检查失败，无法进行批量转换")
             return 0
-        
+
         config = get_config()
-        
+
         input_path = Path(input_dir)
         output_path = Path(output_dir)
 
         # 输入路径验证
         if not input_path.is_absolute():
             input_path = config.get_absolute_input_path(input_dir)
-        
+
         if not output_path.is_absolute():
             output_path = config.get_absolute_output_path(output_dir)
 
@@ -269,16 +268,16 @@ def convert_batch(input_dir: str, output_dir: str, pattern: str = "*.ansi",
         # 查找匹配的文件 - 支持多种模式
         patterns = pattern.split(',') if ',' in pattern else [pattern]
         files = []
-        
+
         for pat in patterns:
             pat = pat.strip()
             found_files = list(input_path.glob(pat))
             files.extend(found_files)
             logger.debug(f"模式 '{pat}' 找到 {len(found_files)} 个文件")
-        
+
         # 去重（如果有重叠的模式）
         files = list(set(files))
-        
+
         if not files:
             logger.warning(f"在 {input_path} 中未找到匹配 '{pattern}' 的文件")
             return 0
@@ -324,12 +323,12 @@ def convert_batch(input_dir: str, output_dir: str, pattern: str = "*.ansi",
 
         # 输出批量转换总结
         logger.info(f"批量转换完成: {successful_conversions}/{len(files)} 文件成功")
-        
+
         if failed_conversions:
             logger.warning(f"失败的文件 ({len(failed_conversions)}):")
             for failed_file in failed_conversions:
                 logger.warning(f"  - {failed_file}")
-        
+
         return successful_conversions
 
     except Exception as e:
@@ -391,20 +390,20 @@ def main():
     if args.command == "convert":
         # 处理默认参数
         config = get_config()
-        
+
         input_file = args.input
         output_file = args.output
-        
+
         # 如果没有提供输入文件，使用默认文件
         if input_file is None:
             input_file = str(config.get_default_input_file())
             print(f"[INFO] 使用默认输入文件: {input_file}")
-        
+
         # 如果没有提供输出文件，使用默认文件
         if output_file is None:
             output_file = str(config.get_default_output_file())
             print(f"[INFO] 使用默认输出文件: {output_file}")
-        
+
         # 执行环境检查（如果请求）
         if args.check_env:
             print("[INFO] 执行环境检查...")
@@ -412,7 +411,7 @@ def main():
                 print("[ERROR] 环境检查失败")
                 return 1
             print("[INFO] ✅ 环境检查通过")
-        
+
         success = convert_ansi_to_mdx(input_file, output_file, args.title, args.verbose)
         return 0 if success else 1
 
