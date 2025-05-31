@@ -130,8 +130,8 @@ class MdxFormatter:
             mdx_parts.append(f"# {title}\n")
 
         # 添加 MDX 容器结构，开始标签和内容之间不要换行
-        container_start = '<div className="term-container"><pre><code>'
-        container_end = '</code></pre></div>'
+        container_start = '<div className="term-container">'
+        container_end = '</div>'
 
         # 确保内容前后没有多余的空白
         clean_content = content.strip()

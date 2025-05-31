@@ -2,6 +2,10 @@
 sidebar_position: 6
 ---
 
+import CodeBlock from '@theme/CodeBlock';
+import SystemMap from './_system-map.pre.mdx';
+import UserMap from './_user-map.pre.mdx';
+
 # 虚拟内存
 
 rCore 采用简单分页的虚拟内存管理机制。本节基于 `ch4` 分支的 `virtual-memory` 标签进行调试，源码地址：
@@ -72,3 +76,25 @@ rCore 采用简单分页的虚拟内存管理机制。本节基于 `ch4` 分支�
 1. 第一级页表页（`0x83a5b`）下标 2 的表项地址 `0x83a5b010` 指向 `0x83a5e`；
 2. 第二级页表页（`0x83a5e`）下标 1 的表项地址 `0x83a5e008` 指向 `0x83a5f`；
 3. 第三级页表页（`0x83a5f`）下标 0 的表项地址 `0x83a5f000` 解析得到物理页号 `0x0080200`。
+
+## 页表内存映射
+
+本节代码相对于上游版本添加了日志打印，完整的展示了内核态与用户态的页表内存映射。
+
+### 内核内存映射
+
+内核除了跳板映射之外，其他的都为恒等映射。
+
+<CodeBlock>
+  <SystemMap />
+</CodeBlock>
+
+### 用户内存映射
+
+用户程序的页表基本都为帧映射，除了创建自己的页表之外，也在内核页表中添加了对应的陷阱上下文与内核栈映射。
+
+<CodeBlock>
+  <UserMap />
+</CodeBlock>
+
+仅列出前 2 个应用程序，其他大同小异。
