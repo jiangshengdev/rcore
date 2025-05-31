@@ -56,8 +56,8 @@ rCore 采用简单分页的虚拟内存管理机制。本节基于 `ch4` 分支�
 
 虽然此时 `satp` 尚未设置，但页表构建完成后会写入该寄存器，下图展示了完成后的值。
 
-![memory.svg](svg/light/memory.svg#gh-light-mode-only)
-![memory.svg](svg/dark/memory.svg#gh-dark-mode-only)
+![system-map.svg](svg/light/system-map.svg#gh-light-mode-only)
+![system-map.svg](svg/dark/system-map.svg#gh-dark-mode-only)
 
 可以看到 `satp` 寄存器指向了 `0x83a5b` 这个物理页号。
 
