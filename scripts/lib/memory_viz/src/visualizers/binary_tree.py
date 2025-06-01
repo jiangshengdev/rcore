@@ -90,7 +90,7 @@ def main() -> None:
     """主函数：生成纯二叉树图形"""
     # 获取当前模块的目录
     current_dir = get_file_dir(__file__)
-    output_base_dir = os.path.join(current_dir, '..', '..', 'output')
+    output_base_dir = os.path.join(current_dir, '..', '..', '_assets', 'output')
 
     # 确保输出目录存在
     light_dir = os.path.join(output_base_dir, 'light')
