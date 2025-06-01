@@ -27,8 +27,8 @@ rCore 采用经典的伙伴算法（Buddy System）做堆内存分配。源码�
 
 下图展示的是【2. 新建 list 并保存它的地址以便调试】之前的断点状态：
 
-![values-code.webp](webp/light/values-code.webp#gh-light-mode-only)
-![values-code.webp](webp/dark/values-code.webp#gh-dark-mode-only)
+![values-code.webp](_assets/webp/light/values-code.webp#gh-light-mode-only)
+![values-code.webp](_assets/webp/dark/values-code.webp#gh-dark-mode-only)
 
 此时可以查看由 16 个元素组成的数组 `values` 的地址和值。为了便于调试和定位，每个元素的值都被赋予了有规律的数字。
 
@@ -36,16 +36,16 @@ rCore 采用经典的伙伴算法（Buddy System）做堆内存分配。源码�
 
 `values` 数组的起始地址为 `0x80218d48`，下图显示了各个元素的值（即每个元素的初始内容）：
 
-![values-debug.webp](webp/light/values-debug.webp#gh-light-mode-only)
-![values-debug.webp](webp/dark/values-debug.webp#gh-dark-mode-only)
+![values-debug.webp](_assets/webp/light/values-debug.webp#gh-light-mode-only)
+![values-debug.webp](_assets/webp/dark/values-debug.webp#gh-dark-mode-only)
 
 ### 新建链表
 
 此时程序已执行完链表和节点的初始化，但尚未执行任何 `push` 操作。断点位于【5. 依次
 push】之前。
 
-![list-code.webp](webp/light/list-code.webp#gh-light-mode-only)
-![list-code.webp](webp/dark/list-code.webp#gh-dark-mode-only)
+![list-code.webp](_assets/webp/light/list-code.webp#gh-light-mode-only)
+![list-code.webp](_assets/webp/dark/list-code.webp#gh-dark-mode-only)
 
 可以看到链表 `list` 位于栈上，其地址为 `0x80218e20`。此时
 `head` 字段的值为 `0x0`，表示链表为空，没有任何节点被插入。
@@ -68,21 +68,21 @@ $4 = (*mut usize) 0x0
 
 :::
 
-![list-debug.webp](webp/light/list-debug.webp#gh-light-mode-only)
-![list-debug.webp](webp/dark/list-debug.webp#gh-dark-mode-only)
+![list-debug.webp](_assets/webp/light/list-debug.webp#gh-light-mode-only)
+![list-debug.webp](_assets/webp/dark/list-debug.webp#gh-dark-mode-only)
 
 ### 插入节点
 
 跳转到【6. head 应指向最后 push 的节点】的断点，此时所有节点已依次插入链表，`head`
 字段指向最后插入的节点。
 
-![push-code.webp](webp/light/push-code.webp#gh-light-mode-only)
-![push-code.webp](webp/dark/push-code.webp#gh-dark-mode-only)
+![push-code.webp](_assets/webp/light/push-code.webp#gh-light-mode-only)
+![push-code.webp](_assets/webp/dark/push-code.webp#gh-dark-mode-only)
 
 此时可以通过「内存视图」观察链表结构的变化：
 
-![push-debug.webp](webp/light/push-debug.webp#gh-light-mode-only)
-![push-debug.webp](webp/dark/push-debug.webp#gh-dark-mode-only)
+![push-debug.webp](_assets/webp/light/push-debug.webp#gh-light-mode-only)
+![push-debug.webp](_assets/webp/dark/push-debug.webp#gh-dark-mode-only)
 
 ### 查看内存
 
@@ -128,33 +128,33 @@ $4 = (*mut usize) 0x0
 
 需要注意的是，除了第一个数组元素的值刚好与空指针一致（`0x0`），其余元素的值都被后续节点的地址覆盖。
 
-![memory.svg](svg/light/memory.svg#gh-light-mode-only)
-![memory.svg](svg/dark/memory.svg#gh-dark-mode-only)
+![memory.svg](_assets/svg/light/memory.svg#gh-light-mode-only)
+![memory.svg](_assets/svg/dark/memory.svg#gh-dark-mode-only)
 
 ### 准备删除
 
 跳转到【9. pop 也应以同样顺序逐个拿出】之前的断点。
 
-![next-code.webp](webp/light/next-code.webp#gh-light-mode-only)
-![next-code.webp](webp/dark/next-code.webp#gh-dark-mode-only)
+![next-code.webp](_assets/webp/light/next-code.webp#gh-light-mode-only)
+![next-code.webp](_assets/webp/dark/next-code.webp#gh-dark-mode-only)
 
 此时链表 `list` 所在的地址 `0x80218e20` 的值即将发生变化。
 
-![next-debug.webp](webp/light/next-debug.webp#gh-light-mode-only)
-![next-debug.webp](webp/dark/next-debug.webp#gh-dark-mode-only)
+![next-debug.webp](_assets/webp/light/next-debug.webp#gh-light-mode-only)
+![next-debug.webp](_assets/webp/dark/next-debug.webp#gh-dark-mode-only)
 
 ### 删除节点
 
 跳转到【9. pop 也应以同样顺序逐个拿出】之后的断点。
 
-![pop-code.webp](webp/light/pop-code.webp#gh-light-mode-only)
-![pop-code.webp](webp/dark/pop-code.webp#gh-dark-mode-only)
+![pop-code.webp](_assets/webp/light/pop-code.webp#gh-light-mode-only)
+![pop-code.webp](_assets/webp/dark/pop-code.webp#gh-dark-mode-only)
 
 此时链表 `list` 所在的地址 `0x80218e20` 的值被赋值为
 `0x0`，表示 `head` 字段被设为 `null`，即链表已为空。
 
-![pop-debug.webp](webp/light/pop-debug.webp#gh-light-mode-only)
-![pop-debug.webp](webp/dark/pop-debug.webp#gh-dark-mode-only)
+![pop-debug.webp](_assets/webp/light/pop-debug.webp#gh-light-mode-only)
+![pop-debug.webp](_assets/webp/dark/pop-debug.webp#gh-dark-mode-only)
 
 如果使用「步过」按钮逐行执行，可以看到 `pop` 与 `push` 不同，移除元素时只有链表
 `list` 所在地址的值发生了改变。
@@ -185,8 +185,8 @@ $4 = (*mut usize) 0x0
 调用 `Heap::<ORDER>::new()` 时，会创建一个长度为 `ORDER` 的空链表数组 `free_list`，并将 `user`、`allocated`、`total` 均置为
 0。通过调试可见，所有阶次的链表此时都为空，用于管理不同大小的空闲内存块：
 
-![heap.webp](webp/light/heap.webp#gh-light-mode-only)
-![heap.webp](webp/dark/heap.webp#gh-dark-mode-only)
+![heap.webp](_assets/webp/light/heap.webp#gh-light-mode-only)
+![heap.webp](_assets/webp/dark/heap.webp#gh-dark-mode-only)
 
 以下以 `ORDER = 32` 为例，列出了每个阶次所管理的内存块大小：
 
@@ -282,8 +282,8 @@ Heap {
 
 下图展示了各阶空闲区块在内存地址空间中的分布情况：
 
-![buddy-free-list.svg](svg/light/buddy-free-list.svg#gh-light-mode-only)
-![buddy-free-list.svg](svg/dark/buddy-free-list.svg#gh-dark-mode-only)
+![buddy-free-list.svg](_assets/svg/light/buddy-free-list.svg#gh-light-mode-only)
+![buddy-free-list.svg](_assets/svg/dark/buddy-free-list.svg#gh-dark-mode-only)
 
 ### 分配内存
 
@@ -324,7 +324,7 @@ Heap {
 
 到这里，已经介绍完伙伴系统的核心思想：用二次幂拆分与合并空闲块来应对不同大小的内存请求，并通过侵入式链表高效管理各阶空闲块；剩下的就是在实践中结合示例代码和调试流程亲自验证算法的运行效果了。
 
-![binary-tree-pure.svg](svg/light/binary-tree-pure.svg#gh-light-mode-only)
-![binary-tree-pure.svg](svg/dark/binary-tree-pure.svg#gh-dark-mode-only)
+![binary-tree-pure.svg](_assets/svg/light/binary-tree-pure.svg#gh-light-mode-only)
+![binary-tree-pure.svg](_assets/svg/dark/binary-tree-pure.svg#gh-dark-mode-only)
 
 _图示：纯粹的二叉树结构示意图，用于装饰，象征伙伴系统中内存块的分裂与合并过程，体现对称与递归美感。_
