@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # 启动流程
 
-本节详细介绍 QEMU RISC-V virt 虚拟机下 rCore 系统的启动流程，包括内存映射、固件动态信息结构、复位向量（Reset
+本节介绍 QEMU RISC-V virt 虚拟机下 rCore 系统的启动流程，包括内存映射、固件动态信息结构、复位向量（Reset
 Vector）指令分析等内容。建议在完成 [环境准备](../env/index.md) 后阅读本节内容。
 
 如需调试启动流程，可参考 [代码调试](../debug/index.md) 章节，结合 GDB
