@@ -171,8 +171,8 @@ make build
 
 点击菜单中的「运行 -> 编辑配置...」，打开「运行/调试配置」弹窗。
 
-![debug-config-start.webp](webp/light/debug-config-start.webp#gh-light-mode-only)
-![debug-config-start.webp](webp/dark/debug-config-start.webp#gh-dark-mode-only)
+![debug-config-start.webp](_assets/webp/light/debug-config-start.webp#gh-light-mode-only)
+![debug-config-start.webp](_assets/webp/dark/debug-config-start.webp#gh-dark-mode-only)
 
 然后点击左上角的加号，在「添加新配置」菜单中选择「远程调试」。
 
@@ -184,15 +184,15 @@ make build
   - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/os`
   - `<实验仓库>/os/target/riscv64gc-unknown-none-elf/debug/os`
 
-![debug-config-finish.webp](webp/light/debug-config-finish.webp#gh-light-mode-only)
-![debug-config-finish.webp](webp/dark/debug-config-finish.webp#gh-dark-mode-only)
+![debug-config-finish.webp](_assets/webp/light/debug-config-finish.webp#gh-light-mode-only)
+![debug-config-finish.webp](_assets/webp/dark/debug-config-finish.webp#gh-dark-mode-only)
 
 ### 设置断点
 
 在 `os/src/main.rs` 文件的 `rust_main` 函数中添加行断点。
 
-![break-point.webp](webp/light/break-point.webp#gh-light-mode-only)
-![break-point.webp](webp/dark/break-point.webp#gh-dark-mode-only)
+![break-point.webp](_assets/webp/light/break-point.webp#gh-light-mode-only)
+![break-point.webp](_assets/webp/dark/break-point.webp#gh-dark-mode-only)
 
 ### 启动调试服务
 
@@ -210,16 +210,16 @@ cd ~/GitHub/2025s-rcore-jiangshengdev/os
 make gdbserver
 ```
 
-![gdbserver.webp](webp/light/gdbserver.webp#gh-light-mode-only)
-![gdbserver.webp](webp/dark/gdbserver.webp#gh-dark-mode-only)
+![gdbserver.webp](_assets/webp/light/gdbserver.webp#gh-light-mode-only)
+![gdbserver.webp](_assets/webp/dark/gdbserver.webp#gh-dark-mode-only)
 
 ### 连接调试客户端
 
 点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的
 `gdbclient` 远程调试项目。
 
-![gdbclient.webp](webp/light/gdbclient.webp#gh-light-mode-only)
-![gdbclient.webp](webp/dark/gdbclient.webp#gh-dark-mode-only)
+![gdbclient.webp](_assets/webp/light/gdbclient.webp#gh-light-mode-only)
+![gdbclient.webp](_assets/webp/dark/gdbclient.webp#gh-dark-mode-only)
 
 即可在断点处暂停，至此可以进行 `os` 程序的调试。
 
@@ -231,13 +231,13 @@ make gdbserver
 disconnect
 ```
 
-![clion-disconnect.webp](webp/light/clion-disconnect.webp#gh-light-mode-only)
-![clion-disconnect.webp](webp/dark/clion-disconnect.webp#gh-dark-mode-only)
+![clion-disconnect.webp](_assets/webp/light/clion-disconnect.webp#gh-light-mode-only)
+![clion-disconnect.webp](_assets/webp/dark/clion-disconnect.webp#gh-dark-mode-only)
 
 控制台会显示：「调试器已断开连接」。
 
-![clion-disconnected.webp](webp/light/clion-disconnected.webp#gh-light-mode-only)
-![clion-disconnected.webp](webp/dark/clion-disconnected.webp#gh-dark-mode-only)
+![clion-disconnected.webp](_assets/webp/light/clion-disconnected.webp#gh-light-mode-only)
+![clion-disconnected.webp](_assets/webp/dark/clion-disconnected.webp#gh-dark-mode-only)
 
 ### 重新连接
 
@@ -258,8 +258,8 @@ make gdbclient
 可以再次连接到上次断开的位置，然后连续使用 `si` 命令（两次左右）可以单步进入到
 `__restore` 函数中：
 
-![gdbclient-connect.webp](webp/light/gdbclient-connect.webp#gh-light-mode-only)
-![gdbclient-connect.webp](webp/dark/gdbclient-connect.webp#gh-dark-mode-only)
+![gdbclient-connect.webp](_assets/webp/light/gdbclient-connect.webp#gh-light-mode-only)
+![gdbclient-connect.webp](_assets/webp/dark/gdbclient-connect.webp#gh-dark-mode-only)
 
 然后在 `__restore` 函数中继续使用一次 `si` 命令执行 `mv sp, a0` 这一行代码，将内核栈顶地址赋值给
 `sp` 寄存器。
@@ -275,8 +275,8 @@ make gdbclient
 x /34gx $sp
 ```
 
-![examining-memory.webp](webp/light/examining-memory.webp#gh-light-mode-only)
-![examining-memory.webp](webp/dark/examining-memory.webp#gh-dark-mode-only)
+![examining-memory.webp](_assets/webp/light/examining-memory.webp#gh-light-mode-only)
+![examining-memory.webp](_assets/webp/dark/examining-memory.webp#gh-dark-mode-only)
 
 可以看到这时显示的刚好是内核栈顶的内容。
 
@@ -292,8 +292,8 @@ x /34gx $sp
 
 在 `__restore` 函数结束前，先在 GDB 中执行 `disconnect`，以断开与调试服务器的连接。
 
-![before-user.webp](webp/light/before-user.webp#gh-light-mode-only)
-![before-user.webp](webp/dark/before-user.webp#gh-dark-mode-only)
+![before-user.webp](_assets/webp/light/before-user.webp#gh-light-mode-only)
+![before-user.webp](_assets/webp/dark/before-user.webp#gh-dark-mode-only)
 
 此时可以看到 `__restore` 函数末尾有 `sret` 指令，执行后将切换到用户态继续运行。
 
@@ -313,23 +313,23 @@ x /34gx $sp
   - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world`
   - `<实验仓库>/user/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world`
 
-![user-config.webp](webp/light/user-config.webp#gh-light-mode-only)
-![user-config.webp](webp/dark/user-config.webp#gh-dark-mode-only)
+![user-config.webp](_assets/webp/light/user-config.webp#gh-light-mode-only)
+![user-config.webp](_assets/webp/dark/user-config.webp#gh-dark-mode-only)
 
 ### 设置断点
 
 在 `user/src/bin/ch2b_hello_world.rs` 文件的 `main` 函数中添加行断点。
 
-![user-break-point.webp](webp/light/user-break-point.webp#gh-light-mode-only)
-![user-break-point.webp](webp/dark/user-break-point.webp#gh-dark-mode-only)
+![user-break-point.webp](_assets/webp/light/user-break-point.webp#gh-light-mode-only)
+![user-break-point.webp](_assets/webp/dark/user-break-point.webp#gh-dark-mode-only)
 
 ### 连接调试客户端
 
 点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的
 `gdbclient` 远程调试项目。
 
-![user-gdbclient.webp](webp/light/user-gdbclient.webp#gh-light-mode-only)
-![user-gdbclient.webp](webp/dark/user-gdbclient.webp#gh-dark-mode-only)
+![user-gdbclient.webp](_assets/webp/light/user-gdbclient.webp#gh-light-mode-only)
+![user-gdbclient.webp](_assets/webp/dark/user-gdbclient.webp#gh-dark-mode-only)
 
 即可在断点处暂停，至此可以进行 `user` 程序的调试。
 
