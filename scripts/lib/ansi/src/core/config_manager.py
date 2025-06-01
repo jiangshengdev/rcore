@@ -36,7 +36,7 @@ class ConversionConfig:
         self.supported_extensions = ['.ansi', '.txt', '.html', '.htm']
         # 兼容性：确保别名指向相同数据
         self.supported_input_extensions = self.supported_extensions
-        
+
         # 确保兼容属性同步
         if self.fallback_to_raw != self.fallback_to_raw_content:
             self.fallback_to_raw_content = self.fallback_to_raw

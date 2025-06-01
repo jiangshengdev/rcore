@@ -120,7 +120,7 @@ class ConversionPipeline:
     def _convert_to_html(self, input_info: FileInfo) -> str:
         """转换为 HTML 格式"""
         content_type = input_info.content_type or 'unknown'
-        
+
         if content_type == 'html':
             # HTML 文件直接读取
             logger.info("🔄 检测到 HTML 文件，直接读取...")
