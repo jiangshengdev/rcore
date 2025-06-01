@@ -2,6 +2,11 @@
 sidebar_position: 5
 ---
 
+import CodeBlock from '@theme/CodeBlock';
+import GdbListDebug from './_assets/ansi/gdb-list-debug.mdx';
+import GdbListHead from './_assets/ansi/gdb-list-head.mdx';
+import GdbMemoryView from './_assets/ansi/gdb-memory-view.mdx';
+
 # 伙伴系统
 
 rCore 采用经典的伙伴算法（Buddy System）做堆内存分配。源码地址：
@@ -50,16 +55,9 @@ push】之前。
 可以看到链表 `list` 位于栈上，其地址为 `0x80218e20`。此时
 `head` 字段的值为 `0x0`，表示链表为空，没有任何节点被插入。
 
-```
-(gdb) p &list
-$1 = (*mut os::buddy_system::linked_list::LinkedList) 0x80218e20
-(gdb) p &list.head
-$2 = (*mut *mut usize) 0x80218e20
-(gdb) p list
-$3 = os::buddy_system::linked_list::LinkedList = {head = 0x0}
-(gdb) p list.head
-$4 = (*mut usize) 0x0
-```
+<CodeBlock>
+  <GdbListHead />
+</CodeBlock>
 
 :::tip
 
@@ -88,27 +86,18 @@ $4 = (*mut usize) 0x0
 
 此时可以使用 GDB 检查链表和节点的内存布局。例如：
 
-```
-(gdb) x /gx 0x0000000080218e20
-0x80218e20:	0x0000000080218dc0
-```
+<CodeBlock>
+  <GdbMemoryView />
+</CodeBlock>
 
 这里 `0x80218e20` 是链表 `list` 结构体的地址，存储的值 `0x80218dc0` 是
 `head` 字段存储的指针，指向链表的首节点（最近插入的节点）的地址。
 
 继续查看数组中各个元素的内容：
 
-```
-(gdb) x /16gx 0x0000000080218d48
-0x80218d48:	0x0000000000000000	0x0000000080218d48
-0x80218d58:	0x0000000080218d50	0x0000000080218d58
-0x80218d68:	0x0000000080218d60	0x0000000080218d68
-0x80218d78:	0x0000000080218d70	0x0000000080218d78
-0x80218d88:	0x0000000080218d80	0x0000000080218d88
-0x80218d98:	0x0000000080218d90	0x0000000080218d98
-0x80218da8:	0x0000000080218da0	0x0000000080218da8
-0x80218db8:	0x0000000080218db0	0x0000000080218db8
-```
+<CodeBlock>
+  <GdbListDebug />
+</CodeBlock>
 
 每一行左侧是节点的地址，右侧是该地址存储的值（即下一个节点的地址或
 `0x0`，表示链表尾部）。这样可以直观地看到链表的连接关系和节点内容。
