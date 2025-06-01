@@ -57,6 +57,34 @@ class MdxFormatter:
         content = content.replace('}', '&#125;')
         return content
 
+    def _preserve_leading_spaces(self, content: str) -> str:
+        """
+        保持行首的空格，将连续空格转换为 &nbsp; 以防止被浏览器合并
+        
+        Args:
+            content: 包含终端输出的内容字符串
+            
+        Returns:
+            处理后的内容字符串
+        """
+        lines = content.split('\n')
+        processed_lines = []
+        
+        for line in lines:
+            # 计算行首空格数量
+            leading_spaces = len(line) - len(line.lstrip(' '))
+            
+            if leading_spaces > 0:
+                # 将行首空格替换为 &nbsp;
+                preserved_spaces = '&nbsp;' * leading_spaces
+                # 保留行的其余部分
+                rest_of_line = line[leading_spaces:]
+                processed_lines.append(preserved_spaces + rest_of_line)
+            else:
+                processed_lines.append(line)
+        
+        return '\n'.join(processed_lines)
+
     def _escape_markdown_characters(self, content: str) -> str:
         """
         转义终端输出中可能与Markdown语法冲突的字符
@@ -170,6 +198,9 @@ class MdxFormatter:
 
             # 清理终端提示符
             mdx_content = self._clean_terminal_prompts(mdx_content)
+
+            # 保持行首空格格式
+            mdx_content = self._preserve_leading_spaces(mdx_content)
 
             # 转义终端输出中的Markdown特殊字符
             mdx_content = self._escape_markdown_characters(mdx_content)

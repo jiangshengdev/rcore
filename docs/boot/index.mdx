@@ -2,6 +2,14 @@
 sidebar_position: 4
 ---
 
+import CodeBlock from '@theme/CodeBlock';
+import ResetVectorAll from './_assets/ansi/reset-vector-all.mdx';
+import ResetVectorFirstTwo from './_assets/ansi/reset-vector-first-two.mdx';
+import FirmwareDynamicInfo from './_assets/ansi/firmware-dynamic-info.mdx';
+import CsrrMhartid from './_assets/ansi/csrr-mhartid.mdx';
+import LoadInstructions from './_assets/ansi/load-instructions.mdx';
+import JumpInstruction from './_assets/ansi/jump-instruction.mdx';
+
 # 启动流程
 
 本节介绍 QEMU RISC-V virt 虚拟机下 rCore 系统的启动流程，包括内存映射、固件动态信息结构、复位向量（Reset
@@ -206,21 +214,15 @@ x/6i $pc
 
 即可查看接下来将要执行的 6 条指令。
 
-```riscv
-   0x1000:	auipc	t0,0x0
-   0x1004:	addi	a2,t0,40
-   0x1008:	csrr	a0,mhartid
-   0x100c:	ld	a1,32(t0)
-   0x1010:	ld	t0,24(t0)
-   0x1014:	jr	t0
-```
+<CodeBlock>
+  <ResetVectorAll />
+</CodeBlock>
 
 执行前两条指令：
 
-```riscv
-   0x1000:	auipc	t0,0x0
-   0x1004:	addi	a2,t0,40
-```
+<CodeBlock>
+  <ResetVectorFirstTwo />
+</CodeBlock>
 
 执行完上述两条指令后，`a2` 寄存器被赋值为 `0x0000000000001028`，即 `fw_dyn`
 的地址。接下来可使用内存查看命令：
@@ -231,11 +233,9 @@ x/6gx $a2
 
 以检视该地址处的固件动态信息内容。执行后，终端将输出如下内容：
 
-```
-0x1028:	0x000000004942534f	0x0000000000000002
-0x1038:	0x0000000000000000	0x0000000000000001
-0x1048:	0x0000000000000000	0x0000000000000000
-```
+<CodeBlock>
+  <FirmwareDynamicInfo />
+</CodeBlock>
 
 各字段的含义如下：
 
@@ -250,18 +250,17 @@ x/6gx $a2
 
 第三条指令：
 
-```riscv
-   0x1008:	csrr	a0,mhartid
-```
+<CodeBlock>
+  <CsrrMhartid />
+</CodeBlock>
 
 执行该指令后，硬件线程 ID 被写入 `a0` 寄存器，其值为 `0x0`。
 
 随后执行的指令为：
 
-```riscv
-   0x100c:	ld	a1,32(t0)
-   0x1010:	ld	t0,24(t0)
-```
+<CodeBlock>
+  <LoadInstructions />
+</CodeBlock>
 
 执行上述指令后，
 
@@ -270,9 +269,9 @@ x/6gx $a2
 
 最后一条指令：
 
-```riscv
-   0x1014:	jr	t0
-```
+<CodeBlock>
+  <JumpInstruction />
+</CodeBlock>
 
 执行该指令后，系统将跳转到 SBI 的起始地址，本阶段的启动流程就告一段落，接下来将进入并执行
 SBI 阶段的相关代码。
