@@ -38,11 +38,11 @@ rCore 采用简单分页的虚拟内存管理机制。本节基于 `ch4` 分支�
 使用 GDB 分别查看这 5 个物理页号对应的 4 KiB 内存内容：
 
 ```
-(gdb) x /512g 0x83A5B000
-(gdb) x /512g 0x83A5C000
-(gdb) x /512g 0x83A5D000
-(gdb) x /512g 0x83A5E000
-(gdb) x /512g 0x83A5F000
+(gdb) x /512gx 0x83A5B000
+(gdb) x /512gx 0x83A5C000
+(gdb) x /512gx 0x83A5D000
+(gdb) x /512gx 0x83A5E000
+(gdb) x /512gx 0x83A5F000
 ```
 
 由于输出冗长，此处仅绘制非 `0x0` 的项。
