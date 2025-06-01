@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 class ConversionConfig:
     """转换相关配置的简化版本"""
     # 输入输出设置
-    default_input_file: str = "data/input.ansi"
-    default_output_file: str = "output/_output.pre.mdx"
+    default_input_file: str = "_assets/data/input.ansi"
+    default_output_file: str = "_assets/output/_output.pre.mdx"
     max_file_size_mb: int = 50
 
     # 转换选项
