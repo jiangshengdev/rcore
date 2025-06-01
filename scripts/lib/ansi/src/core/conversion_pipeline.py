@@ -6,6 +6,7 @@
 """
 
 import logging
+from pathlib import Path
 from typing import Optional, Dict, Any
 
 from .config_manager import get_config
@@ -107,26 +108,25 @@ class ConversionPipeline:
 
         return input_info
 
-    def _prepare_output(self, output_file: str) -> 'Path':
-        """准备输出文件"""
+    def _prepare_output(self, output_file: str) -> Path:
+        """准备输出文件路径"""
         logger.info(f"📋 准备输出文件: {output_file}")
 
-        # 验证输入输出路径
-        self.file_processor.validate_input_output_paths("", output_file)
-
-        # 准备输出文件
+        # 直接准备输出文件，不验证输入文件（在这个阶段还未知输入文件）
         output_path = self.file_processor.prepare_output_file(output_file)
 
         return output_path
 
     def _convert_to_html(self, input_info: FileInfo) -> str:
         """转换为 HTML 格式"""
-        if input_info.content_type == 'html':
+        content_type = input_info.content_type or 'unknown'
+        
+        if content_type == 'html':
             # HTML 文件直接读取
             logger.info("🔄 检测到 HTML 文件，直接读取...")
             return self.file_processor.read_file_content(input_info)
 
-        elif input_info.content_type == 'ansi':
+        elif content_type == 'ansi':
             # ANSI 文件需要转换
             logger.info("🔄 检测到 ANSI 文件，开始转换流程...")
             logger.info("📄 第1步：ANSI -> HTML")
@@ -170,7 +170,7 @@ class ConversionPipeline:
         except Exception as e:
             raise ConversionError(f"HTML -> MDX 转换失败: {e}")
 
-    def _write_output(self, output_path: 'Path', content: str) -> None:
+    def _write_output(self, output_path: Path, content: str) -> None:
         """写入输出文件"""
         try:
             with open(output_path, 'w', encoding='utf-8') as f:
@@ -178,7 +178,7 @@ class ConversionPipeline:
         except Exception as e:
             raise ConversionError(f"输出文件写入失败: {e}")
 
-    def _generate_summary(self, input_info: FileInfo, output_path: 'Path') -> Dict[str, Any]:
+    def _generate_summary(self, input_info: FileInfo, output_path: Path) -> Dict[str, Any]:
         """生成转换摘要"""
         return self.file_processor.get_processing_summary(input_info, output_path)
 

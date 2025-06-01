@@ -41,7 +41,8 @@ class EnvironmentValidator:
     def check_required_tools(self) -> List[str]:
         """检查所需的系统工具是否可用"""
         required_tools = ["python3", "terminal-to-html"]
-        missing_tools = []
+        # 存储缺失工具名称的列表
+        missing_tools: List[str] = []
 
         for tool in required_tools:
             if not shutil.which(tool):
@@ -229,7 +230,8 @@ def validate_files(input_file: str, output_file: str) -> Tuple[bool, List[str]]:
         Tuple[bool, List[str]]: (是否全部有效, 错误信息列表)
     """
     validator = EnvironmentValidator()
-    errors = []
+    # 存储错误信息的列表
+    errors: List[str] = []
 
     # 验证输入文件
     input_valid, input_msg = validator.validate_input_file(input_file)

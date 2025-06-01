@@ -10,7 +10,7 @@ import argparse
 import logging
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 
 # 添加项目路径到 Python 路径
 project_root = Path(__file__).parent.parent.parent.parent
@@ -22,7 +22,7 @@ try:
     from ..core.conversion_pipeline import convert_ansi_to_mdx
     from ..core.config_manager import get_config, validate_config
     from ..utils.common import setup_logging, validate_files
-    from ..utils.exceptions import AnsiConverterError, MdxFormatterError, TerminalToHtmlError
+    from ..utils.exceptions import MdxFormatterError, TerminalToHtmlError
     from ..utils.environment import EnvironmentValidator
     from ..core.mdx_formatter import MdxFormatter
     from ..utils.terminal_utils import TerminalUtils
@@ -267,7 +267,7 @@ def convert_batch(input_dir: str, output_dir: str, pattern: str = "*.ansi",
 
         # 查找匹配的文件 - 支持多种模式
         patterns = pattern.split(',') if ',' in pattern else [pattern]
-        files = []
+        files: List[Path] = []
 
         for pat in patterns:
             pat = pat.strip()
@@ -286,7 +286,7 @@ def convert_batch(input_dir: str, output_dir: str, pattern: str = "*.ansi",
 
         # 批量转换
         successful_conversions = 0
-        failed_conversions = []
+        failed_conversions: List[str] = []
 
         for i, file in enumerate(files, 1):
             # 生成输出文件名

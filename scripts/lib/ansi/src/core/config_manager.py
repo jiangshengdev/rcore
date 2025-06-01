@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ConversionConfig:
-    """转换相关配置的简化版本"""
+    """转换相关配置"""
     # 输入输出设置
     default_input_file: str = "_assets/data/input.ansi"
     default_output_file: str = "_assets/output/_output.pre.mdx"
@@ -26,14 +26,22 @@ class ConversionConfig:
 
     # 转换选项
     auto_detect_ansi: bool = True
-    fallback_to_raw_content: bool = True  # 与 main.py 兼容的属性名
-    create_output_dirs: bool = True  # 与 main.py 兼容的属性名
+    fallback_to_raw: bool = True  # ANSI转换失败时回退到原始内容
+    fallback_to_raw_content: bool = True  # 与 main.py 兼容的别名
+    create_dirs: bool = True  # 自动创建输出目录
+    create_output_dirs: bool = True  # 与 main.py 兼容的别名
 
     def __post_init__(self):
         # 支持的文件扩展名
         self.supported_extensions = ['.ansi', '.txt', '.html', '.htm']
-        # 兼容性：确保 supported_input_extensions 指向相同数据
+        # 兼容性：确保别名指向相同数据
         self.supported_input_extensions = self.supported_extensions
+        
+        # 确保兼容属性同步
+        if self.fallback_to_raw != self.fallback_to_raw_content:
+            self.fallback_to_raw_content = self.fallback_to_raw
+        if self.create_dirs != self.create_output_dirs:
+            self.create_output_dirs = self.create_dirs
 
 
 @dataclass

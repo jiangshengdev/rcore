@@ -43,8 +43,3 @@ class TerminalToHtmlError(ConversionError):
 class EnvironmentError(AnsiConverterError):
     """环境验证错误 - 兼容 main.py"""
     pass
-
-
-# 为了向后兼容，保留原有异常类的别名
-MdxFormatterError = ConversionError
-TerminalToHtmlError = ToolError

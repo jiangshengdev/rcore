@@ -6,7 +6,7 @@
 
 import logging
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from .config_manager import get_config
 from ..utils.common import validate_file_paths, is_ansi_content, format_file_size
@@ -24,7 +24,7 @@ class FileInfo:
         self.exists = path.exists()
         self.is_file = path.is_file() if path.exists() else False
         self.extension = path.suffix.lower()
-        self.content_type = None
+        self.content_type: Optional[str] = None  # 明确类型注解
         self.encoding = 'utf-8'
 
     def __str__(self) -> str:
@@ -227,7 +227,7 @@ class FileProcessor:
         Returns:
             处理摘要字典
         """
-        summary = {
+        summary: Dict[str, Any] = {
             'input_file': str(input_info.path),
             'input_size': input_info.size,
             'input_type': input_info.content_type,

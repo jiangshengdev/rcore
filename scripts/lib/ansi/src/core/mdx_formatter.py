@@ -93,7 +93,8 @@ class MdxFormatter:
             清理后的内容字符串
         """
         lines = content.split('\n')
-        cleaned_lines = []
+        # 存储清理后的终端输出行
+        cleaned_lines: List[str] = []
 
         for line in lines:
             # 移除以用户名@主机名开头的提示符行
