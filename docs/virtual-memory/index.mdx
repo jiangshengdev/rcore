@@ -3,8 +3,8 @@ sidebar_position: 6
 ---
 
 import CodeBlock from '@theme/CodeBlock';
-import SystemMap from './_assets/system-map.mdx';
-import UserMap from './_assets/user-map.mdx';
+import SystemMap from './_assets/ansi/system-map.mdx';
+import UserMap from './_assets/ansi/user-map.mdx';
 
 # 虚拟内存
 
@@ -16,13 +16,13 @@ rCore 采用简单分页的虚拟内存管理机制。本节基于 `ch4` 分支�
 
 我们先在 `src/mm/memory_set.rs:277` 行处设置断点并进入，分析内核态页表的构建流程。
 
-![new-kernel-code.webp](webp/light/new-kernel-code.webp#gh-light-mode-only)
-![new-kernel-code.webp](webp/dark/new-kernel-code.webp#gh-dark-mode-only)
+![new-kernel-code.webp](_assets/webp/light/new-kernel-code.webp#gh-light-mode-only)
+![new-kernel-code.webp](_assets/webp/dark/new-kernel-code.webp#gh-dark-mode-only)
 
 可以看到跳板映射为非恒等映射，`.text` 段为恒等映射。
 
-![new-kernel-print.webp](webp/light/new-kernel-print.webp#gh-light-mode-only)
-![new-kernel-print.webp](webp/dark/new-kernel-print.webp#gh-dark-mode-only)
+![new-kernel-print.webp](_assets/webp/light/new-kernel-print.webp#gh-light-mode-only)
+![new-kernel-print.webp](_assets/webp/dark/new-kernel-print.webp#gh-dark-mode-only)
 
 查看变量可知，内核内存集对应的页表根物理页号（`root_ppn`）为 `0x83a5b`。帧跟踪器共记录了 5 个物理页：
 
@@ -32,8 +32,8 @@ rCore 采用简单分页的虚拟内存管理机制。本节基于 `ch4` 分支�
 - `0x83a5e`
 - `0x83a5f`
 
-![new-kernel-debug.webp](webp/light/new-kernel-debug.webp#gh-light-mode-only)
-![new-kernel-debug.webp](webp/dark/new-kernel-debug.webp#gh-dark-mode-only)
+![new-kernel-debug.webp](_assets/webp/light/new-kernel-debug.webp#gh-light-mode-only)
+![new-kernel-debug.webp](_assets/webp/dark/new-kernel-debug.webp#gh-dark-mode-only)
 
 使用 GDB 分别查看这 5 个物理页号对应的 4 KiB 内存内容：
 
@@ -56,8 +56,8 @@ rCore 采用简单分页的虚拟内存管理机制。本节基于 `ch4` 分支�
 
 虽然此时 `satp` 尚未设置，但页表构建完成后会写入该寄存器，下图展示了完成后的值。
 
-![system-map.svg](svg/light/system-map.svg#gh-light-mode-only)
-![system-map.svg](svg/dark/system-map.svg#gh-dark-mode-only)
+![system-map.svg](_assets/svg/light/system-map.svg#gh-light-mode-only)
+![system-map.svg](_assets/svg/dark/system-map.svg#gh-dark-mode-only)
 
 可以看到 `satp` 寄存器指向了 `0x83a5b` 这个物理页号。
 
@@ -81,8 +81,8 @@ rCore 采用简单分页的虚拟内存管理机制。本节基于 `ch4` 分支�
 
 在用户页表中，除了跳板映射以外，其余条目均为帧映射，并在映射时同时分配对应的物理内存。下图展示了应用程序 0 的完整页表组织：
 
-![user-map.svg](svg/light/user-map.svg#gh-light-mode-only)
-![user-map.svg](svg/dark/user-map.svg#gh-dark-mode-only)
+![user-map.svg](_assets/svg/light/user-map.svg#gh-light-mode-only)
+![user-map.svg](_assets/svg/dark/user-map.svg#gh-dark-mode-only)
 
 ## 页表内存映射
 
