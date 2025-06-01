@@ -2,6 +2,10 @@
 sidebar_position: 2
 ---
 
+import CodeBlock from '@theme/CodeBlock';
+import Riscv64UnknownElfGdb from './_assets/ansi/riscv64-unknown-elf-gdb.mdx';
+import LogDebugMakeRun from './_assets/ansi/log-debug-make-run.mdx';
+
 # 环境准备
 
 本节记录了在 macOS（Apple M1/M2 芯片，Sequoia 15.5 及以上）下配置 rCore
@@ -159,8 +163,9 @@ Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
 
 如果你的环境配置正确，你应当会看到如下输出：
 
-![run.webp](_assets/webp/light/run.webp#gh-light-mode-only)
-![run.webp](_assets/webp/dark/run.webp#gh-dark-mode-only)
+<CodeBlock>
+  <LogDebugMakeRun />
+</CodeBlock>
 
 ## 检查器依赖
 
@@ -206,24 +211,9 @@ riscv64-unknown-elf-gdb
 
 如果安装成功，执行上述命令后应看到类似如下的版本和版权信息输出（仅供参考，实际内容可能略有不同）：
 
-```
-GNU gdb (GDB) 16.3
-Copyright (C) 2024 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Type "show copying" and "show warranty" for details.
-This GDB was configured as "--host=aarch64-apple-darwin24.4.0 --target=riscv64-elf".
-Type "show configuration" for configuration details.
-For bug reporting instructions, please see:
-<https://www.gnu.org/software/gdb/bugs/>.
-Find the GDB manual and other documentation resources online at:
-    <http://www.gnu.org/software/gdb/documentation/>.
-
-For help, type "help".
-Type "apropos word" to search for commands related to "word".
->>> quit
-```
+<CodeBlock>
+  <Riscv64UnknownElfGdb />
+</CodeBlock>
 
 可以按下 `control + D`（即 `⌃ D`）来退出 GDB。
 

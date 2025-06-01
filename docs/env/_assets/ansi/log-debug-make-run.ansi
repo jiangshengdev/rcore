@@ -1,0 +1,25 @@
+[rustsbi] RustSBI version 0.3.0-alpha.4, adapting to RISC-V SBI v1.0.0[0m
+.______       __    __      _______.___________.  _______..______   __[0m
+|   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |[0m
+|  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |[0m
+|      /     |  |  |  |    \   \       |  |      \   \    |   _  < |  |[0m
+|  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |[0m
+| _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|[0m
+[rustsbi] Implementation     : RustSBI-QEMU Version 0.2.0-alpha.2[0m
+[rustsbi] Platform Name      : riscv-virtio,qemu[0m
+[rustsbi] Platform SMP       : 1[0m
+[rustsbi] Platform Memory    : 0x80000000..0x88000000[0m
+[rustsbi] Boot HART          : 0[0m
+[rustsbi] Device Tree Region : 0x87000000..0x87000ef2[0m
+[rustsbi] Firmware Address   : 0x80000000[0m
+[rustsbi] Supervisor Address : 0x80200000[0m
+[rustsbi] pmp01: 0x00000000..0x80000000 (-wr)[0m
+[rustsbi] pmp02: 0x80000000..0x80200000 (---)[0m
+[rustsbi] pmp03: 0x80200000..0x88000000 (xwr)[0m
+[rustsbi] pmp04: 0x88000000..0x00000000 (-wr)[0m
+[kernel] Hello, world![0m
+[0;32m[DEBUG] [kernel] .rodata [0x80202000, 0x80203000)[0m[0m
+[0;34m[ INFO] [kernel] .data [0x80203000, 0x80204000)[0m[0m
+[0;93m[ WARN] [kernel] boot_stack top=bottom=0x80214000, lower_bound=0x80204000[0m[0m
+[0;31m[ERROR] [kernel] .bss [0x80214000, 0x80215000)[0m[0m
+jiangsheng@M2-Max os % [0m

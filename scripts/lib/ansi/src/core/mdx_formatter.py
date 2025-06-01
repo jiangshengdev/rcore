@@ -97,17 +97,20 @@ class MdxFormatter:
         cleaned_lines: List[str] = []
 
         for line in lines:
-            # 移除以用户名@主机名开头的提示符行
-            if re.match(r'^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\s+[a-zA-Z0-9_/-]+\s*%\s*$', line.strip()):
+            # 使用正则表达式匹配用户名@主机名格式的终端提示符
+            prompt_pattern = r'[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\s+[a-zA-Z0-9_/~-]+\s*%\s*'
+
+            # 如果整行只是提示符（没有命令），则跳过
+            if re.match(f'^{prompt_pattern}$', line.strip()):
                 continue
-            # 移除包含提示符但有命令的行的提示符部分
-            if re.match(r'^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\s+[a-zA-Z0-9_/-]+\s*%\s+(.+)$', line.strip()):
-                # 提取命令部分，去掉提示符
-                match = re.match(r'^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\s+[a-zA-Z0-9_/-]+\s*%\s+(.+)$', line.strip())
-                if match:
-                    command = match.group(1)
-                    cleaned_lines.append(command)
+
+            # 如果行包含提示符和命令，提取命令部分
+            prompt_with_command = re.match(f'^{prompt_pattern}(.+)$', line.strip())
+            if prompt_with_command:
+                command = prompt_with_command.group(1).strip()
+                cleaned_lines.append(command)
                 continue
+
             # 保留其他行
             cleaned_lines.append(line)
 
