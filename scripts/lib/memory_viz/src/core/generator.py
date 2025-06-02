@@ -90,7 +90,7 @@ class MemoryDotGenerator:
         # 获取主题颜色配置
         colors = get_theme_colors(theme)
 
-        border_color = colors["border_color"]
+        border_color = colors["system_gray2"]
         text_color = colors["text_color"]
         # 使用预定义的带透明度背景颜色
         addr_bg = colors["addr_bg"]
