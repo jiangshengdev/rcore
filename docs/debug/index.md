@@ -99,7 +99,7 @@ Rust 在 `dev`（开发）和 `release`（发布）模式下行为差异较大�
 
 :::tip
 
-如无需调试用户程序，可跳过本节。
+如无需调试用户程序，可跳过本小节。
 
 :::
 
@@ -144,7 +144,7 @@ cd <实验仓库>/os
 make build
 ```
 
-比如：
+例如：
 
 ```shell
 cd ~/GitHub/2025s-rcore-jiangshengdev/os
@@ -181,7 +181,7 @@ make build
 - 名称：`gdbclient`
 - 'target remote' 实参：`localhost:1234`
 - 符号文件：
-  - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/os`
+  - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/os` 或
   - `<实验仓库>/os/target/riscv64gc-unknown-none-elf/debug/os`
 
 ![debug-config-finish.webp](_assets/webp/light/debug-config-finish.webp#gh-light-mode-only)
@@ -203,7 +203,7 @@ cd <实验仓库>/os
 make gdbserver
 ```
 
-比如：
+例如：
 
 ```shell
 cd ~/GitHub/2025s-rcore-jiangshengdev/os
@@ -215,8 +215,8 @@ make gdbserver
 
 ### 连接调试客户端
 
-点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的
-`gdbclient` 远程调试项目。
+点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置好的
+`gdbclient` 远程调试选项。
 
 ![gdbclient.webp](_assets/webp/light/gdbclient.webp#gh-light-mode-only)
 ![gdbclient.webp](_assets/webp/dark/gdbclient.webp#gh-dark-mode-only)
@@ -224,6 +224,8 @@ make gdbserver
 即可在断点处暂停，至此可以进行 `os` 程序的调试。
 
 ### 断开远程连接
+
+执行至 `os/src/batch.rs` 文件中的 `__restore` 函数入口处。
 
 在 CLion 调试工具窗口的 GDB 标签页中执行如下命令，可以断开与调试服务器端的连接：
 
@@ -248,7 +250,7 @@ cd <实验仓库>/os
 make gdbclient
 ```
 
-比如：
+例如：
 
 ```shell
 cd ~/GitHub/2025s-rcore-jiangshengdev/os
@@ -266,7 +268,7 @@ make gdbclient
 
 ### 内存检视
 
-在 GDB 中执行与「检视内存（Examining Memory）」相关的命令，即可查看内存中的值。
+在 GDB 中执行「检视内存（Examining Memory）」的命令，即可查看内存中的值。
 
 例如，使用如下命令即可检视当前 `sp` 寄存器指向的内存中 34 个「巨字（Giant words，8
 字节）」的值，并以 16 进制显示：
@@ -284,7 +286,7 @@ x /34gx $sp
 
 :::tip
 
-如无需调试用户程序，可跳过本节。
+如无需调试用户程序，可跳过本小节。
 
 :::
 
@@ -310,7 +312,7 @@ x /34gx $sp
 - 名称：`gdbclient`
 - 'target remote' 实参：`localhost:1234`
 - 符号文件：
-  - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world`
+  - `$ProjectFileDir$/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world` 或
   - `<实验仓库>/user/target/riscv64gc-unknown-none-elf/debug/ch2b_hello_world`
 
 ![user-config.webp](_assets/webp/light/user-config.webp#gh-light-mode-only)
@@ -325,8 +327,8 @@ x /34gx $sp
 
 ### 连接调试客户端
 
-点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置的
-`gdbclient` 远程调试项目。
+点击 CLion 菜单中的「运行 -> 调试...」，然后在弹出的菜单中选择刚刚配置好的
+`gdbclient` 远程调试选项。
 
 ![user-gdbclient.webp](_assets/webp/light/user-gdbclient.webp#gh-light-mode-only)
 ![user-gdbclient.webp](_assets/webp/dark/user-gdbclient.webp#gh-dark-mode-only)
