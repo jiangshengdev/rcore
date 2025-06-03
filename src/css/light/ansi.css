@@ -5,43 +5,43 @@
 
 /* 红色 */
 .term-fg31 {
-  color: #c30771;
+  color: #d72b82;
 }
 
 /* 绿色 */
 .term-fg32 {
-  color: #10a778;
+  color: #009668;
 }
 
 /* 黄色 */
 .term-fg33 {
-  color: #a89c14;
+  color: #8c8000;
 }
 
 /* 蓝色 */
 .term-fg34 {
-  color: #008ec4;
+  color: #0088be;
 }
 
 /* 洋红色 */
 .term-fg35 {
-  color: #523c79;
+  color: #8570b1;
 }
 
 /* 青色 */
 .term-fg36 {
-  color: #20a5ba;
+  color: #008ea3;
 }
 
 /* 白色 */
 .term-fg37 {
-  color: #8e8e93;
+  color: #e0e0e0;
 }
 
 /* high intense colors */
 /* 高亮绿色（特殊） */
 .term-fgi1 {
-  color: #009991;
+  color: #44bf98;
 }
 
 /* 高亮黑色 */
@@ -51,37 +51,37 @@
 
 /* 高亮红色 */
 .term-fgi91 {
-  color: #fb007a;
+  color: #ff4195;
 }
 
 /* 高亮绿色 */
 .term-fgi92 {
-  color: #009991;
+  color: #44bf98;
 }
 
 /* 高亮黄色 */
 .term-fgi93 {
-  color: #cca300;
+  color: #baaa00;
 }
 
 /* 高亮蓝色 */
 .term-fgi94 {
-  color: #038ec9;
+  color: #0eb5f5;
 }
 
 /* 高亮洋红色 */
 .term-fgi95 {
-  color: #6855de;
+  color: #9b8fff;
 }
 
 /* 高亮青色 */
 .term-fgi96 {
-  color: #4fb8cc;
+  color: #4eb7cb;
 }
 
 /* 高亮白色 */
 .term-fgi97 {
-  color: #aeaeb2;
+  color: #f1f1f1;
 }
 
 /* 背景颜色样式 */
@@ -92,37 +92,37 @@
 
 /* 红色背景 */
 .term-bg41 {
-  background: #c30771;
+  background: #d72b82;
 }
 
 /* 绿色背景 */
 .term-bg42 {
-  background: #10a778;
+  background: #009668;
 }
 
 /* 黄色背景 */
 .term-bg43 {
-  background: #a89c14;
+  background: #8c8000;
 }
 
 /* 蓝色背景 */
 .term-bg44 {
-  background: #008ec4;
+  background: #0088be;
 }
 
 /* 洋红色背景 */
 .term-bg45 {
-  background: #523c79;
+  background: #8570b1;
 }
 
 /* 青色背景 */
 .term-bg46 {
-  background: #20a5ba;
+  background: #008ea3;
 }
 
 /* 白色背景 */
 .term-bg47 {
-  background: #8e8e93;
+  background: #e0e0e0;
 }
 
 /* 高亮背景颜色样式 */
@@ -133,35 +133,35 @@
 
 /* 高亮红色背景 */
 .term-bgi101 {
-  background: #fb007a;
+  background: #ff4195;
 }
 
 /* 高亮绿色背景 */
 .term-bgi102 {
-  background: #009991;
+  background: #44bf98;
 }
 
 /* 高亮黄色背景 */
 .term-bgi103 {
-  background: #cca300;
+  background: #baaa00;
 }
 
 /* 高亮蓝色背景 */
 .term-bgi104 {
-  background: #038ec9;
+  background: #0eb5f5;
 }
 
 /* 高亮洋红色背景 */
 .term-bgi105 {
-  background: #6855de;
+  background: #9b8fff;
 }
 
 /* 高亮青色背景 */
 .term-bgi106 {
-  background: #4fb8cc;
+  background: #4eb7cb;
 }
 
 /* 高亮白色背景 */
 .term-bgi107 {
-  background: #aeaeb2;
+  background: #f1f1f1;
 }
