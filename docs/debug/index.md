@@ -16,17 +16,16 @@ sidebar_position: 3
 Rust 在 `dev`（开发）和 `release`（发布）模式下行为差异较大：
 
 - 例如，向 `0x0` 地址写入数据时，`dev` 模式会 Panic，而 `release` 模式不会。
-- `dev` 模式生成的程序体积更大，可能导致（但不限于）内核栈空间不足等问题，需参考 [内核栈空间不足](#内核栈空间不足)
-  进行相应修改。
+- `dev` 模式生成的程序体积更大，可能导致（但不限于）内核栈空间不足等问题，需参考「[内核栈空间不足](#内核栈空间不足)」小节进行相应修改。
 
-如遇到难以解决的问题，可切换回 `release` 模式，此时仍可用 GDB 调试汇编代码，但调试体验可能不如
+如遇难以解决的问题，可切换回 `release` 模式，此时仍可使用 GDB 调试汇编代码，但调试体验可能不如
 `dev` 模式（开发模式，默认包含调试信息）。
 
 :::
 
 ### 用户项目修改
 
-修改 `user/src/linker.ld` 文件，链接时需要保留 debug 信息：
+修改 `user/src/linker.ld` 文件，链接时需保留 debug 信息：
 
 ```diff
  src/linker.ld | 1 -
@@ -161,7 +160,7 @@ make build
 **适用于 C 和 C++ 的跨平台 IDE**。
 
 安装 [Rust 插件](https://plugins.jetbrains.com/plugin/22407-rust)
-后，CLion 也支持 Rust 代码的调试，并且其「远程调试」功能目前是 RustRover 所不具备的。
+后，CLion 亦可支持 Rust 代码的调试，并且其「远程调试」功能目前是 RustRover 所不具备的。
 
 :::
 
@@ -227,7 +226,7 @@ make gdbserver
 
 执行至 `os/src/batch.rs` 文件中的 `__restore` 函数入口处。
 
-在 CLion 调试工具窗口的 GDB 标签页中执行如下命令，可以断开与调试服务器端的连接：
+在 CLion 调试工具窗口的 GDB 标签页中执行如下命令，即可断开与调试服务器端的连接：
 
 ```gdb
 disconnect
@@ -236,14 +235,14 @@ disconnect
 ![clion-disconnect.webp](_assets/webp/light/clion-disconnect.webp#gh-light-mode-only)
 ![clion-disconnect.webp](_assets/webp/dark/clion-disconnect.webp#gh-dark-mode-only)
 
-控制台会显示：「调试器已断开连接」。
+此时控制台会显示：「调试器已断开连接」。
 
 ![clion-disconnected.webp](_assets/webp/light/clion-disconnected.webp#gh-light-mode-only)
 ![clion-disconnected.webp](_assets/webp/dark/clion-disconnected.webp#gh-dark-mode-only)
 
 ### 重新连接
 
-在终端，启动另外一个调试客户端 `gdbclient`：
+在终端，启动另一个调试客户端 `gdbclient`：
 
 ```shell
 cd <实验仓库>/os
@@ -257,7 +256,7 @@ cd ~/GitHub/2025s-rcore-jiangshengdev/os
 make gdbclient
 ```
 
-可以再次连接到上次断开的位置，然后连续使用 `si` 命令（两次左右）可以单步进入到
+可再次连接到上次断开的位置，然后连续使用 `si` 命令（两次左右）则可单步进入到
 `__restore` 函数中：
 
 ![gdbclient-connect.webp](_assets/webp/light/gdbclient-connect.webp#gh-light-mode-only)
@@ -270,7 +269,7 @@ make gdbclient
 
 在 GDB 中执行「检视内存（Examining Memory）」的命令，即可查看内存中的值。
 
-例如，使用如下命令即可检视当前 `sp` 寄存器指向的内存中 34 个「巨字（Giant words，8
+例如，使用如下命令即可检视从当前 `sp` 寄存器值所保存的地址开始的 34 个「巨字（Giant words，8
 字节）」的值，并以 16 进制显示：
 
 ```gdb
@@ -339,10 +338,10 @@ x /34gx $sp
 
 ### 无法查看变量
 
-在调试 `user/src/syscall.rs` 文件的 `syscall` 方法时，可能会遇到变量显示为
+在调试 `user/src/syscall.rs` 文件的 `syscall` 等方法时，可能会遇到变量显示为
 `<optimized out>` 的情况。
 
-此时可以通过添加编译器屏障（compiler fence）来指定内存顺序，避免变量被优化掉。参考如下修改：
+此时可以尝试添加编译器屏障（compiler fence）来指定内存顺序，避免变量被优化掉。参考如下修改：
 
 ```diff
  src/syscall.rs | 6 ++++++
@@ -393,7 +392,7 @@ x /34gx $sp
 
 在 `ch5` 中，默认的内核栈空间较小，可能会导致程序卡住或无法正常运行。
 
-此时可以通过增大内核栈空间来解决，参考如下修改：
+此时可尝试增大内核栈空间来解决，参考如下修改：
 
 ```diff
  os/src/config.rs            |   2 +-
