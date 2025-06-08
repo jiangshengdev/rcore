@@ -69,11 +69,11 @@ class MdxFormatter:
         """
         lines = content.split('\n')
         processed_lines = []
-        
+
         for line in lines:
             # 计算行首空格数量
             leading_spaces = len(line) - len(line.lstrip(' '))
-            
+
             if leading_spaces > 0:
                 # 将行首空格替换为 &nbsp;
                 preserved_spaces = '&nbsp;' * leading_spaces
@@ -82,7 +82,7 @@ class MdxFormatter:
                 processed_lines.append(preserved_spaces + rest_of_line)
             else:
                 processed_lines.append(line)
-        
+
         return '\n'.join(processed_lines)
 
     def _escape_markdown_characters(self, content: str) -> str:
