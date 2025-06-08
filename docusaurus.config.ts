@@ -10,9 +10,10 @@ const config: Config = {
   tagline: 'rCore are cool',
   favicon: 'img/favicon.ico',
 
+  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     experimental_faster: true,
-    v4: true,
+    v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
   // Set the production url of your site here
