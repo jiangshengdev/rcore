@@ -6,14 +6,14 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const isVercel = process.env.VERCEL === '1';
 const config: Config = {
+  title: 'rCore Study Blog',
+  tagline: 'rCore are cool',
+  favicon: 'img/favicon.ico',
+
   future: {
     experimental_faster: true,
     v4: true,
   },
-
-  title: 'rCore Study Blog',
-  tagline: 'rCore are cool',
-  favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
   url: 'https://rcore.jiangshengdev.com',
