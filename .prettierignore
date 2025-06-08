@@ -2,6 +2,4 @@
 build
 coverage
 
-*.pre.mdx
-
 _assets
