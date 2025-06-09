@@ -172,7 +172,7 @@ class EnvironmentValidator:
     def get_default_paths(self) -> Tuple[Path, Path]:
         """获取默认的输入和输出文件路径"""
         default_input = self.ansi_module_dir / "_assets" / "data" / "input.ansi"
-        default_output = self.ansi_module_dir / "_assets" / "output" / "_output.pre.mdx"
+        default_output = self.ansi_module_dir / "_assets" / "dist" / "output.mdx"
         return default_input, default_output
 
     def validate_environment(self) -> bool:
@@ -201,7 +201,7 @@ class EnvironmentValidator:
         required_dirs = [
             self.ansi_module_dir / "src",
             self.ansi_module_dir / "_assets" / "data",
-            self.ansi_module_dir / "_assets" / "output"
+            self.ansi_module_dir / "_assets" / "dist"
         ]
 
         for dir_path in required_dirs:

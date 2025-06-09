@@ -21,7 +21,7 @@ class ConversionConfig:
     """转换相关配置"""
     # 输入输出设置
     default_input_file: str = "_assets/data/input.ansi"
-    default_output_file: str = "_assets/output/_output.pre.mdx"
+    default_output_file: str = "_assets/dist/output.mdx"
     max_file_size_mb: int = 50
 
     # 转换选项
