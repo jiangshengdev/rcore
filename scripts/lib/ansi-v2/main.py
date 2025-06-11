@@ -79,7 +79,7 @@ def main():
     """主函数 - 通过 terminal-to-html 转换 ANSI 为 HTML，然后保存为 MDX"""
     # 获取脚本所在目录，用于智能处理默认路径
     script_dir = Path(__file__).parent
-    
+
     # 命令行参数解析
     parser = argparse.ArgumentParser(description='ANSI 到 MDX 转换器 v2')
     parser.add_argument('input', nargs='?', default='_assets/data/input.ansi',
@@ -94,7 +94,7 @@ def main():
     if args.input == '_assets/data/input.ansi' and not input_file.exists():
         # 使用脚本目录下的默认文件
         input_file = script_dir / '_assets/data/input.ansi'
-    
+
     output_file = Path(args.output)
     if args.output == '_assets/dist/output.mdx' and not output_file.parent.exists():
         # 使用脚本目录下的默认输出路径
