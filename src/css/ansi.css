@@ -20,7 +20,7 @@
   font-weight: bolder;
 }
 
-/* 弱化文本样式（降低强度） - 与灰色基本相同 */
+/* 弱化文本样式 */
 .term-fg2 {
   font-weight: lighter;
 }
