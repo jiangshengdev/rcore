@@ -28,6 +28,9 @@ LITMUS_TEXT_COLOR_DARK = "#e3e3e3"
 LITMUS_BACKGROUND_LIGHT = "transparent"
 LITMUS_BACKGROUND_DARK = "transparent"
 
+# 网页背景颜色
+WEB_BACKGROUND_DARK = "#1b1b1d"
+
 # Litmus 图形专用颜色映射
 LITMUS_THEME_COLORS: Dict[str, Dict[str, Any]] = {
     "light": {
