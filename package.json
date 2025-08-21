@@ -22,6 +22,7 @@
     "image:svgo": "./scripts/lib/image/convert-svg-to-svgo.sh",
     "setup-python": "uv venv && uv sync",
     "memory": "uv run ./scripts/lib/memory_viz/bin/generate-memory.sh",
+    "litmus": "uv run ./scripts/lib/litmus/bin/generate-litmus.sh",
     "ansi-to-mdx-test": "python3 ./scripts/lib/ansi-v2/main.py",
     "ansi-to-mdx": "./scripts/lib/ansi-v2/batch-convert.sh"
   },
