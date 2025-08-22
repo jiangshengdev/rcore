@@ -11,7 +11,7 @@ from ..common.colors import (
     SYSTEM_RED_LIGHT, SYSTEM_RED_DARK,
     SYSTEM_ORANGE_LIGHT, SYSTEM_ORANGE_DARK,
     SYSTEM_BLUE_LIGHT, SYSTEM_BLUE_DARK,
-    SYSTEM_PURPLE_LIGHT, SYSTEM_PURPLE_DARK,
+    SYSTEM_INDIGO_LIGHT, SYSTEM_INDIGO_DARK,
     SYSTEM_BROWN_LIGHT, SYSTEM_BROWN_DARK,
     SYSTEM_GRAY, SYSTEM_GRAY5_LIGHT, SYSTEM_GRAY5_DARK
 )
@@ -38,7 +38,7 @@ LITMUS_THEME_COLORS: Dict[str, Dict[str, Any]] = {
         "edge_rf": SYSTEM_RED_LIGHT,  # 使用红色对应原始 red
         "edge_co": SYSTEM_BLUE_LIGHT,  # 使用蓝色对应原始 blue
         "edge_fr": SYSTEM_ORANGE_LIGHT,  # 使用橙色对应原始 #ffa040
-        "edge_ppo": SYSTEM_PURPLE_LIGHT,  # 使用紫色对应原始 indigo (PPO, data, control, address 依赖)
+        "edge_ppo": SYSTEM_INDIGO_LIGHT,  # 使用靛青色对应原始 indigo (PPO, data, control, address 依赖)
         "edge_fence": SYSTEM_BROWN_LIGHT,  # fence 指令，使用棕色
 
         # 背景颜色
@@ -56,7 +56,7 @@ LITMUS_THEME_COLORS: Dict[str, Dict[str, Any]] = {
         "edge_rf": SYSTEM_RED_DARK,  # 使用红色对应原始 red
         "edge_co": SYSTEM_BLUE_DARK,  # 使用蓝色对应原始 blue
         "edge_fr": SYSTEM_ORANGE_DARK,  # 使用橙色对应原始 #ffa040
-        "edge_ppo": SYSTEM_PURPLE_DARK,  # 使用紫色对应原始 indigo (PPO, data, control, address 依赖)
+        "edge_ppo": SYSTEM_INDIGO_DARK,  # 使用靛青色对应原始 indigo (PPO, data, control, address 依赖)
         "edge_fence": SYSTEM_BROWN_DARK,  # fence 指令，使用棕色
 
         # 背景颜色

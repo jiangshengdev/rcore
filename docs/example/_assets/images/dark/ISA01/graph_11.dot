@@ -29,11 +29,11 @@ eiid5 [label="f: W[x]=5", shape="none", fontsize=14, pos="6.000000,2.250000!", f
 
 
 /* The viewed-before edges */
-eiid0 -> eiid1 [label=<<font color="#BF5AF2">ppo</font>>, color="#BF5AF2", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid0 -> eiid1 [label=<<font color="#5E5CE6">ppo</font>>, color="#5E5CE6", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
 eiid0 -> eiid4 [label=<<font color="#0A84FF">co</font>>, color="#0A84FF", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
 eiid1 -> eiid2 [label=<<font color="#FF453A">rf</font>>, color="#FF453A", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
-eiid1 -> eiid3 [label=<<font color="#0A84FF">co</font><font color="#BF5AF2">ppo</font>>, color="#0A84FF:#BF5AF2", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
-eiid2 -> eiid3 [label=<<font color="#FF9F0A">fr</font><font color="#BF5AF2">ppo</font>>, color="#FF9F0A:#BF5AF2", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
-eiid4 -> eiid5 [label=<<font color="#0A84FF">co</font><font color="#BF5AF2">ppo</font>>, color="#0A84FF:#BF5AF2", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid1 -> eiid3 [label=<<font color="#0A84FF">co</font><font color="#5E5CE6">ppo</font>>, color="#0A84FF:#5E5CE6", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid2 -> eiid3 [label=<<font color="#FF9F0A">fr</font><font color="#5E5CE6">ppo</font>>, color="#FF9F0A:#5E5CE6", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid4 -> eiid5 [label=<<font color="#0A84FF">co</font><font color="#5E5CE6">ppo</font>>, color="#0A84FF:#5E5CE6", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
 eiid5 -> eiid1 [label=<<font color="#0A84FF">co</font>>, color="#0A84FF", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
 }
