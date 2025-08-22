@@ -20,6 +20,7 @@
     "image": "npm run image:webp && npm run image:svgo",
     "image:webp": "./scripts/lib/image/convert-png-to-webp.sh",
     "image:svgo": "./scripts/lib/image/convert-svg-to-svgo.sh",
+    "image:svgo:force": "./scripts/lib/image/convert-svg-to-svgo.sh -f",
     "setup-python": "uv venv && uv sync",
     "memory": "uv run ./scripts/lib/memory_viz/bin/generate-memory.sh",
     "litmus": "uv run ./scripts/lib/litmus/bin/generate-litmus.sh",
