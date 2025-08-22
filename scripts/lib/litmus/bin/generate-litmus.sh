@@ -58,6 +58,6 @@ rootdir="$(init_environment)"
 echo "[INFO] 开始生成 Litmus 测试 SVG 文件..."
 
 # 运行 litmus 模块
-run_python_module scripts.lib.litmus.litmus_to_svg "$@"
+run_python_module scripts.lib.litmus.main "$@"
 
 echo "[INFO] Litmus 测试 SVG 文件已生成完成"
