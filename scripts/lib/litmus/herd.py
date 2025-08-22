@@ -6,16 +6,11 @@ Herd7 工具调用模块
 
 import pathlib
 import subprocess
-import sys
 import tempfile
 
 from scripts.lib.common.utils import ensure_dir
 from .herd_config import build_herd_args
-
-
-def eprint(*args, **kwargs):
-    """输出到标准错误流"""
-    print(*args, file=sys.stderr, **kwargs)
+from .utils import eprint
 
 
 def run_herd(lit: pathlib.Path, theme: str = "light", output_dir: pathlib.Path = None) -> pathlib.Path:

@@ -16,11 +16,7 @@ from .dot import parse_dot_graphs, apply_theme_colors_to_dot
 from .files import find_litmus_files
 from .herd import run_herd
 from .svg import run_neato
-
-
-def eprint(*args, **kwargs):
-    """输出到标准错误流"""
-    print(*args, file=sys.stderr, **kwargs)
+from .utils import eprint
 
 
 def parse_args():

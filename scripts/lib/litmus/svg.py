@@ -8,7 +8,6 @@ import copy
 import pathlib
 import shutil
 import subprocess
-import sys
 import xml.etree.ElementTree as ET
 
 from scripts.lib.common.colors import SYSTEM_WHITE
@@ -16,11 +15,7 @@ from scripts.lib.common.utils import ensure_dir
 from .colors import WEB_BACKGROUND_DARK
 from .dot import apply_theme_colors_to_dot
 from .herd_config import get_theme_specific_dot_modifications
-
-
-def eprint(*args, **kwargs):
-    """输出到标准错误流"""
-    print(*args, file=sys.stderr, **kwargs)
+from .utils import eprint
 
 
 def create_text_stroke_effect(text_group, svg_container, theme="light"):
