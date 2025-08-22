@@ -59,8 +59,8 @@ def usage():
   - 自动扫描 docs/ 目录下的所有 _assets/litmus/ 文件夹
   - 为每个 .litmus 文件生成 SVG 图形到对应的主题目录
   - 生成的目录结构:
-    docs/section/_assets/svg/light/TestName/graph_01.svg
-    docs/section/_assets/svg/dark/TestName/graph_01.svg
+    docs/section/_assets/images/light/TestName/graph_01.svg
+    docs/section/_assets/images/dark/TestName/graph_01.svg
 
 参数:
   --theme {light,dark,all}  指定主题 (默认: all)
@@ -108,8 +108,8 @@ def find_litmus_files(themes: List[str]) -> List[Tuple[pathlib.Path, List[Tuple[
             # 为每个主题创建对应的输出目录
             theme_dirs = []
             for theme in themes:
-                svg_theme_dir = litmus_dir.parent / "svg" / theme
-                theme_dirs.append((theme, svg_theme_dir))
+                images_theme_dir = litmus_dir.parent / "images" / theme
+                theme_dirs.append((theme, images_theme_dir))
 
             litmus_files.append((litmus_file, theme_dirs))
 
@@ -426,9 +426,9 @@ def process_litmus_file(lit_file: pathlib.Path, theme_dirs: List[Tuple[str, path
     """处理单个 litmus 文件，为所有指定主题生成 SVG"""
     total_exported = 0
 
-    for theme, svg_output_dir in theme_dirs:
+    for theme, images_output_dir in theme_dirs:
         # 为当前 litmus 文件和主题创建子目录
-        test_output_dir = svg_output_dir / lit_file.stem
+        test_output_dir = images_output_dir / lit_file.stem
         ensure_dir(str(test_output_dir))
 
         # 为每个主题运行 herd7，保留 DOT 文件到输出目录
