@@ -5,7 +5,6 @@ Litmus 测试 SVG 生成器
 """
 
 import argparse
-import os
 import pathlib
 import re
 import shutil
@@ -15,7 +14,7 @@ import tempfile
 from typing import List, Tuple
 
 from scripts.lib.common.utils import find_project_root, ensure_dir
-from .colors import get_litmus_theme_colors, THEME_CHOICES
+from .colors import THEME_CHOICES
 from .herd_config import build_herd_args, get_theme_specific_dot_modifications
 
 
