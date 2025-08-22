@@ -49,13 +49,11 @@ def apply_theme_colors_to_dot(dot_content: str, theme: str) -> str:
     # 定义颜色映射：硬编码颜色 -> 主题颜色
     color_mappings = {
         # herd7 默认使用的颜色映射到主题颜色
-        "indigo": theme_mods['ppo_color'],  # program order (ppo)
+        "indigo": theme_mods['ppo_color'],  # PPO (Preserved Program Order), data, control, address 依赖统一使用 indigo
         "blue": theme_mods['co_color'],  # coherence (co)
         "red": theme_mods['rf_color'],  # read-from (rf)
         "#ffa040": theme_mods['fr_color'],  # from-read (fr)
-        "purple": theme_mods['fence_color'],  # fence
-        "green": theme_mods['addr_color'],  # address dependency
-        "orange": theme_mods['ctrl_color'],  # control dependency
+        "brown": theme_mods['fence_color'],  # fence 指令，使用棕色
         "black": theme_mods['edge_color'],  # 默认边颜色
     }
 

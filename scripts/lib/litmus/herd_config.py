@@ -86,8 +86,6 @@ def get_theme_specific_dot_modifications(theme: str = "light") -> dict:
         "rf_color": colors["edge_rf"],  # read-from
         "co_color": colors["edge_co"],  # coherence
         "fr_color": colors["edge_fr"],  # from-read
-        "ppo_color": colors["edge_ppo"],  # program order
+        "ppo_color": colors["edge_ppo"],  # PPO (Preserved Program Order), data, control, address 依赖统一使用
         "fence_color": colors["edge_fence"],  # fence
-        "addr_color": colors["edge_addr"],  # address dependency
-        "ctrl_color": colors["edge_ctrl"],  # control dependency
     }

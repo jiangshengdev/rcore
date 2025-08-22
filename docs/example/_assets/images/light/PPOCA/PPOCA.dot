@@ -1,0 +1,40 @@
+digraph G {
+
+splines=spline;
+pad="0.000000";
+fontname="SF Pro Display";
+
+/* legend */
+fontsize=14;
+label="Test PPOCA: Allowed (Generic(Risc V partial order model))";
+
+
+/* the unlocked events */
+proc0_label_node [shape=none, fontsize=14, label="Thread 0", pos="1.000000,4.050000!", fixedsize=true, width=3.250000, height=0.281250]
+eiid0 [label="a: W[x]q=1", shape="none", fontsize=14, pos="1.000000,3.375000!", fixedsize="false", height="0.194444", width="1.361111"];
+eiid1 [label="b: W[y]q=1", shape="none", fontsize=14, pos="1.000000,2.250000!", fixedsize="false", height="0.194444", width="1.361111"];
+proc1_label_node [shape=none, fontsize=14, label="Thread 1", pos="6.000000,4.050000!", fixedsize=true, width=3.250000, height=0.281250]
+eiid2 [label="c: R[y]q=1", shape="none", fontsize=14, pos="6.000000,3.375000!", fixedsize="false", height="0.194444", width="1.361111"];
+eiid3 [label="d: W[z]q=1", shape="none", fontsize=14, pos="6.000000,2.250000!", fixedsize="false", height="0.194444", width="1.361111"];
+eiid4 [label="e: R[z]q=1", shape="none", fontsize=14, pos="6.000000,1.125000!", fixedsize="false", height="0.194444", width="1.361111"];
+eiid5 [label="f: R[x]q=0", shape="none", fontsize=14, pos="6.000000,0.000000!", fixedsize="false", height="0.194444", width="1.361111"];
+
+/* the intra_causality_data edges */
+
+
+/* the intra_causality_control edges */
+
+/* the poi edges */
+/* the rfmap edges */
+
+
+/* The viewed-before edges */
+eiid0 -> eiid1 [label=<<font color="brown">fence</font><font color="indigo">ppo</font>>, color="brown:indigo", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid1 -> eiid2 [label=<<font color="red">rf</font>>, color="red", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid2 -> eiid3 [label=<<font color="indigo">ctrl</font><font color="indigo">ppo</font>>, color="indigo", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid2 -> eiid4 [label=<<font color="indigo">ctrl</font>>, color="indigo", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid2 -> eiid5 [label=<<font color="indigo">ctrl</font>>, color="indigo", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid3 -> eiid4 [label=<<font color="red">rf</font>>, color="red", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid4 -> eiid5 [label=<<font color="indigo">addr</font><font color="indigo">ppo</font>>, color="indigo", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+eiid5 -> eiid0 [label=<<font color="#ffa040">fr</font>>, color="#ffa040", fontsize=14, penwidth="2.000000", arrowsize="1.000000"];
+}
