@@ -75,9 +75,12 @@ def main():
     group_infos: List[Dict[str, Any]] = []
     global_addr_map: Dict[str, Tuple[str, int]] = {}
     page_to_group_map: Dict[int, str] = {}  # 物理页号到组前缀的映射
+    
+    # 检测是否有 satp 寄存器，用于决定后续的处理方式
+    has_satp = contains_register_output(lines)
 
     # 检测并处理寄存器输出
-    if contains_register_output(lines):
+    if has_satp:
         # 分离寄存器和内存输出
         register_lines = [line for line in lines if is_register_value_line(line)]
         memory_lines = [line for line in lines if not is_register_command(line) and not is_register_value_line(line)]
@@ -147,12 +150,15 @@ def main():
     # 获取主题颜色配置
     colors = get_theme_colors(args.theme)
     font_color = colors["text_color"]
-
+    
+    # 根据是否有 satp 寄存器决定布局参数
+    ranksep_value = "0.1" if has_satp else "0.6"
+    
     dot_lines.extend([
         f"    rankdir={RANKDIR};",
         f"    splines={SPLINES};",
         "    nodesep=0.3;",
-        "    ranksep=0.1;",
+        f"    ranksep={ranksep_value};",
         f"    node [shape=record, fontname=\"{FONT}\", fontsize={FONT_SIZE}, margin={NODE_MARGIN}, fontcolor=\"{font_color}\"];",
         f"    edge [fontname=\"{FONT}\", fontsize={FONT_SIZE}, fontcolor=\"{font_color}\", color=\"{font_color}\"];",
         ""
@@ -162,6 +168,9 @@ def main():
         # 寄存器组使用单列布局，内存组使用用户指定的列数
         columns = 1 if info.get('group_type') == 'register' else args.columns
         is_register = info.get('group_type') == 'register'
+        
+        # 根据是否有 satp 决定是否显示标签
+        label = info['cmd'] if has_satp else None
 
         dot_lines.append(
             MemoryDotGenerator.to_dot(
@@ -171,7 +180,7 @@ def main():
                 theme=args.theme,
                 columns=columns,
                 original_indices=info['original_indices'],
-                label=info['cmd'],  # 将 GDB 命令作为标签传递
+                label=label,  # 有 satp 时显示标签，无 satp 时移除标签
                 is_register=is_register  # 传递寄存器标识
             )
         )
@@ -199,7 +208,7 @@ def main():
                         f"    {curr_info['prefix']}node{curr_idx} -> {next_info['prefix']}node{next_idx} [style=invis];"
                     )
 
-    # 生成跨组指针连接，将值字段指向对应的地址节点
+    # 生成跨组指针连接，连接节点之间而不是节点内部的元素
     dot_lines.append("")
     for info in group_infos:
         prefix = info['prefix']
@@ -210,8 +219,13 @@ def main():
             # 检查内存值是否为有效地址且存在于全局地址映射中
             if val and val != NULL_VAL and val in global_addr_map:
                 tgt_prefix, tgt_i = global_addr_map[val]
-                src_port = 'val'
-                dot_lines.append(f"    {prefix}node{i}:{src_port} -> {tgt_prefix}node{tgt_i}:addr;")
+                if has_satp:
+                    # 有 satp 时使用原来的端口连接方式
+                    src_port = 'val'
+                    dot_lines.append(f"    {prefix}node{i}:{src_port} -> {tgt_prefix}node{tgt_i}:addr;")
+                else:
+                    # 无 satp 时连接整个节点，使用蓝色箭头
+                    dot_lines.append(f"    {prefix}node{i} -> {tgt_prefix}node{tgt_i} [color=\"{colors['system_blue']}\", constraint=false];")
 
             # 检查内存值或寄存器值是否指向有效页表项
             elif val and val != NULL_VAL:
@@ -226,12 +240,16 @@ def main():
                 if page_num != -1 and page_num in page_to_group_map:
                     # 找到页表项指向的物理页号对应的组
                     tgt_prefix = page_to_group_map[page_num]
-                    # 生成页表指针，使用lhead指向整个集群
-                    # 由于需要有一个实际的目标节点，我们指向第一个节点但使用lhead指向集群
-                    # 寄存器连接使用红色，内存连接使用橙色
-                    color = colors["system_red"] if group_type == 'register' else colors["system_orange"]
-                    dot_lines.append(
-                        f"    {prefix}node{i}:page -> {tgt_prefix}node3 [color=\"{color}\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
+                    if has_satp:
+                        # 有 satp 时使用原来的连接方式，指向特定节点并使用端口
+                        # 寄存器连接使用红色，内存连接使用橙色
+                        color = colors["system_red"] if group_type == 'register' else colors["system_orange"]
+                        dot_lines.append(
+                            f"    {prefix}node{i}:page -> {tgt_prefix}node3 [color=\"{color}\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
+                    else:
+                        # 无 satp 时使用蓝色箭头并指向第一个节点
+                        dot_lines.append(
+                            f"    {prefix}node{i} -> {tgt_prefix}node0 [color=\"{colors['system_blue']}\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
     # 输出完整的 DOT 图形定义
     dot_lines.append("}")
     print("\n".join(dot_lines))
