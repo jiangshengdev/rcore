@@ -34,7 +34,7 @@ CPU_NUM=$(sysctl -n hw.physicalcpu 2>/dev/null || echo 2)
 # 收集待转换文件列表并并发执行
 (
   for root in blog docs; do
-    find "$root" -type d -name "image" | while read -r imgdir; do
+    find "$root" -type d -name "images" | while read -r imgdir; do
       webpdir="$(dirname "$imgdir")/webp"
       ensure_dir "$webpdir"
       find "$imgdir" -type f -name "*.png" | while read -r file; do

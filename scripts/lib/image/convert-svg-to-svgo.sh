@@ -16,8 +16,8 @@ cd "$rootdir"
 
 # 只递归 blog 和 docs 目录
 for root in blog docs; do
-  find "$root" -type d -name "image" | while read -r imgdir; do
-    # 在 image 同级新建 svg 文件夹
+  find "$root" -type d -name "images" | while read -r imgdir; do
+    # 在 images 同级新建 svg 文件夹
     svgdir="$(dirname "$imgdir")/svg"
     ensure_dir "$svgdir"
     find "$imgdir" -type f -name "*.svg" | while read -r file; do
