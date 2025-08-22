@@ -152,7 +152,7 @@ def main():
         f"    rankdir={RANKDIR};",
         f"    splines={SPLINES};",
         "    nodesep=0.3;",
-        "    ranksep=0.1;",
+        "    ranksep=0.6;",
         f"    node [shape=record, fontname=\"{FONT}\", fontsize={FONT_SIZE}, margin={NODE_MARGIN}, fontcolor=\"{font_color}\"];",
         f"    edge [fontname=\"{FONT}\", fontsize={FONT_SIZE}, fontcolor=\"{font_color}\", color=\"{font_color}\"];",
         ""
@@ -171,7 +171,7 @@ def main():
                 theme=args.theme,
                 columns=columns,
                 original_indices=info['original_indices'],
-                label=info['cmd'],  # 将 GDB 命令作为标签传递
+                label=None,  # 移除集群标题显示
                 is_register=is_register  # 传递寄存器标识
             )
         )
@@ -199,7 +199,7 @@ def main():
                         f"    {curr_info['prefix']}node{curr_idx} -> {next_info['prefix']}node{next_idx} [style=invis];"
                     )
 
-    # 生成跨组指针连接，将值字段指向对应的地址节点
+    # 生成跨组指针连接，连接节点之间而不是节点内部的元素
     dot_lines.append("")
     for info in group_infos:
         prefix = info['prefix']
@@ -210,8 +210,8 @@ def main():
             # 检查内存值是否为有效地址且存在于全局地址映射中
             if val and val != NULL_VAL and val in global_addr_map:
                 tgt_prefix, tgt_i = global_addr_map[val]
-                src_port = 'val'
-                dot_lines.append(f"    {prefix}node{i}:{src_port} -> {tgt_prefix}node{tgt_i}:addr;")
+                # 连接整个节点，使用蓝色箭头
+                dot_lines.append(f"    {prefix}node{i} -> {tgt_prefix}node{tgt_i} [color=\"{colors['system_blue']}\", constraint=false];")
 
             # 检查内存值或寄存器值是否指向有效页表项
             elif val and val != NULL_VAL:
@@ -226,12 +226,9 @@ def main():
                 if page_num != -1 and page_num in page_to_group_map:
                     # 找到页表项指向的物理页号对应的组
                     tgt_prefix = page_to_group_map[page_num]
-                    # 生成页表指针，使用lhead指向整个集群
-                    # 由于需要有一个实际的目标节点，我们指向第一个节点但使用lhead指向集群
-                    # 寄存器连接使用红色，内存连接使用橙色
-                    color = colors["system_red"] if group_type == 'register' else colors["system_orange"]
+                    # 生成页表指针，使用蓝色箭头并使用lhead指向整个集群
                     dot_lines.append(
-                        f"    {prefix}node{i}:page -> {tgt_prefix}node3 [color=\"{color}\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
+                        f"    {prefix}node{i} -> {tgt_prefix}node0 [color=\"{colors['system_blue']}\", lhead=\"cluster_{tgt_prefix}\", constraint=false];")
     # 输出完整的 DOT 图形定义
     dot_lines.append("}")
     print("\n".join(dot_lines))
