@@ -22,11 +22,11 @@ show_usage() {
 # 解析命令行参数
 while [[ $# -gt 0 ]]; do
   case $1 in
-    -f|--force)
+    -f | --force)
       overwrite=true
       shift
       ;;
-    -h|--help)
+    -h | --help)
       show_usage
       exit 0
       ;;
@@ -57,18 +57,18 @@ for root in blog docs; do
     find "$imgdir" -type f -name "*.svg" | while read -r file; do
       relpath="${file#"$imgdir"/}"
       target="$svgdir/$relpath"
-      
+
       # 检查文件是否已存在以及是否需要覆盖
       if [ -f "$target" ] && [ "$overwrite" = false ]; then
         echo "跳过已存在: $target"
         continue
       fi
-      
+
       # 如果要覆盖现有文件，提示正在覆盖
       if [ -f "$target" ] && [ "$overwrite" = true ]; then
         echo "覆盖文件: $target"
       fi
-      
+
       ensure_parent_dir "$target"
       svgo "$file" -o "$target"
       echo "已压缩: $file -> $target"

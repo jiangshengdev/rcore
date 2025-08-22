@@ -22,11 +22,11 @@ show_usage() {
 # 解析命令行参数
 while [[ $# -gt 0 ]]; do
   case $1 in
-    -f|--force)
+    -f | --force)
       overwrite=true
       shift
       ;;
-    -h|--help)
+    -h | --help)
       show_usage
       exit 0
       ;;
@@ -56,18 +56,18 @@ convert_one() {
   overwrite="$4"
   rel="${file#"$imgdir"/}"
   target="$webpdir/${rel%.png}.webp"
-  
+
   # 检查文件是否已存在以及是否需要覆盖
   if [[ -f "$target" ]] && [[ "$overwrite" = false ]]; then
     echo "跳过已存在: $target"
     return
   fi
-  
+
   # 如果要覆盖现有文件，提示正在覆盖
   if [[ -f "$target" ]] && [[ "$overwrite" = true ]]; then
     echo "覆盖文件: $target"
   fi
-  
+
   # 确保目标文件的父目录存在
   mkdir -p "$(dirname "$target")"
   cwebp -lossless -z 9 -exact -mt -metadata icc "$file" -o "$target"

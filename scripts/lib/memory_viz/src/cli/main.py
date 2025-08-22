@@ -75,7 +75,7 @@ def main():
     group_infos: List[Dict[str, Any]] = []
     global_addr_map: Dict[str, Tuple[str, int]] = {}
     page_to_group_map: Dict[int, str] = {}  # 物理页号到组前缀的映射
-    
+
     # 检测是否有 satp 寄存器，用于决定后续的处理方式
     has_satp = contains_register_output(lines)
 
@@ -150,10 +150,10 @@ def main():
     # 获取主题颜色配置
     colors = get_theme_colors(args.theme)
     font_color = colors["text_color"]
-    
+
     # 根据是否有 satp 寄存器决定布局参数
     ranksep_value = "0.1" if has_satp else "0.6"
-    
+
     dot_lines.extend([
         f"    rankdir={RANKDIR};",
         f"    splines={SPLINES};",
@@ -168,7 +168,7 @@ def main():
         # 寄存器组使用单列布局，内存组使用用户指定的列数
         columns = 1 if info.get('group_type') == 'register' else args.columns
         is_register = info.get('group_type') == 'register'
-        
+
         # 根据是否有 satp 决定是否显示标签
         label = info['cmd'] if has_satp else None
 
@@ -225,7 +225,8 @@ def main():
                     dot_lines.append(f"    {prefix}node{i}:{src_port} -> {tgt_prefix}node{tgt_i}:addr;")
                 else:
                     # 无 satp 时连接整个节点，使用蓝色箭头
-                    dot_lines.append(f"    {prefix}node{i} -> {tgt_prefix}node{tgt_i} [color=\"{colors['system_blue']}\", constraint=false];")
+                    dot_lines.append(
+                        f"    {prefix}node{i} -> {tgt_prefix}node{tgt_i} [color=\"{colors['system_blue']}\", constraint=false];")
 
             # 检查内存值或寄存器值是否指向有效页表项
             elif val and val != NULL_VAL:
