@@ -88,4 +88,5 @@ def get_theme_specific_dot_modifications(theme: str = "light") -> dict:
         "fr_color": colors["edge_fr"],  # from-read
         "ppo_color": colors["edge_ppo"],  # PPO (Preserved Program Order), data, control, address 依赖统一使用
         "fence_color": colors["edge_fence"],  # fence
+        "green_color": colors["edge_green"],  # 绿色（对应 darkgreen）
     }

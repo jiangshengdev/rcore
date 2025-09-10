@@ -10,6 +10,7 @@ from typing import Dict, Any
 from ..common.colors import (
     SYSTEM_RED_LIGHT, SYSTEM_RED_DARK,
     SYSTEM_ORANGE_LIGHT, SYSTEM_ORANGE_DARK,
+    SYSTEM_GREEN_LIGHT, SYSTEM_GREEN_DARK,
     SYSTEM_BLUE_LIGHT, SYSTEM_BLUE_DARK,
     SYSTEM_INDIGO_LIGHT, SYSTEM_INDIGO_DARK,
     SYSTEM_BROWN_LIGHT, SYSTEM_BROWN_DARK,
@@ -40,6 +41,7 @@ LITMUS_THEME_COLORS: Dict[str, Dict[str, Any]] = {
         "edge_fr": SYSTEM_ORANGE_LIGHT,  # 使用橙色对应原始 #ffa040
         "edge_ppo": SYSTEM_INDIGO_LIGHT,  # 使用靛青色对应原始 indigo (PPO, data, control, address 依赖)
         "edge_fence": SYSTEM_BROWN_LIGHT,  # fence 指令，使用棕色
+        "edge_green": SYSTEM_GREEN_LIGHT,  # 使用绿色对应原始 darkgreen
 
         # 背景颜色
         "background": LITMUS_BACKGROUND_LIGHT,
@@ -58,6 +60,7 @@ LITMUS_THEME_COLORS: Dict[str, Dict[str, Any]] = {
         "edge_fr": SYSTEM_ORANGE_DARK,  # 使用橙色对应原始 #ffa040
         "edge_ppo": SYSTEM_INDIGO_DARK,  # 使用靛青色对应原始 indigo (PPO, data, control, address 依赖)
         "edge_fence": SYSTEM_BROWN_DARK,  # fence 指令，使用棕色
+        "edge_green": SYSTEM_GREEN_DARK,  # 使用绿色对应原始 darkgreen
 
         # 背景颜色
         "background": LITMUS_BACKGROUND_DARK,

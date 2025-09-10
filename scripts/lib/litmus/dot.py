@@ -54,6 +54,7 @@ def apply_theme_colors_to_dot(dot_content: str, theme: str) -> str:
         "red": theme_mods['rf_color'],  # read-from (rf)
         "#ffa040": theme_mods['fr_color'],  # from-read (fr)
         "brown": theme_mods['fence_color'],  # fence 指令，使用棕色
+        "darkgreen": theme_mods['green_color'],  # 绿色映射
         "black": theme_mods['edge_color'],  # 默认边颜色
     }
 
