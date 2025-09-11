@@ -4,15 +4,46 @@ sidebar_position: 7
 
 # 内存顺序
 
+如 [指定原子指令的顺序](/blog/riscv-unprivileged/#specifying-ordering-of-atomic-instructions) 中所述：
+
+> 每条原子指令包含两个位：`aq` 和
+> `rl`，它们可为其他 RISC-V hart
+> 提供额外的内存排序约束
+
+而顺序约束会对程序执行结果具体产生什么样的影响，可以利用石蕊测试进行可视化的分析。
+
+下面以自旋锁为例，分析添加 `aq` 和 `rl` 与否，程序执行有什么样的差异。
+
 import CodeBlock from '@theme/CodeBlock';
 import ISA03_SIMPLE from '!!raw-loader!./_assets/litmus/ISA03+SIMPLE.litmus';
 import ISA03_SIMPLE_BIS from '!!raw-loader!./_assets/litmus/ISA03+SIMPLE+BIS.litmus';
+import ISA03 from '!!raw-loader!./_assets/litmus/ISA03.litmus';
 
-## Spinlock, Adapt, Test Mutual Exclusion
+## 获取与释放
 
-`ISA03+SIMPLE.litmus`
+`ISA03+SIMPLE.litmus` 是一个简单的石蕊测试文件，可以从如下仓库处获取：
+
+> https://github.com/litmus-tests/litmus-tests-riscv/blob/431159ae349fc1ae6850cf1df501d3b175a28b61/tests/non-mixed-size/HAND/ISA03+SIMPLE.litmus
+
+其完整内容为：
 
 <CodeBlock language="riscv">{ISA03_SIMPLE}</CodeBlock>
+
+可以看到其中原子指令含有的额外的内存排序约束：`aq` 和 `rl`。
+
+使用「兽群」工具模拟内存模型，命令如下：
+
+```shell
+herd7 -through none -model riscv.cat -show prop \
+    -doshow addr,data,ctrl,fence,ppo,rf,fr -showevents mem -showinitwrites false \
+    -showthread true -squished true -graph columns -fixedsize false \
+    -fontname "SF Mono" -fontsize 14 -edgefontsizedelta 0 -penwidth 2 \
+    -arrowsize 1 -splines spline -pad 0.0 -showlegend true -showkind true \
+    -yscale 1.5 -xscale 5 -extrachars 0 -edgemerge true \
+    -o tests/non-mixed-size/HAND tests/non-mixed-size/HAND/ISA03+SIMPLE.litmus
+```
+
+其执行结果为：
 
 ```
 Test ISA03+SIMPLE Required
@@ -27,16 +58,73 @@ Time ISA03+SIMPLE 0.20
 Hash=277646d28ce797552d4c6351515fb0f7
 ```
 
+同时会生成一个 `dot` 文件：`ISA03+SIMPLE.dot`。
+
+可以使用工具将其转换为可以预览的 `svg` 文件，命令如下：
+
+```shell
+neato "-Gfontname=SF Pro Display" "-Nfontname=SF Pro Display" \
+    "-Efontname=SF Pro Display" \
+    -Tsvg:cairo tests/non-mixed-size/HAND/ISA03+SIMPLE.dot \
+    -o tests/non-mixed-size/HAND/ISA03+SIMPLE.svg
+```
+
+生成可视化图形：
+
+:::tip
+
+`herd7` 依据执行结果，生成的 `dot` 文件一般会包含多个图形，可以先进行切分，然后再利用 `neato` 转换每一个图形文件。
+
+:::
+
 ![graph_01.svg](./_assets/svg/light/ISA03+SIMPLE/graph_01.svg#gh-light-mode-only)
 ![graph_01.svg](./_assets/svg/dark/ISA03+SIMPLE/graph_01.svg#gh-dark-mode-only)
 ![graph_02.svg](./_assets/svg/light/ISA03+SIMPLE/graph_02.svg#gh-light-mode-only)
 ![graph_02.svg](./_assets/svg/dark/ISA03+SIMPLE/graph_02.svg#gh-dark-mode-only)
 
-## Spinlock, Adapt, Test Mutual Exclusion, With Relaxed Swaps
+| Edge  | Full Name (and explanation)                                                                    |
+|:------|:-----------------------------------------------------------------------------------------------|
+| rf    | Reads From (from each store to the loads that return a value written by that store)            |
+| co    | Coherence (a total order on the stores to each address)                                        |
+| fr    | From-Reads (from each load to co-successors of the store from which the load returned a value) |
+| ppo   | Preserved Program Order                                                                        |
+| fence | Orderings enforced by a FENCE instruction                                                      |
+| addr  | Address Dependency                                                                             |
+| ctrl  | Control Dependency                                                                             |
+| data  | Data Dependency                                                                                |
 
-`ISA03+SIMPLE+BIS.litmus`
+**绘制的石蕊测试图表的图例**
+
+边的全称（和解释）：
+
+- rf：读自关系（从每个储存到返回该储存所写值的载入）
+- co：一致性（对每个地址上储存的全序关系）
+- fr：从读关系（从每个载入到载入返回值的储存的 co 后继）
+- ppo：保留程序序
+- fence：FENCE 指令强制的序关系
+- addr：地址依赖
+- ctrl：控制依赖
+- data：数据依赖
+
+在列出的关系中，硬件线程间的 rf 边、co 边、fr 边和 ppo 边直接约束全局内存序（fence、addr、data 和一些 ctrl 边也通过 ppo 来约束）。其他边（如硬件线程内的 rf 边）是信息性的，但不约束全局内存序。
+
+可以看到图中 `a,b` `c,d` `e,f` `g,h` 4 组节点之间的边均含有 `ppo` 约束。
+
+保留程序序 (Preserved Program Order) 表示必须在全局内存序中被遵守的程序序的子集。从概念上讲，来自同一硬件线程且由保留程序序排序的事件必须从其他硬件线程和/或观察者的角度以该顺序出现。另一方面，来自同一硬件线程但未由保留程序序排序的事件可能从其他硬件线程和/或观察者的角度看起来被重排序。
+
+也就是说，程序只会按 `a→b` `c→d` `e→f` `g→h` 的顺序执行，结合其他的 `ppo` 以及其他约束。变量 a 的最终结果只能为 2。
+
+## 宽松顺序
+
+`ISA03+SIMPLE+BIS.litmus` 测试去除了 `aq` 和 `rl`，可以从如下仓库处获取：
+
+> https://github.com/litmus-tests/litmus-tests-riscv/blob/431159ae349fc1ae6850cf1df501d3b175a28b61/tests/non-mixed-size/HAND/ISA03+SIMPLE+BIS.litmus
+
+其完整内容为：
 
 <CodeBlock language="riscv">{ISA03_SIMPLE_BIS}</CodeBlock>
+
+其执行结果为：
 
 ```
 Test ISA03+SIMPLE+BIS Allowed
@@ -52,6 +140,8 @@ Time ISA03+SIMPLE+BIS 0.20
 Hash=01bf4938d5b4cdab1bd650dfc7a4fdf4
 ```
 
+同样生成可视化图形：
+
 ![graph_01.svg](./_assets/svg/light/ISA03+SIMPLE+BIS/graph_01.svg#gh-light-mode-only)
 ![graph_01.svg](./_assets/svg/dark/ISA03+SIMPLE+BIS/graph_01.svg#gh-dark-mode-only)
 ![graph_02.svg](./_assets/svg/light/ISA03+SIMPLE+BIS/graph_02.svg#gh-light-mode-only)
@@ -60,3 +150,61 @@ Hash=01bf4938d5b4cdab1bd650dfc7a4fdf4
 ![graph_03.svg](./_assets/svg/dark/ISA03+SIMPLE+BIS/graph_03.svg#gh-dark-mode-only)
 ![graph_04.svg](./_assets/svg/light/ISA03+SIMPLE+BIS/graph_04.svg#gh-light-mode-only)
 ![graph_04.svg](./_assets/svg/dark/ISA03+SIMPLE+BIS/graph_04.svg#gh-dark-mode-only)
+
+可以看到图中 `a,b` `c,d` `e,f` `g,h` 4 组节点之间的边均无 `ppo` 约束，也就是说他们的顺序在其他线程看来可以发生改变。
+
+最终结果 a 可能为 1 或 2。
+
+## 任意无关
+
+`ISA03.litmus`
+
+> https://github.com/litmus-tests/litmus-tests-riscv/blob/431159ae349fc1ae6850cf1df501d3b175a28b61/tests/non-mixed-size/HAND/ISA03.litmus
+
+<CodeBlock language="riscv">{ISA03}</CodeBlock>
+
+```
+Test ISA03 Allowed
+States 16
+0:x7=0; 0:x29=0; 1:x7=0; 1:x29=0; [a]=2;
+0:x7=0; 0:x29=0; 1:x7=0; 1:x29=1; [a]=2;
+0:x7=0; 0:x29=0; 1:x7=1; 1:x29=0; [a]=2;
+0:x7=0; 0:x29=0; 1:x7=1; 1:x29=1; [a]=2;
+0:x7=0; 0:x29=1; 1:x7=0; 1:x29=0; [a]=2;
+0:x7=0; 0:x29=1; 1:x7=0; 1:x29=1; [a]=2;
+0:x7=0; 0:x29=1; 1:x7=1; 1:x29=0; [a]=2;
+0:x7=0; 0:x29=1; 1:x7=1; 1:x29=1; [a]=2;
+0:x7=1; 0:x29=0; 1:x7=0; 1:x29=0; [a]=2;
+0:x7=1; 0:x29=0; 1:x7=0; 1:x29=1; [a]=2;
+0:x7=1; 0:x29=0; 1:x7=1; 1:x29=0; [a]=2;
+0:x7=1; 0:x29=0; 1:x7=1; 1:x29=1; [a]=2;
+0:x7=1; 0:x29=1; 1:x7=0; 1:x29=0; [a]=2;
+0:x7=1; 0:x29=1; 1:x7=0; 1:x29=1; [a]=2;
+0:x7=1; 0:x29=1; 1:x7=1; 1:x29=0; [a]=2;
+0:x7=1; 0:x29=1; 1:x7=1; 1:x29=1; [a]=2;
+Ok
+Witnesses
+Positive: 1 Negative: 16
+Condition exists (0:x7=0 /\ 1:x7=0 /\ 0:x29=0 /\ 1:x29=0)
+Observation ISA03 Sometimes 1 16
+Time ISA03 9.29
+Hash=b6d3059467f1537d63dd512ee7686023
+```
+
+![graph_01.svg](./_assets/svg/light/ISA03/graph_01.svg#gh-light-mode-only)
+![graph_01.svg](./_assets/svg/dark/ISA03/graph_01.svg#gh-dark-mode-only)
+
+由于此示例使用 _aq_，临界区中的载入和储存保证在全局内存序中出现在用于获取锁的 AMOSWAP 之后。然而，假设 `a0`、`a1` 和 `a2` 指向不同的内存位置，临界区中的载入和储存在全局内存序中可能会也可能不会出现在示例开头的「任意无关载入」之后。
+
+释放语义序的工作方式与获取语义序完全相同，只是方向相反。释放语义要求在程序序中先于释放语义操作的所有载入和储存也在全局内存序中先于释放语义操作。
+使用相同的示例，临界区中的载入和储存与代码片段末尾的「任意无关储存」之间的序仅由 FENCE RW,W 强制执行，而不是由 _rl_ 强制执行。
+
+## 参考资料
+
+- [The RISC-V Instruction Set Manual Volume I: Unprivileged Architecture](https://github.com/riscv/riscv-isa-manual/releases/tag/20250508)
+  - [Memory Ordering Instructions](https://github.com/riscv/riscv-isa-manual/blob/20250508/src/rv32.adoc#memory-ordering-instructions)
+  - [RVWMO Memory Consistency Model, Version 2.0](https://github.com/riscv/riscv-isa-manual/blob/20250508/src/rvwmo.adoc)
+  - [Appendix A: RVWMO Explanatory Material, Version 0.1](https://github.com/riscv/riscv-isa-manual/blob/20250508/src/mm-eplan.adoc)
+- [RISCV: herd vs. operational models](https://diy.inria.fr/cats7/riscv/)
+- [Simulating memory models with herd7](https://diy.inria.fr/doc/herd.html)
+- [RISC-V Memory Consistency Model Tutorial](https://riscv.org/wp-content/uploads/2024/12/14.25-15.00-RISCVMemoryModelTutorial.pdf)
