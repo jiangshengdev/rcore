@@ -4,11 +4,11 @@ sidebar_position: 7
 
 # 内存顺序
 
-如 [指定原子指令的顺序](/blog/riscv-unprivileged/#specifying-ordering-of-atomic-instructions) 中所述：
+如「[指定原子指令的顺序](/blog/riscv-unprivileged/#specifying-ordering-of-atomic-instructions)」中所述：
 
 > 每条原子指令包含两个位：`aq` 和
 > `rl`，它们可为其他 RISC-V hart
-> 提供额外的内存排序约束
+> 提供额外的内存排序约束。
 
 而顺序约束会对程序执行结果具体产生什么样的影响，可以利用石蕊测试进行可视化的分析。
 
@@ -29,7 +29,7 @@ import ISA03 from '!!raw-loader!./_assets/litmus/ISA03.litmus';
 
 <CodeBlock language="riscv">{ISA03_SIMPLE}</CodeBlock>
 
-可以看到其中原子指令含有的额外的内存排序约束：`aq` 和 `rl`。
+可以看到其中原子指令含有额外的内存排序约束：`aq` 和 `rl`。
 
 使用「兽群」工具模拟内存模型，命令如下：
 
@@ -60,7 +60,7 @@ Hash=277646d28ce797552d4c6351515fb0f7
 
 同时会生成一个 `dot` 文件：`ISA03+SIMPLE.dot`。
 
-可以使用工具将其转换为可以预览的 `svg` 文件，命令如下：
+使用工具将其转换为可预览的 `svg` 文件，命令如下：
 
 ```shell
 neato "-Gfontname=SF Pro Display" "-Nfontname=SF Pro Display" \
@@ -69,16 +69,19 @@ neato "-Gfontname=SF Pro Display" "-Nfontname=SF Pro Display" \
     -o tests/non-mixed-size/HAND/ISA03+SIMPLE.svg
 ```
 
-生成可视化图形：
-
 :::tip
 
 `herd7` 依据执行结果，生成的 `dot` 文件一般会包含多个图形，可以先进行切分，然后再利用 `neato` 转换每一个图形文件。
 
 :::
 
+生成的可视化图形：
+
 ![graph_01.svg](./_assets/svg/light/ISA03+SIMPLE/graph_01.svg#gh-light-mode-only)
 ![graph_01.svg](./_assets/svg/dark/ISA03+SIMPLE/graph_01.svg#gh-dark-mode-only)
+
+---
+
 ![graph_02.svg](./_assets/svg/light/ISA03+SIMPLE/graph_02.svg#gh-light-mode-only)
 ![graph_02.svg](./_assets/svg/dark/ISA03+SIMPLE/graph_02.svg#gh-dark-mode-only)
 
@@ -144,10 +147,19 @@ Hash=01bf4938d5b4cdab1bd650dfc7a4fdf4
 
 ![graph_01.svg](./_assets/svg/light/ISA03+SIMPLE+BIS/graph_01.svg#gh-light-mode-only)
 ![graph_01.svg](./_assets/svg/dark/ISA03+SIMPLE+BIS/graph_01.svg#gh-dark-mode-only)
+
+---
+
 ![graph_02.svg](./_assets/svg/light/ISA03+SIMPLE+BIS/graph_02.svg#gh-light-mode-only)
 ![graph_02.svg](./_assets/svg/dark/ISA03+SIMPLE+BIS/graph_02.svg#gh-dark-mode-only)
+
+---
+
 ![graph_03.svg](./_assets/svg/light/ISA03+SIMPLE+BIS/graph_03.svg#gh-light-mode-only)
 ![graph_03.svg](./_assets/svg/dark/ISA03+SIMPLE+BIS/graph_03.svg#gh-dark-mode-only)
+
+---
+
 ![graph_04.svg](./_assets/svg/light/ISA03+SIMPLE+BIS/graph_04.svg#gh-light-mode-only)
 ![graph_04.svg](./_assets/svg/dark/ISA03+SIMPLE+BIS/graph_04.svg#gh-dark-mode-only)
 
