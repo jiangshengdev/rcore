@@ -42,14 +42,14 @@ FENCE 指令中的未使用字段——_rs1_ 和 _rd_——被保留用于未来
 
 ## "Zifencei" Extension for Instruction-Fetch Fence, Version 2.0
 
-## "Zifencei" 指令获取栅栏扩展，版本 2.0
+## 「Zifencei」指令获取栅栏扩展，版本 2.0
 
-本章定义了 "Zifencei" 扩展，该扩展包含 FENCE.I 指令，用于在同一硬件线程上提供指令内存写入与指令获取之间的显式同步。目前，该指令是确保硬件线程可见的储存操作对其指令获取也可见的唯一标准机制。
+本章定义了「Zifencei」扩展，该扩展包含 FENCE.I 指令，用于在同一硬件线程上提供指令内存写入与指令获取之间的显式同步。目前，该指令是确保硬件线程可见的储存操作对其指令获取也可见的唯一标准机制。
 
 ![zifencei-ff.svg](_assets/svg/light/zifencei-ff.svg#gh-light-mode-only)
 ![zifencei-ff.svg](_assets/svg/dark/zifencei-ff.svg#gh-dark-mode-only)
 
-FENCE.I 指令用于同步指令流和数据流。RISC-V 不保证对指令内存的储存操作对 RISC-V 硬件线程的指令获取可见，直到该硬件线程执行 FENCE.I 指令。FENCE.I 指令确保 RISC-V 硬件线程上的后续指令获取将看到同一 RISC-V 硬件线程已经可见的任何先前数据储存。在多处理器系统中，FENCE.I _不会_确保其他 RISC-V 硬件线程的指令获取能观察到本地硬件线程的储存操作。要使对指令内存的储存对所有 RISC-V 硬件线程可见，写入的硬件线程还必须在请求所有远程 RISC-V 硬件线程执行 FENCE.I 之前执行数据 FENCE。
+FENCE.I 指令用于同步指令流和数据流。RISC-V 不保证对指令内存的储存操作对 RISC-V 硬件线程的指令获取可见，直到该硬件线程执行 FENCE.I 指令。FENCE.I 指令确保 RISC-V 硬件线程上的后续指令获取将看到同一 RISC-V 硬件线程已经可见的任何先前数据储存。在多处理器系统中，FENCE.I _不会_ 确保其他 RISC-V 硬件线程的指令获取能观察到本地硬件线程的储存操作。要使对指令内存的储存对所有 RISC-V 硬件线程可见，写入的硬件线程还必须在请求所有远程 RISC-V 硬件线程执行 FENCE.I 之前执行数据 FENCE。
 
 FENCE.I 指令中未使用的字段 _funct12_、_rs1_ 和 _rd_ 保留用于未来扩展中的细粒度栅栏。为了前向兼容性，基础实现应忽略这些字段，标准软件应将这些字段设为零。
 
