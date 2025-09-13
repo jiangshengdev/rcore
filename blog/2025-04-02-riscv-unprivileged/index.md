@@ -5,8 +5,6 @@ authors: [jiangsheng]
 tags: [riscv]
 ---
 
-记录学习 RISC-V Unprivileged 的一些笔记。
-
 <!-- truncate -->
 
 ## RV32I Base Integer Instruction Set, Version 2.1

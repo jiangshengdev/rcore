@@ -5,8 +5,6 @@ authors: [jiangsheng]
 tags: [rust]
 ---
 
-记录学习 Rust 的一些笔记。
-
 <!-- truncate -->
 
 ## Inline assembly

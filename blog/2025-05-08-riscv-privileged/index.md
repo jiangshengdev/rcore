@@ -5,8 +5,6 @@ authors: [jiangsheng]
 tags: [riscv]
 ---
 
-记录学习 RISC-V Privileged 的一些笔记。
-
 <!-- truncate -->
 
 ## Machine-Level ISA
