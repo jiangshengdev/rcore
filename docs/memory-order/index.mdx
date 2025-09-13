@@ -6,9 +6,7 @@ sidebar_position: 7
 
 如「[指定原子指令的序](/blog/riscv-unprivileged/#specifying-ordering-of-atomic-instructions)」中所述：
 
-> 每条原子指令包含两个位：`aq` 和
-> `rl`，它们可为其他 RISC-V hart
-> 提供额外的内存排序约束。
+> 每个原子指令都有两个位，_aq_ 和 _rl_，用于指定其他 RISC-V 硬件线程 (harts) 所观察到的额外内存序约束。
 
 而顺序约束会对程序执行结果具体产生什么样的影响，可以利用石蕊测试进行可视化的分析。
 
