@@ -1,6 +1,6 @@
 ---
 slug: riscv-unprivileged
-title: RISC-V Unprivileged
+title: "RISC-V ISA Manual Volume I: Unprivileged Architecture"
 authors: [jiangsheng]
 tags: [riscv]
 ---
@@ -9,7 +9,36 @@ tags: [riscv]
 
 <!-- truncate -->
 
-## "Zifencei" Extension for Instruction-Fetch Fence
+## RV32I Base Integer Instruction Set, Version 2.1
+
+### Memory Ordering Instructions
+
+**内存序指令**
+
+![mem-order.svg](_assets/svg/light/mem-order.svg#gh-light-mode-only)
+![mem-order.svg](_assets/svg/dark/mem-order.svg#gh-dark-mode-only)
+
+FENCE 指令用于对设备 I/O 和内存访问进行排序，这些访问是从其他 RISC-V 硬件线程和外部设备或协处理器的角度观察的。设备输入 (I)、设备输出 (O)、内存读取 \(R) 和内存写入 (W) 的任意组合都可以相对于相同操作的任意组合进行排序。非正式地说，在 FENCE 指令之前的前驱集合中的任何操作之前，其他 RISC-V 硬件线程或外部设备都不能观察到跟随 FENCE 指令的后继集合中的任何操作。[memorymodel](#memorymodel) 提供了 RISC-V 内存一致性模型的精确描述。
+
+FENCE 指令还对硬件线程执行的内存读取和写入进行排序，这些操作是从外部设备执行的内存读取和写入的角度观察的。但是，FENCE 指令不对外部设备使用任何其他信号机制产生的事件观察进行排序。
+
+EEI 将定义可能的 I/O 操作，特别是当载入和储存指令访问哪些内存地址时，这些地址将分别被视为设备输入和设备输出操作并进行相应排序，而不是内存读取和写入。例如，内存映射 I/O 设备通常使用非缓存载入和储存进行访问，这些操作使用 I 和 O 位而不是 R 和 W 位进行排序。指令集扩展也可能描述新的 I/O 指令，这些指令也将使用 FENCE 指令中的 I 和 O 位进行排序。
+
+**栅栏模式编码**
+
+| _fm_ field | Mnemonic suffix | Meaning                                                                                   |
+|:----------:|:---------------:|:------------------------------------------------------------------------------------------|
+|    0000    |     _none_      | Normal Fence                                                                              |
+|    1000    |      .TSO       | With `FENCE RW,RW`: exclude write-to-read ordering; otherwise: _Reserved for future use._ |
+|  _other_   |     _other_     | _Reserved for future use._                                                                |
+
+FENCE 模式字段 _fm_ 定义了 FENCE 指令的语义。`FENCE` 指令（_fm_=`0000`）将其前驱集合中的所有内存操作排序在其后继集合中的所有内存操作之前。
+
+`FENCE.TSO` 指令编码为 FENCE 指令，其中 _fm_=`1000`、_predecessor_=`RW` 和 _successor_=`RW`。`FENCE.TSO` 将其前驱集合中的所有载入操作排序在其后继集合中的所有内存操作之前，并将其前驱集合中的所有储存操作排序在其后继集合中的所有储存操作之前。这使得 `FENCE.TSO` 前驱集合中的非 AMO 储存操作与其后继集合中的非 AMO 载入操作之间保持无序关系。
+
+FENCE 指令中的未使用字段——_rs1_ 和 _rd_——被保留用于未来扩展中更细粒度的栅栏指令。为了前向兼容性，基础实现应忽略这些字段，标准软件应将这些字段置零。同样，许多 _fm_ 和前驱/后继集合设置也被保留用于未来使用。基础实现应将所有此类保留配置视为 `FENCE` 指令（_fm_=`0000`），标准软件应仅使用非保留配置。
+
+## "Zifencei" Extension for Instruction-Fetch Fence, Version 2.0
 
 本章定义了「Zifencei」扩展，其中包含 `FENCE.I`
 指令。该指令为同一硬件线程（hart）上的指令存储器写入操作与指令获取操作之间提供显式同步。目前，`FENCE.I`
