@@ -1,6 +1,6 @@
 ---
 slug: riscv-unprivileged
-title: "RISC-V ISA Manual Volume I: Unprivileged Architecture"
+title: "The RISC-V Instruction Set Manual Volume I: Unprivileged Architecture"
 authors: [jiangsheng]
 tags: [riscv]
 ---
