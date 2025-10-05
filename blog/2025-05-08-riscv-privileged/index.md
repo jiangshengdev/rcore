@@ -1,27 +1,36 @@
 ---
 slug: riscv-privileged
-title: RISC-V Privileged
+title: 'The RISC-V Instruction Set Manual: Volume II: Privileged Architecture'
 authors: [jiangsheng]
 tags: [riscv]
 ---
 
 <!-- truncate -->
 
-## Machine-Level ISA
+## Machine-Level ISA, Version 1.13
+
+## 机器级 ISA，版本 1.13
 
 ### Machine-Mode Privileged Instructions
 
+### 机器态特权指令
+
 #### Wait for Interrupt
 
-`WFI`（等待中断指令，Wait for Interrupt）通知硬件实现当前硬件线程（hart）可以暂停运行，直到可能需要处理中断。执行
-`WFI`
-还可用于建议硬件平台优先将合适的中断分配到该
-hart。`WFI` 在所有特权模式下可用，并可选择性地支持用户模式（U-mode）。如第 3.1.6.6
-节所述，当 `mstatus` 寄存器的 `TW=1`
-时，执行该指令可能会触发非法指令异常。
+#### 等待中断（WFI）
+
+等待中断指令（WFI）告知实现：当前硬件线程（hart）可被挂起，直到可能需要服务某个中断。执行 WFI 也可用于告知硬件平台：应优先将合适的中断路由至该硬件线程。WFI 在所有特权级均可用，并可选择性地在 U 模式可用。当 `mstatus` 中 TW=1 时，该指令可能引发非法指令异常，详见「Virtualization Support in `mstatus` Register」。
 
 ![wfi.svg](_assets/svg/light/wfi.svg#gh-light-mode-only)
 ![wfi.svg](_assets/svg/dark/wfi.svg#gh-dark-mode-only)
+
+若在硬件线程挂起期间有一个已使能的中断已挂起或随后变为挂起，则将在下一条指令处进入该中断的陷入处理，即执行从陷入处理程序处恢复，且 `mepc` = `pc`+4。
+
+即便没有任何已使能的中断变为挂起，实现也允许因任何原因恢复执行。因此，将 WFI 实现为一个 NOP（空操作）也是合法实现。
+
+在中断被禁用时也可以执行 WFI。WFI 的行为不得受 `mstatus` 中全局中断位（MIE 与 SIE）以及委派寄存器 `mideleg` 的影响（即：即使某个中断已被委派到更低特权级，只要本地使能且变为挂起，硬件线程也必须恢复）；但应遵循各个单独中断的使能位（例如 MTIE）（即：若某中断已挂起但未单独使能，实现应避免恢复硬件线程）。无论各特权级的全局中断使能为何，WFI 还要求对任一特权级上本地已使能且挂起的中断恢复执行。
+
+如果导致硬件线程恢复执行的事件并未引发中断进入，则执行将在 `pc`+4 处继续，软件必须自行决定后续动作，包括在没有可处理事件时回跳并重试 WFI。
 
 ## Supervisor-Level ISA
 
