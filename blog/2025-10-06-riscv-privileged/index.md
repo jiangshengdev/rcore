@@ -7,15 +7,19 @@ tags: [riscv]
 
 <!-- truncate -->
 
-## Machine-Level ISA, Version 1.13
+## Machine-Level ISA, Version 1.13 {#machine}
 
 ## 机器级 ISA，版本 1.13
 
 本章描述在机器模式（Machine mode，M-mode）下可用的机器级操作，该模式是 RISC-V 硬件线程（hart）中的最高特权模式。M 模式用于对硬件平台的底层访问，并且在复位时首先进入。M 模式还可用于实现那些直接在硬件中实现过于困难或成本过高的功能。RISC-V 机器级 ISA 包含一个通用核心，其扩展取决于所支持的其他特权级以及硬件实现的其他细节。
 
+### Machine-Level CSRs
+
 ### 机器级 CSR
 
 除本节所述的机器级 CSR（控制与状态寄存器）之外，M 模式代码可以访问较低特权级的所有 CSR。
+
+#### Machine Trap-Vector Base-Address (`mtvec`) Register
 
 #### 机器陷入向量基址（`mtvec`）寄存器
 
@@ -27,6 +31,8 @@ tags: [riscv]
 
 `mtvec` 寄存器必须始终实现，但其取值可以是只读的。若 `mtvec` 可写，其可取值集合可随实现而异。BASE 字段的取值必须始终按 4 字节边界对齐，且 MODE 设置可能对 BASE 的取值施加额外的对齐约束。注意，该 CSR 仅包含地址 BASE 的第 XLEN-1 到第 2 位；当作为地址使用时，低两位以零填充，从而得到始终按 4 字节边界对齐的 XLEN 位地址。
 
+<a id="mtvec-mode"></a>
+
 **`mtvec` MODE 字段编码。**
 
 |        值 |      名称      | 描述                               |
@@ -35,13 +41,15 @@ tags: [riscv]
 |        1 | 向量（Vectored） | 异步中断将 `pc` 设为 BASE+4&#215;cause。 |
 | &#8805;2 |     ---      | _保留_                             |
 
-MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入机器模式的所有陷入都会将 `pc` 设为 BASE 字段中的地址。当 MODE=Vectored 时，进入机器模式的所有同步异常将 `pc` 设为 BASE 字段中的地址，而中断则将 `pc` 设为 BASE 字段中的地址加上中断原因号的四倍。例如，机器态定时器中断（见 [mcauses](#mcauses)）会将 `pc` 设为 BASE+`0x1c`。
+MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE=Direct 时，进入机器模式的所有陷入都会将 `pc` 设为 BASE 字段中的地址。当 MODE=Vectored 时，进入机器模式的所有同步异常将 `pc` 设为 BASE 字段中的地址，而中断则将 `pc` 设为 BASE 字段中的地址加上中断原因号的四倍。例如，机器态定时器中断（见「 [陷入后机器异常原因（`mcause`）寄存器取值](#mcauses)」）会将 `pc` 设为 BASE+`0x1c`。
 
 实现可针对不同模式采用不同的对齐约束。尤其是，MODE=Vectored 可能比 MODE=Direct 需要更严格的对齐约束。
 
+#### Machine Trap Delegation (`medeleg` and `mideleg`) Registers
+
 #### 机器陷入委派（`medeleg` 与 `mideleg`）寄存器
 
-默认情况下，任意特权级发生的所有陷入都在机器模式处理，但机器态处理程序可以使用 MRET 指令（[从陷入返回指令](#从陷入返回指令)）将陷入重定向回适当的特权级。为提高性能，实现可以在 `medeleg` 与 `mideleg` 中提供独立的可读写位，用以指示某些异常和中断应直接由较低特权级处理。机器异常委派寄存器（`medeleg`）是一个 64 位可读写寄存器。机器中断委派寄存器（`mideleg`）是一个 MXLEN 位可读写寄存器。
+默认情况下，任意特权级发生的所有陷入都在机器模式处理，但机器态处理程序可以使用 MRET 指令（[从陷入返回指令](#otherpriv)）将陷入重定向回适当的特权级。为提高性能，实现可以在 `medeleg` 与 `mideleg` 中提供独立的可读写位，用以指示某些异常和中断应直接由较低特权级处理。机器异常委派寄存器（`medeleg`）是一个 64 位可读写寄存器。机器中断委派寄存器（`mideleg`）是一个 MXLEN 位可读写寄存器。
 
 在具有 S 模式的硬件线程（hart）上，必须提供 `medeleg` 和 `mideleg` 寄存器；当在 `medeleg` 或 `mideleg` 中设置某一位时，发生于 S 模式或 U 模式的相应陷入将被委派给 S 模式的陷入处理程序。在不支持 S 模式的 hart 上，不应提供 `medeleg` 和 `mideleg` 寄存器。
 
@@ -59,7 +67,7 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 ![medeleg.svg](_assets/svg/dark/medeleg.svg#gh-dark-mode-only)
 **机器异常委派（`medeleg`）寄存器。**
 
-`medeleg` 为 [mcauses](#mcauses) 中列出的每个同步异常都分配了一个位位置，其位索引等于 `mcause` 寄存器返回的值（例如，设置第 8 位允许将用户态的环境调用委派给更低特权级的陷入处理程序）。
+`medeleg` 为「[陷入后机器异常原因（`mcause`）寄存器取值](#mcauses)」中列出的每个同步异常都分配了一个位位置，其位索引等于 `mcause` 寄存器返回的值（例如，设置第 8 位允许将用户态的环境调用委派给更低特权级的陷入处理程序）。
 
 当 XLEN=32 时，`medelegh` 是一个 32 位可读写寄存器，别名映射 `medeleg` 的 63:32 位。XLEN=64 时不存在 `medelegh` 寄存器。
 
@@ -73,9 +81,11 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 
 由于双重陷入不可委派，`medeleg`[16] 为只读 0。
 
+#### Machine Interrupt (`mip` and `mie`) Registers
+
 #### 机器中断（`mip` 与 `mie`）寄存器
 
-`mip` 寄存器是一个 MXLEN 位可读写寄存器，包含中断挂起信息，而 `mie` 是相应的 MXLEN 位可读写寄存器，包含中断使能位。中断原因号 _i_（由 CSR `mcause` 报告，见 [机器异常原因（`mcause`）寄存器](#机器异常原因（`mcause`）寄存器)）与 `mip` 与 `mie` 的第 _i_ 位一一对应。位 15:0 仅分配给标准中断原因，位 16 及以上保留给平台使用。
+`mip` 寄存器是一个 MXLEN 位可读写寄存器，包含中断挂起信息，而 `mie` 是相应的 MXLEN 位可读写寄存器，包含中断使能位。中断原因号 _i_（由 CSR `mcause` 报告，见「[机器异常原因（`mcause`）寄存器](#mcause)」）与 `mip` 与 `mie` 的第 _i_ 位一一对应。位 15:0 仅分配给标准中断原因，位 16 及以上保留给平台使用。
 
 ![mideleg.svg](_assets/svg/light/mideleg.svg#gh-light-mode-only)
 ![mideleg.svg](_assets/svg/dark/mideleg.svg#gh-dark-mode-only)
@@ -95,11 +105,15 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 
 若某中断在实现中可能出现挂起，则 `mie` 中对应的位必须是可写的。`mie` 中不可写的位必须为只读 0。
 
-`mip` 与 `mie` 的标准部分（位 15:0）格式分别如 [mipreg-standard](#mipreg-standard) 与 [miereg-standard](#miereg-standard) 所示。
+`mip` 与 `mie` 的标准部分（位 15:0）格式分别如「[`mip` 的标准部分（位 15:0）](#mipreg-standard)」与「[`mie` 的标准部分（位 15:0）](#miereg-standard)」所示。
+
+<a id="mipreg-standard"></a>
 
 ![mipreg-standard.svg](_assets/svg/light/mipreg-standard.svg#gh-light-mode-only)
 ![mipreg-standard.svg](_assets/svg/dark/mipreg-standard.svg#gh-dark-mode-only)
 **`mip` 的标准部分（位 15:0）。**
+
+<a id="miereg-standard"></a>
 
 ![miereg-standard.svg](_assets/svg/light/miereg-standard.svg#gh-light-mode-only)
 ![miereg-standard.svg](_assets/svg/dark/miereg-standard.svg#gh-dark-mode-only)
@@ -125,6 +139,8 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 
 `mip` 与 `mie` 的受限视图分别作为监督级的 `sip` 与 `sie` 寄存器出现。若在 `mideleg` 寄存器中设置了相应位以将某个中断委派给 S 模式，则该中断会在 `sip` 寄存器中可见，并可通过 `sie` 寄存器进行屏蔽；否则，`sip` 与 `sie` 中对应位为只读 0。
 
+#### Machine Scratch (`mscratch`) Register
+
 #### 机器态临时寄存器（`mscratch`）寄存器
 
 `mscratch` 寄存器是一个 MXLEN 位可读写寄存器，供机器模式使用。典型用法是保存指向机器态硬件线程（hart）本地上下文空间的指针，并在进入 M 态陷入处理程序时与某个用户寄存器交换。
@@ -133,9 +149,11 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 ![mscratch.svg](_assets/svg/dark/mscratch.svg#gh-dark-mode-only)
 **机器模式临时寄存器。**
 
+#### Machine Exception Program Counter (`mepc`) Register
+
 #### 机器异常程序计数器（`mepc`）寄存器
 
-`mepc` 是一个 MXLEN 位可读写寄存器，其格式见 [mepcreg](#mepcreg)。`mepc` 的最低位（`mepc[0]`）始终为 0。对于仅支持 IALIGN=32 的实现，最低两位（`mepc[1:0]`）始终为 0。
+`mepc` 是一个 MXLEN 位可读写寄存器，其格式见「[机器异常程序计数器寄存器](#mepcreg)」。`mepc` 的最低位（`mepc[0]`）始终为 0。对于仅支持 IALIGN=32 的实现，最低两位（`mepc[1:0]`）始终为 0。
 
 如果某实现允许通过更改 CSR `misa`（例如）在 IALIGN=16 与 IALIGN=32 之间切换，则每当 IALIGN=32 时，读取会对位 `mepc[1]` 做屏蔽，使其读为 0。MRET 指令进行的隐式读取同样会发生屏蔽。尽管被屏蔽，在 IALIGN=32 时 `mepc[1]` 仍是可写的。
 
@@ -143,15 +161,21 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 
 当陷入进入 M 态时，`mepc` 会被写入发生中断或异常的那条指令的虚拟地址。除此之外，实现不会写入 `mepc`，但软件可显式写入。
 
+<a id="mepcreg"></a>
+
 ![mepcreg.svg](_assets/svg/light/mepcreg.svg#gh-light-mode-only)
 ![mepcreg.svg](_assets/svg/dark/mepcreg.svg#gh-dark-mode-only)
 **机器异常程序计数器寄存器。**
 
+#### Machine Cause (`mcause`) Register {#mcause}
+
 #### 机器异常原因（`mcause`）寄存器
 
-`mcause` 寄存器是一个 MXLEN 位可读写寄存器，其格式见 [mcausereg](#mcausereg)。当陷入进入 M 态时，`mcause` 会被写入一个指示导致此次陷入事件的编码。除此之外，实现不会写入 `mcause`，但软件可显式写入。
+`mcause` 寄存器是一个 MXLEN 位可读写寄存器，其格式见「[机器异常原因（`mcause`）寄存器](#mcausereg)」。当陷入进入 M 态时，`mcause` 会被写入一个指示导致此次陷入事件的编码。除此之外，实现不会写入 `mcause`，但软件可显式写入。
 
-若陷入由中断引发，则 `mcause` 寄存器中的中断位（Interrupt bit）会被置位。异常编码（Exception Code）字段包含用于标识最近一次异常或中断的编码。[mcauses](#mcauses) 列出了可能的机器级异常编码。异常编码字段为 **WLRL** 字段，因此仅保证能保存受支持的异常编码。
+若陷入由中断引发，则 `mcause` 寄存器中的中断位（Interrupt bit）会被置位。异常编码（Exception Code）字段包含用于标识最近一次异常或中断的编码。「[陷入后机器异常原因（`mcause`）寄存器取值](#mcauses)」列出了可能的机器级异常编码。异常编码字段为 **WLRL** 字段，因此仅保证能保存受支持的异常编码。
+
+<a id="mcausereg"></a>
 
 ![mcausereg.svg](_assets/svg/light/mcausereg.svg#gh-light-mode-only)
 ![mcausereg.svg](_assets/svg/dark/mcausereg.svg#gh-dark-mode-only)
@@ -159,7 +183,9 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 
 注意，载入（load）与预留载入（load-reserved）指令会产生载入异常，而存储（store）、条件存储（store-conditional）与 AMO 指令会产生存储/AMO 异常。
 
-如果一条指令可能引发多个同步异常，则应按照 [exception-priority](#exception-priority) 中给出的降序优先级选择要被处理并记录到 `mcause` 的异常。任何自定义同步异常的优先级由实现自行定义。
+如果一条指令可能引发多个同步异常，则应按照「[同步异常优先级（降序）](#exception-priority)」中给出的降序优先级选择要被处理并记录到 `mcause` 的异常。任何自定义同步异常的优先级由实现自行定义。
+
+<a id="mcauses"></a>
 
 **陷入后机器异常原因（`mcause`）寄存器取值。**
 
@@ -207,6 +233,8 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 |         0 |          48-63 | _指定用于自定义使用_  |
 |         0 |      &#8805;64 | _保留_         |
 
+<a id="exception-priority"></a>
+
 **同步异常优先级（降序）。**
 
 | Priority |     Exc.Code | Description       |
@@ -234,13 +262,17 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 
 载入/存储/AMO 地址未对齐异常的优先级相对于载入/存储/AMO 页故障与访问错误异常，可以更高也可以更低。
 
+#### Machine Trap Value (`mtval`) Register
+
 #### 机器陷入值（`mtval`）寄存器
 
-`mtval` 寄存器是一个 MXLEN 位可读写寄存器，其格式见 [mtvalreg](#mtvalreg)。当陷入进入 M 态时，`mtval` 要么被写为 0，要么被写入与异常相关的特定信息，以帮助软件处理此次陷入。除此之外，实现不会写入 `mtval`，但软件可显式写入。硬件平台会规定哪些异常必须向 `mtval` 提供信息、哪些异常可以无条件写为 0、以及哪些异常可根据底层事件选择上述任一行为。如果硬件平台规定没有任何异常会向 `mtval` 写入非零值，则 `mtval` 为只读 0。
+`mtval` 寄存器是一个 MXLEN 位可读写寄存器，其格式见「[机器陷入值（`mtval`）寄存器](#mtvalreg)」。当陷入进入 M 态时，`mtval` 要么被写为 0，要么被写入与异常相关的特定信息，以帮助软件处理此次陷入。除此之外，实现不会写入 `mtval`，但软件可显式写入。硬件平台会规定哪些异常必须向 `mtval` 提供信息、哪些异常可以无条件写为 0、以及哪些异常可根据底层事件选择上述任一行为。如果硬件平台规定没有任何异常会向 `mtval` 写入非零值，则 `mtval` 为只读 0。
 
 当在取指、载入或存储过程中发生断点、地址未对齐、访问错误或页故障异常且 `mtval` 被写入非零值时，`mtval` 将包含导致错误的虚拟地址。
 
 当启用基于页的虚拟内存时，即便是物理内存访问错误异常，`mtval` 也会被写入导致错误的虚拟地址。该设计可降低大多数实现的数据通路成本，尤其是具备硬件页表遍历器的实现。
+
+<a id="mtvalreg"></a>
 
 ![mtvalreg.svg](_assets/svg/light/mtvalreg.svg#gh-light-mode-only)
 ![mtvalreg.svg](_assets/svg/dark/mtvalreg.svg#gh-dark-mode-only)
@@ -261,14 +293,18 @@ MODE 字段的编码见 [mtvec-mode](#mtvec-mode)。当 MODE=Direct 时，进入
 当陷由于“软件检查异常”而产生时，`mtval` 寄存器保存该异常的原因。定义如下编码：
 
 - 0 - 未提供信息。
-- 2 - 着陆垫故障（Landing Pad Fault）。由 Zicfilp 扩展定义（[priv-forward](#priv-forward)）。
-- 3 - 影子栈故障（Shadow Stack Fault）。由 Zicfiss 扩展定义（[priv-backward](#priv-backward)）。
+- 2 - 着陆垫故障（Landing Pad Fault）。由 Zicfilp 扩展定义。
+- 3 - 影子栈故障（Shadow Stack Fault）。由 Zicfiss 扩展定义。
 
 对于其他陷入，`mtval` 被置为 0，但未来标准可能会重新定义 `mtval` 在其他陷入下的取值。
 
 如果 `mtval` 不是只读 0，则它是 **WARL** 寄存器，必须能够保存所有有效的虚拟地址以及数值 0；不要求能够保存所有可能的无效地址。在写入 `mtval` 之前，实现可以将一个无效地址转换为 `mtval` 能够保存的另一个无效地址。若实现了返回出错指令位的特性，`mtval` 还必须能保存所有小于 2^**N**^ 的值，其中 _N_ 为 MXLEN 与 ILEN 中较小者。
 
+### Machine-Mode Privileged Instructions
+
 ### 机器态特权指令
+
+#### Environment Call and Breakpoint
 
 #### 环境调用与断点
 
@@ -281,6 +317,8 @@ EBREAK 指令由调试器使用，用于将控制权转移回调试环境。除�
 
 ECALL 与 EBREAK 会使接收特权级的 `epc` 寄存器被设置为 ECALL 或 EBREAK 指令自身的地址，而非其后一条指令的地址。由于 ECALL 与 EBREAK 会引发同步异常，它们不被视为已退役，且不应使 `minstret` CSR 递增。
 
+#### Trap-Return Instructions {#otherpriv}
+
 #### 从陷入返回指令
 
 用于从陷入返回的指令在 PRIV 次操作码下编码。
@@ -288,7 +326,7 @@ ECALL 与 EBREAK 会使接收特权级的 `epc` 寄存器被设置为 ECALL 或 
 ![trap-return.svg](_assets/svg/light/trap-return.svg#gh-light-mode-only)
 ![trap-return.svg](_assets/svg/dark/trap-return.svg#gh-dark-mode-only)
 
-为在处理陷入后返回，每个特权级分别提供了从陷入返回指令：MRET 与 SRET。MRET 始终提供；若支持监督者模式，则必须提供 SRET，否则应引发非法指令异常。当 `mstatus` 中 TSR=1 时，SRET 也应引发非法指令异常，详见 [virt-control](#virt-control)。**x**RET 指令可在特权级 _x_ 或更高特权级执行；在更高特权级执行较低特权级的 **x**RET 将弹出相应较低特权级的中断使能与特权级栈。尝试在低于 _x_ 的特权级执行 **x**RET 会引发非法指令异常。除按 [privstack](#privstack) 所述操作特权栈之外，**x**RET 还会将 `pc` 设为 `__x__epc` 寄存器中保存的值。
+为在处理陷入后返回，每个特权级分别提供了从陷入返回指令：MRET 与 SRET。MRET 始终提供；若支持监督者模式，则必须提供 SRET，否则应引发非法指令异常。当 `mstatus` 中 TSR=1 时，SRET 也应引发非法指令异常，详见「Virtualization Support in `mstatus` Register」。**x**RET 指令可在特权级 _x_ 或更高特权级执行；在更高特权级执行较低特权级的 **x**RET 将弹出相应较低特权级的中断使能与特权级栈。尝试在低于 _x_ 的特权级执行 **x**RET 会引发非法指令异常。除按「Privilege and Global Interrupt-Enable Stack in `mstatus` register」所述操作特权栈之外，**x**RET 还会将 `pc` 设为 `__x__epc` 寄存器中保存的值。
 
 若支持 A 扩展，**x**RET 指令允许清除任何尚未完成的 LR 地址预留，但并非必须清除。若需要，陷入处理程序应在执行 **x**RET 前显式清除该预留（例如使用一次空操作的 SC）。
 
@@ -296,7 +334,7 @@ ECALL 与 EBREAK 会使接收特权级的 `epc` 寄存器被设置为 ECALL 或 
 
 ### 机器态特权指令
 
-#### Wait for Interrupt
+#### Wait for Interrupt {#wfi}
 
 #### 等待中断（WFI）
 
