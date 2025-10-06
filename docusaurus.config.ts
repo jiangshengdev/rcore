@@ -5,6 +5,33 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const isVercel = process.env.VERCEL === '1';
+let baseUrl = isVercel ? '/' : '/rcore/';
+
+const ICONS_OPTIONS = [
+  { name: 'apple-touch-icon-57x57.png', size: 57 },
+  { name: 'apple-touch-icon-60x60.png', size: 60 },
+  { name: 'apple-touch-icon-72x72.png', size: 72 },
+  { name: 'apple-touch-icon-76x76.png', size: 76 },
+  { name: 'apple-touch-icon-114x114.png', size: 114 },
+  { name: 'apple-touch-icon-120x120.png', size: 120 },
+  { name: 'apple-touch-icon-144x144.png', size: 144 },
+  { name: 'apple-touch-icon-152x152.png', size: 152 },
+  { name: 'apple-touch-icon-167x167.png', size: 167 },
+  { name: 'apple-touch-icon-180x180.png', size: 180 },
+  { name: 'apple-touch-icon-1024x1024.png', size: 1024 },
+];
+
+let appleTouchIcons = ICONS_OPTIONS.map((option) => {
+  return {
+    tagName: 'link',
+    attributes: {
+      rel: 'apple-touch-icon',
+      sizes: `${option.size}x${option.size}`,
+      href: `${baseUrl}icon/${option.name}`,
+    },
+  };
+});
+
 const config: Config = {
   title: 'rCore Study Blog',
   tagline: 'rCore are cool',
@@ -20,7 +47,7 @@ const config: Config = {
   url: 'https://rcore.jiangshengdev.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: isVercel ? '/' : '/rcore/', // Vercel 用根路径，GitHub Pages 用仓库名
+  baseUrl, // Vercel 用根路径，GitHub Pages 用仓库名
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -169,6 +196,7 @@ const config: Config = {
       //... other Algolia params
     },
   } satisfies Preset.ThemeConfig,
+  headTags: [...appleTouchIcons],
 };
 
 export default config;
