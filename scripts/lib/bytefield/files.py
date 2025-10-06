@@ -23,9 +23,9 @@ def find_bytefield_files(themes: List[str]) -> List[Tuple[Path, List[Tuple[str, 
     4. 为每个文件生成对应的输出路径
     
     路径映射示例：
-        输入：blog/2025-05-08-riscv-privileged/_assets/bytefield/mtvec.edn
-        输出（light）：blog/2025-05-08-riscv-privileged/_assets/images/light/mtvec.svg
-        输出（dark）：blog/2025-05-08-riscv-privileged/_assets/images/dark/mtvec.svg
+        输入：blog/2025-10-06-riscv-privileged/_assets/bytefield/mtvec.edn
+        输出（light）：blog/2025-10-06-riscv-privileged/_assets/images/light/mtvec.svg
+        输出（dark）：blog/2025-10-06-riscv-privileged/_assets/images/dark/mtvec.svg
     
     参数:
         themes: 要生成的主题列表，例如 ['light', 'dark']
@@ -57,17 +57,17 @@ def find_bytefield_files(themes: List[str]) -> List[Tuple[Path, List[Tuple[str, 
         # 查找该目录下的所有 .edn 文件
         for edn_file in bytefield_dir.glob("*.edn"):
             # 获取文件所在的博客文章目录
-            # 例如：blog/2025-05-08-riscv-privileged/_assets/bytefield/mtvec.edn
-            # 博客目录：blog/2025-05-08-riscv-privileged
+            # 例如：blog/2025-10-06-riscv-privileged/_assets/bytefield/mtvec.edn
+            # 博客目录：blog/2025-10-06-riscv-privileged
             blog_post_dir = edn_file.parent.parent.parent
 
             # 生成每个主题的输出路径
             theme_outputs = []
             for theme in themes:
-                # 输出目录：blog/2025-05-08-riscv-privileged/_assets/images/{theme}/
+                # 输出目录：blog/2025-10-06-riscv-privileged/_assets/images/{theme}/
                 output_dir = blog_post_dir / "_assets" / "images" / theme
 
-                # 输出文件：blog/2025-05-08-riscv-privileged/_assets/images/{theme}/mtvec.svg
+                # 输出文件：blog/2025-10-06-riscv-privileged/_assets/images/{theme}/mtvec.svg
                 output_file = output_dir / f"{edn_file.stem}.svg"
 
                 theme_outputs.append((theme, output_file))
