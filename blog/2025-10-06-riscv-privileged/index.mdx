@@ -32,7 +32,7 @@ tags: [riscv]
 
 `mtvec` 寄存器必须始终实现，但其取值可以是只读的。若 `mtvec` 可写，其可取值集合可随实现而异。BASE 字段的取值必须始终按 4 字节边界对齐，且 MODE 设置可能对 BASE 的取值施加额外的对齐约束。注意，该 CSR 仅包含地址 BASE 的第 XLEN-1 到第 2 位；当作为地址使用时，低两位以零填充，从而得到始终按 4 字节边界对齐的 XLEN 位地址。
 
-<a id="mtvec-mode"></a>
+<Anchor id="mtvec-mode" />
 
 **`mtvec` MODE 字段编码。**
 
@@ -112,14 +112,14 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 `mip` 与 `mie` 的标准部分（位 15:0）格式分别如「[`mip` 的标准部分（位 15:0）](#mipreg-standard)」与「[`mie` 的标准部分（位 15:0）](#miereg-standard)」所示。
 
-<a id="mipreg-standard"></a>
+<Anchor id="mipreg-standard" />
 
 ![mipreg-standard.svg](_assets/svg/light/mipreg-standard.svg#gh-light-mode-only)
 ![mipreg-standard.svg](_assets/svg/dark/mipreg-standard.svg#gh-dark-mode-only)
 
 **`mip` 的标准部分（位 15:0）。**
 
-<a id="miereg-standard"></a>
+<Anchor id="miereg-standard" />
 
 ![miereg-standard.svg](_assets/svg/light/miereg-standard.svg#gh-light-mode-only)
 ![miereg-standard.svg](_assets/svg/dark/miereg-standard.svg#gh-dark-mode-only)
@@ -169,7 +169,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 当陷入进入 M 态时，`mepc` 会被写入发生中断或异常的那条指令的虚拟地址。除此之外，实现不会写入 `mepc`，但软件可显式写入。
 
-<a id="mepcreg"></a>
+<Anchor id="mepcreg" />
 
 ![mepcreg.svg](_assets/svg/light/mepcreg.svg#gh-light-mode-only)
 ![mepcreg.svg](_assets/svg/dark/mepcreg.svg#gh-dark-mode-only)
@@ -184,7 +184,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 若陷入由中断引发，则 `mcause` 寄存器中的中断位（Interrupt bit）会被置位。异常编码（Exception Code）字段包含用于标识最近一次异常或中断的编码。「[陷入后机器异常原因（`mcause`）寄存器取值](#mcauses)」列出了可能的机器级异常编码。异常编码字段为 **WLRL** 字段，因此仅保证能保存受支持的异常编码。
 
-<a id="mcausereg"></a>
+<Anchor id="mcausereg" />
 
 ![mcausereg.svg](_assets/svg/light/mcausereg.svg#gh-light-mode-only)
 ![mcausereg.svg](_assets/svg/dark/mcausereg.svg#gh-dark-mode-only)
@@ -195,7 +195,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 如果一条指令可能引发多个同步异常，则应按照「[同步异常优先级（降序）](#exception-priority)」中给出的降序优先级选择要被处理并记录到 `mcause` 的异常。任何自定义同步异常的优先级由实现自行定义。
 
-<a id="mcauses"></a>
+<Anchor id="mcauses" />
 
 **陷入后机器异常原因（`mcause`）寄存器取值。**
 
@@ -243,7 +243,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 |         0 |          48-63 | **指定用于自定义使用** |
 |         0 |      &#8805;64 | **保留**        |
 
-<a id="exception-priority"></a>
+<Anchor id="exception-priority" />
 
 **同步异常优先级（降序）。**
 
@@ -282,7 +282,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 当启用基于页的虚拟内存时，即便是物理内存访问错误异常，`mtval` 也会被写入导致错误的虚拟地址。该设计可降低大多数实现的数据通路成本，尤其是具备硬件页表遍历器的实现。
 
-<a id="mtvalreg"></a>
+<Anchor id="mtvalreg" />
 
 ![mtvalreg.svg](_assets/svg/light/mtvalreg.svg#gh-light-mode-only)
 ![mtvalreg.svg](_assets/svg/dark/mtvalreg.svg#gh-dark-mode-only)
