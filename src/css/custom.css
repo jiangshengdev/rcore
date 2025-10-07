@@ -47,3 +47,10 @@
 code {
   vertical-align: baseline;
 }
+
+.table-of-contents {
+  code {
+    border: none;
+    background: none;
+  }
+}
