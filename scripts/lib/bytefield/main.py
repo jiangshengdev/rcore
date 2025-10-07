@@ -11,6 +11,7 @@ import sys
 from .colors import THEME_CHOICES
 from .converter import convert_to_svg
 from .files import find_bytefield_files
+from .params import process_bytefield_params
 from .parser import extract_bytefield_content
 from .utils import eprint
 
@@ -89,6 +90,9 @@ def main() -> int:
             total_conversions += len(theme_outputs)
             continue
 
+        # 处理参数（注入/替换 left-margin, right-margin, box-width）
+        processed_content, param_info = process_bytefield_params(bytefield_content)
+
         # 为每个主题生成 SVG
         for theme, output_path in theme_outputs:
             total_conversions += 1
@@ -96,8 +100,8 @@ def main() -> int:
             # 确保输出目录存在
             output_path.parent.mkdir(parents=True, exist_ok=True)
 
-            # 转换为 SVG
-            success = convert_to_svg(bytefield_content, output_path, theme)
+            # 转换为 SVG（使用处理后的内容）
+            success = convert_to_svg(processed_content, output_path, theme)
 
             if success:
                 print(f"  ✓ {theme}: {output_path}")
