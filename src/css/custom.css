@@ -48,6 +48,14 @@ code {
   vertical-align: baseline;
 }
 
+em {
+  font-family: ui-serif, serif;
+}
+
+code em {
+  font-family: var(--ifm-font-family-monospace);
+}
+
 .table-of-contents {
   code {
     border: none;
