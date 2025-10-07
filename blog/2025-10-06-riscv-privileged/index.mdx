@@ -42,7 +42,7 @@ tags: [riscv]
 |        1 | 向量（Vectored） | 异步中断将 `pc` 设为 BASE+4&#215;cause。 |
 | &#8805;2 |     ---      | **保留**                           |
 
-MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE=Direct 时，进入机器模式的所有陷入都会将 `pc` 设为 BASE 字段中的地址。当 MODE=Vectored 时，进入机器模式的所有同步异常将 `pc` 设为 BASE 字段中的地址，而中断则将 `pc` 设为 BASE 字段中的地址加上中断原因号的四倍。例如，机器态定时器中断（见「 [陷入后机器异常原因（`mcause`）寄存器取值](#mcauses)」）会将 `pc` 设为 BASE+`0x1c`。
+MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE=Direct 时，进入机器模式的所有陷入都会将 `pc` 设为 BASE 字段中的地址。当 MODE=Vectored 时，进入机器模式的所有同步异常将 `pc` 设为 BASE 字段中的地址，而中断则将 `pc` 设为 BASE 字段中的地址加上中断原因号的四倍。例如，机器态定时器中断（见「[陷入后机器异常原因（`mcause`）寄存器取值](#mcauses)」）会将 `pc` 设为 BASE+`0x1c`。
 
 实现可针对不同模式采用不同的对齐约束。尤其是，MODE=Vectored 可能比 MODE=Direct 需要更严格的对齐约束。
 
