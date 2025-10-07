@@ -102,7 +102,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 若满足以下全部条件，中断 _i_ 将陷入到机器模式（使特权级切换为机器模式）：(a) 当前特权级为 M 且 `mstatus` 中的 MIE 位置位，或当前特权级低于机器模式；(b) `mip` 与 `mie` 的第 _i_ 位均为 1；且 (c) 若存在 `mideleg` 寄存器，则 `mideleg` 的第 _i_ 位为 0。
 
-上述导致中断陷入的条件，必须在中断在 `mip` 中变为挂起或不再挂起后的有界时间内完成求值，并且在执行 **x**RET 指令之后，或在对这些中断陷入条件明确依赖的 CSR（包括 `mip`、`mie`、`mstatus` 与 `mideleg`）进行显式写入之后，必须立即重新求值。
+上述导致中断陷入的条件，必须在中断在 `mip` 中变为挂起或不再挂起后的有界时间内完成求值，并且在执行 *x*RET 指令之后，或在对这些中断陷入条件明确依赖的 CSR（包括 `mip`、`mie`、`mstatus` 与 `mideleg`）进行显式写入之后，必须立即重新求值。
 
 发往 M 模式的中断优先于发往较低特权级的任何中断。
 
@@ -140,7 +140,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 若实现了监督者模式，则 `mip`.SSIP 与 `mie`.SSIE 分别是监督级软件中断的中断挂起位与中断使能位。`mip` 中的 SSIP 可写，也可由平台特定的中断控制器置为 1。
 
-若实现了 Sscofpmf 扩展，则 `mip`.LCOFIP 与 `mie`.LCOFIE 分别是本地计数器溢出中断的中断挂起位与中断使能位。`mip` 中的 LCOFIP 为可读写，反映由于任一 <code>mhpmevent<strong>n</strong></code>.OF 位置位而产生的本地计数器溢出中断请求的发生。若未实现 Sscofpmf 扩展，则 `mip`.LCOFIP 与 `mie`.LCOFIE 为只读 0。
+若实现了 Sscofpmf 扩展，则 `mip`.LCOFIP 与 `mie`.LCOFIE 分别是本地计数器溢出中断的中断挂起位与中断使能位。`mip` 中的 LCOFIP 为可读写，反映由于任一 <code>mhpmevent<em>n</em></code>.OF 位置位而产生的本地计数器溢出中断请求的发生。若未实现 Sscofpmf 扩展，则 `mip`.LCOFIP 与 `mie`.LCOFIE 为只读 0。
 
 同时到达且发往 M 模式的多个中断按如下降序优先级处理：MEI、MSI、MTI、SEI、SSI、STI、LCOFI。
 
@@ -296,7 +296,9 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 `mtval` 寄存器还可以选择性地用于在非法指令异常时返回出错指令的指令位（`mepc` 指向内存中该出错指令）。若在非法指令异常发生时 `mtval` 被写入非零值，则 `mtval` 将包含以下三者中最短者：
 
 - 实际的出错指令
+
 - 出错指令的前 ILEN 位
+
 - 出错指令的前 MXLEN 位
 
 在非法指令异常中装载到 `mtval` 的值是右对齐的，所有未使用的高位清零。
@@ -304,12 +306,14 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 当陷由于“软件检查异常”而产生时，`mtval` 寄存器保存该异常的原因。定义如下编码：
 
 - 0 - 未提供信息。
+
 - 2 - 着陆垫故障（Landing Pad Fault）。由 Zicfilp 扩展定义。
+
 - 3 - 影子栈故障（Shadow Stack Fault）。由 Zicfiss 扩展定义。
 
 对于其他陷入，`mtval` 被置为 0，但未来标准可能会重新定义 `mtval` 在其他陷入下的取值。
 
-如果 `mtval` 不是只读 0，则它是 **WARL** 寄存器，必须能够保存所有有效的虚拟地址以及数值 0；不要求能够保存所有可能的无效地址。在写入 `mtval` 之前，实现可以将一个无效地址转换为 `mtval` 能够保存的另一个无效地址。若实现了返回出错指令位的特性，`mtval` 还必须能保存所有小于 2<sup><strong>N</strong></sup> 的值，其中 _N_ 为 MXLEN 与 ILEN 中较小者。
+如果 `mtval` 不是只读 0，则它是 **WARL** 寄存器，必须能够保存所有有效的虚拟地址以及数值 0；不要求能够保存所有可能的无效地址。在写入 `mtval` 之前，实现可以将一个无效地址转换为 `mtval` 能够保存的另一个无效地址。若实现了返回出错指令位的特性，`mtval` 还必须能保存所有小于 2<sup><em>N</em></sup> 的值，其中 _N_ 为 MXLEN 与 ILEN 中较小者。
 
 ### Machine-Mode Privileged Instructions
 
@@ -337,9 +341,9 @@ ECALL 与 EBREAK 会使接收特权级的 `epc` 寄存器被设置为 ECALL 或 
 ![trap-return.svg](_assets/svg/light/trap-return.svg#gh-light-mode-only)
 ![trap-return.svg](_assets/svg/dark/trap-return.svg#gh-dark-mode-only)
 
-为在处理陷入后返回，每个特权级分别提供了从陷入返回指令：MRET 与 SRET。MRET 始终提供；若支持监督者模式，则必须提供 SRET，否则应引发非法指令异常。当 `mstatus` 中 TSR=1 时，SRET 也应引发非法指令异常，详见「Virtualization Support in `mstatus` Register」。**x**RET 指令可在特权级 _x_ 或更高特权级执行；在更高特权级执行较低特权级的 **x**RET 将弹出相应较低特权级的中断使能与特权级栈。尝试在低于 _x_ 的特权级执行 **x**RET 会引发非法指令异常。除按「Privilege and Global Interrupt-Enable Stack in `mstatus` register」所述操作特权栈之外，**x**RET 还会将 `pc` 设为 <code><strong>x</strong>epc</code> 寄存器中保存的值。
+为在处理陷入后返回，每个特权级分别提供了从陷入返回指令：MRET 与 SRET。MRET 始终提供；若支持监督者模式，则必须提供 SRET，否则应引发非法指令异常。当 `mstatus` 中 TSR=1 时，SRET 也应引发非法指令异常，详见「Virtualization Support in `mstatus` Register」。*x*RET 指令可在特权级 _x_ 或更高特权级执行；在更高特权级执行较低特权级的 *x*RET 将弹出相应较低特权级的中断使能与特权级栈。尝试在低于 _x_ 的特权级执行 *x*RET 会引发非法指令异常。除按「Privilege and Global Interrupt-Enable Stack in `mstatus` register」所述操作特权栈之外，*x*RET 还会将 `pc` 设为 <code><em>x</em>epc</code> 寄存器中保存的值。
 
-若支持 A 扩展，**x**RET 指令允许清除任何尚未完成的 LR 地址预留，但并非必须清除。若需要，陷入处理程序应在执行 **x**RET 前显式清除该预留（例如使用一次空操作的 SC）。
+若支持 A 扩展，*x*RET 指令允许清除任何尚未完成的 LR 地址预留，但并非必须清除。若需要，陷入处理程序应在执行 *x*RET 前显式清除该预留（例如使用一次空操作的 SC）。
 
 #### Wait for Interrupt {#wfi}
 
