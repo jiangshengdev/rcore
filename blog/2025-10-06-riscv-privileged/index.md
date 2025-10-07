@@ -27,6 +27,7 @@ tags: [riscv]
 
 ![mtvec.svg](_assets/svg/light/mtvec.svg#gh-light-mode-only)
 ![mtvec.svg](_assets/svg/dark/mtvec.svg#gh-dark-mode-only)
+
 **`mtvec` MODE 字段编码。**
 
 `mtvec` 寄存器必须始终实现，但其取值可以是只读的。若 `mtvec` 可写，其可取值集合可随实现而异。BASE 字段的取值必须始终按 4 字节边界对齐，且 MODE 设置可能对 BASE 的取值施加额外的对齐约束。注意，该 CSR 仅包含地址 BASE 的第 XLEN-1 到第 2 位；当作为地址使用时，低两位以零填充，从而得到始终按 4 字节边界对齐的 XLEN 位地址。
@@ -39,7 +40,7 @@ tags: [riscv]
 |---------:|:------------:|:---------------------------------|
 |        0 |  直接（Direct）  | 所有陷入将 `pc` 设为 BASE。              |
 |        1 | 向量（Vectored） | 异步中断将 `pc` 设为 BASE+4&#215;cause。 |
-| &#8805;2 |     ---      | _保留_                             |
+| &#8805;2 |     ---      | **保留**                           |
 
 MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE=Direct 时，进入机器模式的所有陷入都会将 `pc` 设为 BASE 字段中的地址。当 MODE=Vectored 时，进入机器模式的所有同步异常将 `pc` 设为 BASE 字段中的地址，而中断则将 `pc` 设为 BASE 字段中的地址加上中断原因号的四倍。例如，机器态定时器中断（见「 [陷入后机器异常原因（`mcause`）寄存器取值](#mcauses)」）会将 `pc` 设为 BASE+`0x1c`。
 
@@ -65,6 +66,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 ![medeleg.svg](_assets/svg/light/medeleg.svg#gh-light-mode-only)
 ![medeleg.svg](_assets/svg/dark/medeleg.svg#gh-dark-mode-only)
+
 **机器异常委派（`medeleg`）寄存器。**
 
 `medeleg` 为「[陷入后机器异常原因（`mcause`）寄存器取值](#mcauses)」中列出的每个同步异常都分配了一个位位置，其位索引等于 `mcause` 寄存器返回的值（例如，设置第 8 位允许将用户态的环境调用委派给更低特权级的陷入处理程序）。
@@ -73,6 +75,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 ![mideleg.svg](_assets/svg/light/mideleg.svg#gh-light-mode-only)
 ![mideleg.svg](_assets/svg/dark/mideleg.svg#gh-dark-mode-only)
+
 **机器中断委派（`mideleg`）寄存器。**
 
 `mideleg` 保存各个中断的陷入委派位，其位布局与 `mip` 寄存器一致（例如，监督定时器中断挂起 STIP 的委派控制位位于第 5 位）。
@@ -89,10 +92,12 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 ![mideleg.svg](_assets/svg/light/mideleg.svg#gh-light-mode-only)
 ![mideleg.svg](_assets/svg/dark/mideleg.svg#gh-dark-mode-only)
+
 **机器中断挂起（`mip`）寄存器。**
 
 ![mideleg.svg](_assets/svg/light/mideleg.svg#gh-light-mode-only)
 ![mideleg.svg](_assets/svg/dark/mideleg.svg#gh-dark-mode-only)
+
 **机器中断使能（`mie`）寄存器**
 
 若满足以下全部条件，中断 _i_ 将陷入到机器模式（使特权级切换为机器模式）：(a) 当前特权级为 M 且 `mstatus` 中的 MIE 位置位，或当前特权级低于机器模式；(b) `mip` 与 `mie` 的第 _i_ 位均为 1；且 (c) 若存在 `mideleg` 寄存器，则 `mideleg` 的第 _i_ 位为 0。
@@ -111,12 +116,14 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 ![mipreg-standard.svg](_assets/svg/light/mipreg-standard.svg#gh-light-mode-only)
 ![mipreg-standard.svg](_assets/svg/dark/mipreg-standard.svg#gh-dark-mode-only)
+
 **`mip` 的标准部分（位 15:0）。**
 
 <a id="miereg-standard"></a>
 
 ![miereg-standard.svg](_assets/svg/light/miereg-standard.svg#gh-light-mode-only)
 ![miereg-standard.svg](_assets/svg/dark/miereg-standard.svg#gh-dark-mode-only)
+
 **`mie` 的标准部分（位 15:0）。**
 
 `mip`.MEIP 与 `mie`.MEIE 分别是机器级外部中断的中断挂起位与中断使能位。`mip` 中的 MEIP 为只读，由平台特定的中断控制器置位与清零。
@@ -133,7 +140,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 若实现了监督者模式，则 `mip`.SSIP 与 `mie`.SSIE 分别是监督级软件中断的中断挂起位与中断使能位。`mip` 中的 SSIP 可写，也可由平台特定的中断控制器置为 1。
 
-若实现了 Sscofpmf 扩展，则 `mip`.LCOFIP 与 `mie`.LCOFIE 分别是本地计数器溢出中断的中断挂起位与中断使能位。`mip` 中的 LCOFIP 为可读写，反映由于任一 `mhpmevent__n__`.OF 位置位而产生的本地计数器溢出中断请求的发生。若未实现 Sscofpmf 扩展，则 `mip`.LCOFIP 与 `mie`.LCOFIE 为只读 0。
+若实现了 Sscofpmf 扩展，则 `mip`.LCOFIP 与 `mie`.LCOFIE 分别是本地计数器溢出中断的中断挂起位与中断使能位。`mip` 中的 LCOFIP 为可读写，反映由于任一 <code>mhpmevent<strong>n</strong></code>.OF 位置位而产生的本地计数器溢出中断请求的发生。若未实现 Sscofpmf 扩展，则 `mip`.LCOFIP 与 `mie`.LCOFIE 为只读 0。
 
 同时到达且发往 M 模式的多个中断按如下降序优先级处理：MEI、MSI、MTI、SEI、SSI、STI、LCOFI。
 
@@ -147,6 +154,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 ![mscratch.svg](_assets/svg/light/mscratch.svg#gh-light-mode-only)
 ![mscratch.svg](_assets/svg/dark/mscratch.svg#gh-dark-mode-only)
+
 **机器模式临时寄存器。**
 
 #### Machine Exception Program Counter (`mepc`) Register
@@ -165,6 +173,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 ![mepcreg.svg](_assets/svg/light/mepcreg.svg#gh-light-mode-only)
 ![mepcreg.svg](_assets/svg/dark/mepcreg.svg#gh-dark-mode-only)
+
 **机器异常程序计数器寄存器。**
 
 #### Machine Cause (`mcause`) Register {#mcause}
@@ -179,6 +188,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 ![mcausereg.svg](_assets/svg/light/mcausereg.svg#gh-light-mode-only)
 ![mcausereg.svg](_assets/svg/dark/mcausereg.svg#gh-dark-mode-only)
+
 **机器异常原因（`mcause`）寄存器。**
 
 注意，载入（load）与预留载入（load-reserved）指令会产生载入异常，而存储（store）、条件存储（store-conditional）与 AMO 指令会产生存储/AMO 异常。
@@ -276,6 +286,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 ![mtvalreg.svg](_assets/svg/light/mtvalreg.svg#gh-light-mode-only)
 ![mtvalreg.svg](_assets/svg/dark/mtvalreg.svg#gh-dark-mode-only)
+
 **机器陷入值（`mtval`）寄存器。**
 
 当一次未对齐的载入或存储导致访问错误或页故障异常且 `mtval` 被写入非零值时，`mtval` 将包含导致错误的那一部分访问的虚拟地址。
@@ -298,7 +309,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 对于其他陷入，`mtval` 被置为 0，但未来标准可能会重新定义 `mtval` 在其他陷入下的取值。
 
-如果 `mtval` 不是只读 0，则它是 **WARL** 寄存器，必须能够保存所有有效的虚拟地址以及数值 0；不要求能够保存所有可能的无效地址。在写入 `mtval` 之前，实现可以将一个无效地址转换为 `mtval` 能够保存的另一个无效地址。若实现了返回出错指令位的特性，`mtval` 还必须能保存所有小于 2^**N**^ 的值，其中 _N_ 为 MXLEN 与 ILEN 中较小者。
+如果 `mtval` 不是只读 0，则它是 **WARL** 寄存器，必须能够保存所有有效的虚拟地址以及数值 0；不要求能够保存所有可能的无效地址。在写入 `mtval` 之前，实现可以将一个无效地址转换为 `mtval` 能够保存的另一个无效地址。若实现了返回出错指令位的特性，`mtval` 还必须能保存所有小于 2<sup><strong>N</strong></sup> 的值，其中 _N_ 为 MXLEN 与 ILEN 中较小者。
 
 ### Machine-Mode Privileged Instructions
 
@@ -326,13 +337,9 @@ ECALL 与 EBREAK 会使接收特权级的 `epc` 寄存器被设置为 ECALL 或 
 ![trap-return.svg](_assets/svg/light/trap-return.svg#gh-light-mode-only)
 ![trap-return.svg](_assets/svg/dark/trap-return.svg#gh-dark-mode-only)
 
-为在处理陷入后返回，每个特权级分别提供了从陷入返回指令：MRET 与 SRET。MRET 始终提供；若支持监督者模式，则必须提供 SRET，否则应引发非法指令异常。当 `mstatus` 中 TSR=1 时，SRET 也应引发非法指令异常，详见「Virtualization Support in `mstatus` Register」。**x**RET 指令可在特权级 _x_ 或更高特权级执行；在更高特权级执行较低特权级的 **x**RET 将弹出相应较低特权级的中断使能与特权级栈。尝试在低于 _x_ 的特权级执行 **x**RET 会引发非法指令异常。除按「Privilege and Global Interrupt-Enable Stack in `mstatus` register」所述操作特权栈之外，**x**RET 还会将 `pc` 设为 `__x__epc` 寄存器中保存的值。
+为在处理陷入后返回，每个特权级分别提供了从陷入返回指令：MRET 与 SRET。MRET 始终提供；若支持监督者模式，则必须提供 SRET，否则应引发非法指令异常。当 `mstatus` 中 TSR=1 时，SRET 也应引发非法指令异常，详见「Virtualization Support in `mstatus` Register」。**x**RET 指令可在特权级 _x_ 或更高特权级执行；在更高特权级执行较低特权级的 **x**RET 将弹出相应较低特权级的中断使能与特权级栈。尝试在低于 _x_ 的特权级执行 **x**RET 会引发非法指令异常。除按「Privilege and Global Interrupt-Enable Stack in `mstatus` register」所述操作特权栈之外，**x**RET 还会将 `pc` 设为 <code><strong>x</strong>epc</code> 寄存器中保存的值。
 
 若支持 A 扩展，**x**RET 指令允许清除任何尚未完成的 LR 地址预留，但并非必须清除。若需要，陷入处理程序应在执行 **x**RET 前显式清除该预留（例如使用一次空操作的 SC）。
-
-### Machine-Mode Privileged Instructions
-
-### 机器态特权指令
 
 #### Wait for Interrupt {#wfi}
 
