@@ -1,0 +1,6 @@
+.anchor {
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 0.5rem);
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
