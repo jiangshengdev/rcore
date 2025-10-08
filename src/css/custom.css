@@ -53,7 +53,7 @@ code {
 }
 
 em {
-  font-family: ui-serif, Georgia, serif;
+  font-family: ui-serif, Georgia, 'Noto Serif', serif;
 }
 
 code em {
