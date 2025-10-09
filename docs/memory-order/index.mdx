@@ -10,7 +10,7 @@ sidebar_position: 7
 
 而顺序约束会对程序执行结果具体产生什么样的影响，可以利用石蕊测试进行可视化的分析。
 
-下面以自旋锁为例，分析添加 `aq` 和 `rl` 与否，程序执行有什么样的差异。
+下面以自旋锁为例，分析添加 _aq_ 和 _rl_ 与否，程序执行有什么样的差异。
 
 import CodeBlock from '@theme/CodeBlock';
 import ISA03_SIMPLE from '!!raw-loader!./_assets/litmus/ISA03+SIMPLE.litmus';
@@ -27,7 +27,7 @@ import ISA03 from '!!raw-loader!./_assets/litmus/ISA03.litmus';
 
 <CodeBlock language="riscv">{ISA03_SIMPLE}</CodeBlock>
 
-可以看到其中原子指令含有额外的内存排序约束：`aq` 和 `rl`。
+可以看到其中原子指令含有额外的内存排序约束：_aq_ 和 _rl_。
 
 使用「兽群」工具模拟内存模型，命令如下：
 
@@ -83,6 +83,8 @@ neato "-Gfontname=SF Pro Display" "-Nfontname=SF Pro Display" \
 ![graph_02.svg](./_assets/svg/light/ISA03+SIMPLE/graph_02.svg#gh-light-mode-only)
 ![graph_02.svg](./_assets/svg/dark/ISA03+SIMPLE/graph_02.svg#gh-dark-mode-only)
 
+参考「RVWMO 说明材料」：
+
 | Edge  | Full Name (and explanation)                                                                    |
 |:------|:-----------------------------------------------------------------------------------------------|
 | rf    | Reads From (from each store to the loads that return a value written by that store)            |
@@ -96,28 +98,28 @@ neato "-Gfontname=SF Pro Display" "-Nfontname=SF Pro Display" \
 
 **绘制的石蕊测试图表的图例**
 
-边的全称（和解释）：
+| 边     | 全称（和解释）                     |
+|:------|:----------------------------|
+| rf    | 读自关系（从每个储存到返回该储存所写值的载入）     |
+| co    | 一致性（对每个地址上储存的全序关系）          |
+| fr    | 从读关系（从每个载入到载入返回值的储存的 co 后继） |
+| ppo   | 保留程序序                       |
+| fence | FENCE 指令强制的序关系              |
+| addr  | 地址依赖                        |
+| ctrl  | 控制依赖                        |
+| data  | 数据依赖                        |
 
-- rf：读自关系（从每个储存到返回该储存所写值的载入）
-- co：一致性（对每个地址上储存的全序关系）
-- fr：从读关系（从每个载入到载入返回值的储存的 co 后继）
-- ppo：保留程序序
-- fence：FENCE 指令强制的序关系
-- addr：地址依赖
-- ctrl：控制依赖
-- data：数据依赖
-
-在列出的关系中，硬件线程间的 rf 边、co 边、fr 边和 ppo 边直接约束全局内存序（fence、addr、data 和一些 ctrl 边也通过 ppo 来约束）。其他边（如硬件线程内的 rf 边）是信息性的，但不约束全局内存序。
+> 在列出的关系中，硬件线程间的 rf 边、co 边、fr 边和 ppo 边直接约束全局内存序（fence、addr、data 和一些 ctrl 边也通过 ppo 来约束）。其他边（如硬件线程内的 rf 边）是信息性的，但不约束全局内存序。
 
 可以看到图中 `a,b` `c,d` `e,f` `g,h` 4 组节点之间的边均含有 `ppo` 约束。
 
-保留程序序（Preserved Program Order）表示必须在全局内存序中被遵守的程序序的子集。从概念上讲，来自同一硬件线程且由保留程序序排序的事件必须从其他硬件线程和/或观察者的角度以该顺序出现。另一方面，来自同一硬件线程但未由保留程序序排序的事件可能从其他硬件线程和/或观察者的角度看起来被重排序。
+> 保留程序序（Preserved Program Order）表示必须在全局内存序中被遵守的程序序的子集。从概念上讲，来自同一硬件线程且由保留程序序排序的事件必须从其他硬件线程和/或观察者的角度以该顺序出现。另一方面，来自同一硬件线程但未由保留程序序排序的事件可能从其他硬件线程和/或观察者的角度看起来被重排序。
 
 也就是说，程序只会按 `a→b` `c→d` `e→f` `g→h` 的顺序执行，结合其他的 `ppo` 以及其他约束。变量 a 的最终结果只能为 2。
 
 ## 宽松顺序
 
-`ISA03+SIMPLE+BIS.litmus` 测试去除了 `aq` 和 `rl`，可以从如下仓库处获取：
+`ISA03+SIMPLE+BIS.litmus` 测试去除了 _aq_ 和 _rl_，可以从如下仓库处获取：
 
 > https://github.com/litmus-tests/litmus-tests-riscv/blob/431159ae349fc1ae6850cf1df501d3b175a28b61/tests/non-mixed-size/HAND/ISA03+SIMPLE+BIS.litmus
 
@@ -204,10 +206,13 @@ Hash=b6d3059467f1537d63dd512ee7686023
 ![graph_01.svg](./_assets/svg/light/ISA03/graph_01.svg#gh-light-mode-only)
 ![graph_01.svg](./_assets/svg/dark/ISA03/graph_01.svg#gh-dark-mode-only)
 
-由于此示例使用 _aq_，临界区中的载入和储存保证在全局内存序中出现在用于获取锁的 AMOSWAP 之后。然而，假设 `a0`、`a1` 和 `a2` 指向不同的内存位置，临界区中的载入和储存在全局内存序中可能会也可能不会出现在示例开头的「任意无关载入」之后。
+如「RVWMO 说明材料」中所述：
 
-释放语义序的工作方式与获取语义序完全相同，只是方向相反。释放语义要求在程序序中先于释放语义操作的所有载入和储存也在全局内存序中先于释放语义操作。
-使用相同的示例，临界区中的载入和储存与代码片段末尾的「任意无关储存」之间的序仅由 FENCE RW,W 强制执行，而不是由 _rl_ 强制执行。
+> 由于此示例使用 _aq_，临界区中的载入和储存保证在全局内存序中出现在用于获取锁的 AMOSWAP 之后。然而，假设 `a0`、`a1` 和 `a2` 指向不同的内存位置，临界区中的载入和储存在全局内存序中可能会也可能不会出现在示例开头的「任意无关载入」之后。
+>
+> 释放语义序的工作方式与获取语义序完全相同，只是方向相反。释放语义要求在程序序中先于释放语义操作的所有载入和储存也在全局内存序中先于释放语义操作。
+>
+> 使用相同的示例，临界区中的载入和储存与代码片段末尾的「任意无关储存」之间的序仅由 FENCE RW,W 强制执行，而不是由 _rl_ 强制执行。
 
 ## 参考资料
 
