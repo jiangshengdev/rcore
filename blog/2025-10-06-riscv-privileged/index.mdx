@@ -21,7 +21,7 @@ tags: [riscv]
 
 :::
 
-## Machine-Level ISA, Version 1.13 {#machine}
+## Machine-Level ISA, Version 1.13 \{#machine}
 
 ## 机器级 ISA，版本 1.13
 
@@ -190,7 +190,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 **机器异常程序计数器寄存器。**
 
-#### Machine Cause (`mcause`) Register {#mcause}
+#### Machine Cause (`mcause`) Register \{#mcause}
 
 #### 机器异常原因（`mcause`）寄存器
 
@@ -346,7 +346,7 @@ EBREAK 指令由调试器使用，用于将控制权转移回调试环境。除�
 
 ECALL 与 EBREAK 会使接收特权级的 `epc` 寄存器被设置为 ECALL 或 EBREAK 指令自身的地址，而非其后一条指令的地址。由于 ECALL 与 EBREAK 会引发同步异常，它们不被视为已退役，且不应使 `minstret` CSR 递增。
 
-#### Trap-Return Instructions {#otherpriv}
+#### Trap-Return Instructions \{#otherpriv}
 
 #### 从陷入返回指令
 
@@ -359,7 +359,7 @@ ECALL 与 EBREAK 会使接收特权级的 `epc` 寄存器被设置为 ECALL 或 
 
 若支持 A 扩展，*x*RET 指令允许清除任何尚未完成的 LR 地址预留，但并非必须清除。若需要，陷入处理程序应在执行 *x*RET 前显式清除该预留（例如使用一次空操作的 SC）。
 
-#### Wait for Interrupt {#wfi}
+#### Wait for Interrupt \{#wfi}
 
 #### 等待中断（WFI）
 

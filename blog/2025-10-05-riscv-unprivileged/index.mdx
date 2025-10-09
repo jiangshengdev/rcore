@@ -21,11 +21,11 @@ tags: [riscv]
 
 :::
 
-## RV32I Base Integer Instruction Set, Version 2.1 {#rv32}
+## RV32I Base Integer Instruction Set, Version 2.1 \{#rv32}
 
 ## RV32I 基础整数指令集，版本 2.1
 
-### Memory Ordering Instructions {#fence}
+### Memory Ordering Instructions \{#fence}
 
 ### 内存序指令
 
@@ -64,7 +64,7 @@ FENCE 模式字段 _fm_ 定义了 FENCE 指令的语义。`FENCE` 指令（_fm_=
 
 FENCE 指令中的未使用字段——_rs1_ 和 _rd_——被保留用于未来扩展中更细粒度的栅栏指令。为了前向兼容性，基础实现应忽略这些字段，标准软件应将这些字段置零。同样，许多 _fm_ 和前驱/后继集合设置也被保留用于未来使用。基础实现应将所有此类保留配置视为 `FENCE` 指令（_fm_=`0000`），标准软件应仅使用非保留配置。
 
-## "Zifencei" Extension for Instruction-Fetch Fence, Version 2.0 {#zifencei}
+## "Zifencei" Extension for Instruction-Fetch Fence, Version 2.0 \{#zifencei}
 
 ## 「Zifencei」指令获取栅栏扩展，版本 2.0
 
@@ -79,7 +79,7 @@ FENCE.I 指令用于同步指令流和数据流。RISC-V 不保证对指令内�
 
 FENCE.I 指令中未使用的字段 _funct12_、_rs1_ 和 _rd_ 保留用于未来扩展中的细粒度栅栏。为了前向兼容性，基础实现应忽略这些字段，标准软件应将这些字段设为零。
 
-## "A" Extension for Atomic Instructions, Version 2.1 {#atomics}
+## "A" Extension for Atomic Instructions, Version 2.1 \{#atomics}
 
 ## 「A」扩展：原子指令，版本 2.1
 
@@ -97,7 +97,7 @@ A 扩展包括由 Zaamo 和 Zalrsc 扩展提供的指令。
 
 如果两个位都清零，则对原子内存操作不施加额外的序约束。如果只设置 _aq_ 位，原子内存操作被视为 **获取** 访问，即在此 RISC-V 硬件线程上，任何后续的内存操作都不能被观察到在获取内存操作之前发生。如果只设置 _rl_ 位，原子内存操作被视为 **释放** 访问，即释放内存操作不能被观察到在此 RISC-V 硬件线程上任何更早的内存操作之前发生。如果 _aq_ 和 _rl_ 位都被设置，原子内存操作是 **顺序一致的**，不能被观察到发生在同一 RISC-V 硬件线程中任何更早的内存操作之前或任何更晚的内存操作之后，并且针对相同的地址域。
 
-### "Zalrsc" Extension for Load-Reserved/Store-Conditional Instructions {#sec\:lrsc}
+### "Zalrsc" Extension for Load-Reserved/Store-Conditional Instructions \{#sec\:lrsc}
 
 ### 「Zalrsc」扩展：保留载入/条件储存指令
 
