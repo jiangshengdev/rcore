@@ -5,7 +5,21 @@ authors: [jiangsheng]
 tags: [rust]
 ---
 
+记录学习时查阅的一些 Rust 语言参考资料要点。
+
 <!-- truncate -->
+
+:::note 翻译说明
+
+本页为 Rust Language Reference 部分内容的中文摘译，仅供学习参考，不具规范效力。
+
+上游英文版本（更新频繁，译文可能未完全同步）：
+
+> https://doc.rust-lang.org/stable/reference/
+
+如用于实现 / 调试 / 合规，请务必核对英文原文；若发现差异或术语不一致，欢迎反馈。
+
+:::
 
 ## Inline assembly
 
