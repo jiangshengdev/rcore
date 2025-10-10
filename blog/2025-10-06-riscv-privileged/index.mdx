@@ -205,7 +205,7 @@ MODE 字段的编码见「[`mtvec` MODE 字段编码](#mtvec-mode)」。当 MODE
 
 **机器异常原因（`mcause`）寄存器。**
 
-注意，载入（load）与预留载入（load-reserved）指令会产生载入异常，而存储（store）、条件存储（store-conditional）与 AMO 指令会产生存储/AMO 异常。
+注意，载入（load）与保留载入（load-reserved）指令会产生载入异常，而存储（store）、条件存储（store-conditional）与 AMO 指令会产生存储/AMO 异常。
 
 如果一条指令可能引发多个同步异常，则应按照「[同步异常优先级（降序）](#exception-priority)」中给出的降序优先级选择要被处理并记录到 `mcause` 的异常。任何自定义同步异常的优先级由实现自行定义。
 
@@ -357,7 +357,7 @@ ECALL 与 EBREAK 会使接收特权级的 `epc` 寄存器被设置为 ECALL 或 
 
 为在处理陷入后返回，每个特权级分别提供了从陷入返回指令：MRET 与 SRET。MRET 始终提供；若支持监督者模式，则必须提供 SRET，否则应引发非法指令异常。当 `mstatus` 中 TSR=1 时，SRET 也应引发非法指令异常，详见「Virtualization Support in `mstatus` Register」。*x*RET 指令可在特权级 _x_ 或更高特权级执行；在更高特权级执行较低特权级的 *x*RET 将弹出相应较低特权级的中断使能与特权级栈。尝试在低于 _x_ 的特权级执行 *x*RET 会引发非法指令异常。除按「Privilege and Global Interrupt-Enable Stack in `mstatus` register」所述操作特权栈之外，*x*RET 还会将 `pc` 设为 <code><em>x</em>epc</code> 寄存器中保存的值。
 
-若支持 A 扩展，*x*RET 指令允许清除任何尚未完成的 LR 地址预留，但并非必须清除。若需要，陷入处理程序应在执行 *x*RET 前显式清除该预留（例如使用一次空操作的 SC）。
+若支持 A 扩展，*x*RET 指令允许清除任何尚未完成的 LR 地址保留，但并非必须清除。若需要，陷入处理程序应在执行 *x*RET 前显式清除该保留（例如使用一次空操作的 SC）。
 
 #### Wait for Interrupt \{#wfi}
 
