@@ -54,6 +54,7 @@ code {
 
 em {
   font-family: ui-serif, Georgia, 'Noto Serif', serif;
+  line-height: 20px;
 }
 
 code em {

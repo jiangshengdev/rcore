@@ -1,0 +1,68 @@
++----------------------+----------------------+-----------------------+
+| Interrupt            | Exception Code       | Description           |
++=====================:+=====================:+:======================+
+| 1\                   | 0\                   | *Reserved*\           |
+| 1\                   | 1\                   | Supervisor software   |
+| 1\                   | 2\                   | interrupt\            |
+| 1                    | 3                    | *Reserved*\           |
+|                      |                      | Machine software      |
+|                      |                      | interrupt             |
++---------------------:+---------------------:+:----------------------+
+| 1\                   | 4\                   | *Reserved*\           |
+| 1\                   | 5\                   | Supervisor timer      |
+| 1\                   | 6\                   | interrupt\            |
+| 1                    | 7                    | *Reserved*\           |
+|                      |                      | Machine timer         |
+|                      |                      | interrupt             |
++---------------------:+---------------------:+:----------------------+
+| 1\                   | 8\                   | *Reserved*\           |
+| 1\                   | 9\                   | Supervisor external   |
+| 1\                   | 10\                  | interrupt\            |
+| 1                    | 11                   | *Reserved*\           |
+|                      |                      | Machine external      |
+|                      |                      | interrupt             |
++---------------------:+---------------------:+:----------------------+
+| 1\                   | 12\                  | *Reserved*\           |
+| 1\                   | 13\                  | Counter-overflow      |
+| 1\                   | 14-15\               | interrupt\            |
+| 1                    | ≥16                  | *Reserved*\           |
+|                      |                      | *Designated for       |
+|                      |                      | platform use*         |
++---------------------:+---------------------:+:----------------------+
+| 0\                   | 0\                   | Instruction address   |
+| 0\                   | 1\                   | misaligned\           |
+| 0\                   | 2\                   | Instruction access    |
+| 0\                   | 3\                   | fault\                |
+| 0\                   | 4\                   | Illegal instruction\  |
+| 0\                   | 5\                   | Breakpoint\           |
+| 0\                   | 6\                   | Load address          |
+| 0\                   | 7\                   | misaligned\           |
+| 0\                   | 8\                   | Load access fault\    |
+| 0\                   | 9\                   | Store/AMO address     |
+| 0\                   | 10\                  | misaligned\           |
+| 0\                   | 11\                  | Store/AMO access      |
+| 0\                   | 12\                  | fault\                |
+| 0\                   | 13\                  | Environment call from |
+| 0\                   | 14\                  | U-mode\               |
+| 0\                   | 15\                  | Environment call from |
+| 0\                   | 16\                  | S-mode\               |
+| 0\                   | 17\                  | *Reserved*\           |
+| 0\                   | 18\                  | Environment call from |
+| 0\                   | 19\                  | M-mode\               |
+| 0\                   | 20-23\               | Instruction page      |
+| 0\                   | 24-31\               | fault\                |
+| 0\                   | 32-47\               | Load page fault\      |
+| 0\                   | 48-63\               | *Reserved*\           |
+| 0                    | ≥64                  | Store/AMO page fault\ |
+|                      |                      | Double trap\          |
+|                      |                      | *Reserved*\           |
+|                      |                      | Software check\       |
+|                      |                      | Hardware error\       |
+|                      |                      | *Reserved*\           |
+|                      |                      | *Designated for       |
+|                      |                      | custom use*\          |
+|                      |                      | *Reserved*\           |
+|                      |                      | *Designated for       |
+|                      |                      | custom use*\          |
+|                      |                      | *Reserved*            |
++----------------------+----------------------+-----------------------+

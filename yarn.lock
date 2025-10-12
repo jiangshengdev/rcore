@@ -2,6 +2,34 @@
 # yarn lockfile v1
 
 
+"@adobe/mdast-util-gridtables@4.0.14", "@adobe/mdast-util-gridtables@^4.0.14":
+  version "4.0.14"
+  resolved "https://registry.yarnpkg.com/@adobe/mdast-util-gridtables/-/mdast-util-gridtables-4.0.14.tgz#93477c7dc27b0de8a21842f948ec26a090556319"
+  integrity sha512-qBXNrWsVyejpqjcZyK7Z0IxHQ2Rhed7DaoiGU9dIJtxVpq5BbTReIq9Nc+373HxJnB36qIO57YKoIop2MAqDwg==
+  dependencies:
+    "@adobe/micromark-extension-gridtables" "^2.0.4"
+    mdast-util-from-markdown "2.0.2"
+    mdast-util-to-hast "13.2.0"
+    mdast-util-to-markdown "2.1.2"
+    unist-util-visit "5.0.0"
+
+"@adobe/micromark-extension-gridtables@2.0.4", "@adobe/micromark-extension-gridtables@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@adobe/micromark-extension-gridtables/-/micromark-extension-gridtables-2.0.4.tgz#22ab7ea299a9a15581ef9ab8dde43eacd67ed51b"
+  integrity sha512-mzyRI2d0StuUv75VFnffYsHXRUo8J9RlK1EvjfmgHahwda1gNwe1Fqh4AYEZSWChf1HD/QBRcL6hEnxj9hedMg==
+  dependencies:
+    micromark "^4.0.0"
+    micromark-util-character "^2.0.0"
+    micromark-util-symbol "^2.0.0"
+
+"@adobe/remark-gridtables@^3.0.15":
+  version "3.0.15"
+  resolved "https://registry.yarnpkg.com/@adobe/remark-gridtables/-/remark-gridtables-3.0.15.tgz#20f2c4361837ddce5c20225c4941c8ba5225e2a0"
+  integrity sha512-WJkRv5Ws8c5jzCVj8tXn/Ib186uetP/IfwPknYUf0wsKpLfUP4a+SLVFSufKqZQIclETGxDITGbD/stIIhK/0A==
+  dependencies:
+    "@adobe/mdast-util-gridtables" "4.0.14"
+    "@adobe/micromark-extension-gridtables" "2.0.4"
+
 "@ai-sdk/gateway@1.0.33":
   version "1.0.33"
   resolved "https://registry.yarnpkg.com/@ai-sdk/gateway/-/gateway-1.0.33.tgz#a6d2cdecc6d93898388fba9485c3669b579b7665"
@@ -5956,7 +5984,7 @@ mdast-util-find-and-replace@^3.0.0, mdast-util-find-and-replace@^3.0.1:
     unist-util-is "^6.0.0"
     unist-util-visit-parents "^6.0.0"
 
-mdast-util-from-markdown@^2.0.0:
+mdast-util-from-markdown@2.0.2, mdast-util-from-markdown@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/mdast-util-from-markdown/-/mdast-util-from-markdown-2.0.2.tgz#4850390ca7cf17413a9b9a0fbefcd1bc0eb4160a"
   integrity sha512-uZhTV/8NBuw0WHkPTrCqDOl0zVe1BIng5ZtHoDk49ME1qqcjYmmLmOf0gELgcRMxN4w2iuIeVso5/6QymSrgmA==
@@ -6112,7 +6140,7 @@ mdast-util-phrasing@^4.0.0:
     "@types/mdast" "^4.0.0"
     unist-util-is "^6.0.0"
 
-mdast-util-to-hast@^13.0.0:
+mdast-util-to-hast@13.2.0, mdast-util-to-hast@^13.0.0:
   version "13.2.0"
   resolved "https://registry.yarnpkg.com/mdast-util-to-hast/-/mdast-util-to-hast-13.2.0.tgz#5ca58e5b921cc0a3ded1bc02eed79a4fe4fe41f4"
   integrity sha512-QGYKEuUsYT9ykKBCMOEDLsU5JRObWQusAolFMeko/tYPufNkRffBAQjIE+99jbA87xv6FgmjLtwjh9wBWajwAA==
@@ -6127,7 +6155,7 @@ mdast-util-to-hast@^13.0.0:
     unist-util-visit "^5.0.0"
     vfile "^6.0.0"
 
-mdast-util-to-markdown@^2.0.0:
+mdast-util-to-markdown@2.1.2, mdast-util-to-markdown@^2.0.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/mdast-util-to-markdown/-/mdast-util-to-markdown-2.1.2.tgz#f910ffe60897f04bb4b7e7ee434486f76288361b"
   integrity sha512-xj68wMTvGXVOKonmog6LwyJKrYXZPvlwabaryTjLh9LuvovB/KAH+kvi8Gjj+7rJjsFi23nkUxRQv1KqSroMqA==
@@ -8963,7 +8991,7 @@ unist-util-visit-parents@^6.0.0:
     "@types/unist" "^3.0.0"
     unist-util-is "^6.0.0"
 
-unist-util-visit@^5.0.0:
+unist-util-visit@5.0.0, unist-util-visit@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/unist-util-visit/-/unist-util-visit-5.0.0.tgz#a7de1f31f72ffd3519ea71814cccf5fd6a9217d6"
   integrity sha512-MR04uvD+07cwl/yhVuVWAtw+3GOR/knlL55Nd/wAdblk27GCVt3lqpTivy/tkJcZoNPzTwS1Y+KMojlLDhoTzg==

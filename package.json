@@ -34,6 +34,8 @@
     "table-br-to-rows": "uv run ./scripts/lib/markdown_table/bin/convert.sh"
   },
   "dependencies": {
+    "@adobe/mdast-util-gridtables": "^4.0.14",
+    "@adobe/remark-gridtables": "^3.0.15",
     "@docusaurus/core": "^3.9.1",
     "@docusaurus/faster": "^3.9.1",
     "@docusaurus/preset-classic": "^3.9.1",

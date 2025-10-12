@@ -85,30 +85,32 @@ neato "-Gfontname=SF Pro Display" "-Nfontname=SF Pro Display" \
 
 参考「RVWMO 说明材料」：
 
-| Edge  | Full Name (and explanation)                                                                    |
-|:------|:-----------------------------------------------------------------------------------------------|
-| rf    | Reads From (from each store to the loads that return a value written by that store)            |
-| co    | Coherence (a total order on the stores to each address)                                        |
-| fr    | From-Reads (from each load to co-successors of the store from which the load returned a value) |
-| ppo   | Preserved Program Order                                                                        |
-| fence | Orderings enforced by a FENCE instruction                                                      |
-| addr  | Address Dependency                                                                             |
-| ctrl  | Control Dependency                                                                             |
-| data  | Data Dependency                                                                                |
-
-**绘制的石蕊测试图表的图例**
-
-| 边     | 全称（和解释）                     |
-|:------|:----------------------------|
-| rf    | 读自关系（从每个存储到返回该存储所写值的载入）     |
-| co    | 一致性（对每个地址上存储的全序关系）          |
-| fr    | 从读关系（从每个载入到载入返回值的存储的 co 后继） |
-| ppo   | 保留程序序                       |
-| fence | FENCE 指令强制的序关系              |
-| addr  | 地址依赖                        |
-| ctrl  | 控制依赖                        |
-| data  | 数据依赖                        |
-
+> **A key for the litmus test diagrams drawn in this appendix**
+>
+> | Edge  | Full Name (and explanation)                                                                    |
+> |:------|:-----------------------------------------------------------------------------------------------|
+> | rf    | Reads From (from each store to the loads that return a value written by that store)            |
+> | co    | Coherence (a total order on the stores to each address)                                        |
+> | fr    | From-Reads (from each load to co-successors of the store from which the load returned a value) |
+> | ppo   | Preserved Program Order                                                                        |
+> | fence | Orderings enforced by a FENCE instruction                                                      |
+> | addr  | Address Dependency                                                                             |
+> | ctrl  | Control Dependency                                                                             |
+> | data  | Data Dependency                                                                                |
+>
+> **本附录中绘制的石蕊测试图表的图例**
+>
+> | 边     | 全称（和解释）                     |
+> |:------|:----------------------------|
+> | rf    | 读自关系（从每个存储到返回该存储所写值的载入）     |
+> | co    | 一致性（对每个地址上存储的全序关系）          |
+> | fr    | 从读关系（从每个载入到载入返回值的存储的 co 后继） |
+> | ppo   | 保留程序序                       |
+> | fence | FENCE 指令强制的序关系              |
+> | addr  | 地址依赖                        |
+> | ctrl  | 控制依赖                        |
+> | data  | 数据依赖                        |
+>
 > 在列出的关系中，硬件线程间的 rf 边、co 边、fr 边和 ppo 边直接约束全局内存序（fence、addr、data 和一些 ctrl 边也通过 ppo 来约束）。其他边（如硬件线程内的 rf 边）是信息性的，但不约束全局内存序。
 
 可以看到图中 `a,b` `c,d` `e,f` `g,h` 4 组节点之间的边均含有 `ppo` 约束。

@@ -1,6 +1,11 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import {
+  TYPE_TABLE,
+  mdast2hastGridTablesHandler,
+} from '@adobe/mdast-util-gridtables';
+import remarkGridTable from '@adobe/remark-gridtables';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -62,6 +67,11 @@ const config: Config = {
       onBrokenMarkdownLinks: 'warn',
       onBrokenMarkdownImages: 'throw',
     },
+    remarkRehypeOptions: {
+      handlers: {
+        [TYPE_TABLE]: mdast2hastGridTablesHandler(),
+      },
+    },
   },
 
   // Even if you don't use internationalization, you can use this field to set
@@ -78,6 +88,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          remarkPlugins: [remarkGridTable],
         },
         blog: {
           showReadingTime: true,
@@ -89,6 +100,7 @@ const config: Config = {
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
+          remarkPlugins: [remarkGridTable],
         },
         theme: {
           customCss: [

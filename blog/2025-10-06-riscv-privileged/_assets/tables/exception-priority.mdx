@@ -1,0 +1,48 @@
++----------------------+----------------------+-----------------------+
+| Priority             | Exc.Code             | Description           |
++:=====================+=====================:+:======================+
+|                      |                      | Instruction address   |
+| *Highest*            |                    3 | breakpoint            |
++:----------v----------+----------v----------:+:----------^-----------+
+|                      |                      | During instruction    |
+|                      |                      | address translation:\ |
+|                      |                      | First encountered     |
+|                      |                      | page fault or access  |
+|                      |                12, 1 | fault                 |
++:----------v----------+----------v----------:+:----------^-----------+
+|                      |                      | With physical address |
+|                      |                      | for instruction:\     |
+|                      |                      | Instruction access    |
+|                      |                    1 | fault                 |
++:----------v----------+----------v----------:+:----------^-----------+
+|                      |                      | Illegal instruction\  |
+|                      |                      | Instruction address   |
+|                      |                   2\ | misaligned\           |
+|                      |                   0\ | Environment call\     |
+|                      |            8, 9, 11\ | Environment break\    |
+|                      |                   3\ | Load/store/AMO        |
+|                      |                    3 | address breakpoint    |
++:----------v----------+----------v----------:+:----------^-----------+
+|                      |                      | Optionally:\          |
+|                      |                      | Load/store/AMO        |
+|                      |                 4, 6 | address misaligned    |
++:----------v----------+----------v----------:+:----------^-----------+
+|                      |                      | During address        |
+|                      |                      | translation for an    |
+|                      |                      | explicit memory       |
+|                      |                      | access:\              |
+|                      |                      | First encountered     |
+|                      |                      | page fault or access  |
+|                      |         13, 15, 5, 7 | fault                 |
++:----------v----------+----------v----------:+:----------^-----------+
+|                      |                      | With physical address |
+|                      |                      | for an explicit       |
+|                      |                      | memory access:\       |
+|                      |                      | Load/store/AMO access |
+|                      |                 5, 7 | fault                 |
++:----------v----------+----------v----------:+:----------^-----------+
+|                      |                      | If not higher         |
+|                      |                      | priority:\            |
+|                      |                      | Load/store/AMO        |
+| *Lowest*             |                 4, 6 | address misaligned    |
++----------------------+----------------------+-----------------------+
