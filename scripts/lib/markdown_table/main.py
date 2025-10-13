@@ -22,7 +22,8 @@ import sys
 from typing import List
 
 SEP_RE = re.compile(r"^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)+\|?\s*$")
-BR_RE = re.compile(r"<br\s*/?>", flags=re.IGNORECASE)
+# Only match lowercase HTML <br> tags inside table cells; do NOT match React <Br /> components
+BR_RE = re.compile(r"<br\s*/?>")
 
 
 def is_table_row(line: str) -> bool:
