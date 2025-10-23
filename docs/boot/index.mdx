@@ -208,7 +208,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
 结合前述环境准备，通过启动 `gdbserver` 和 `gdbclient`，在系统上电后暂停执行，并查看当前
 `pc` 寄存器所指向的指令内容：
 
-```
+```gdb
 x/6i $pc
 ```
 
@@ -227,7 +227,7 @@ x/6i $pc
 执行完上述两条指令后，`a2` 寄存器被赋值为 `0x0000000000001028`，即 `fw_dyn`
 的地址。接下来可使用内存检视命令：
 
-```
+```gdb
 x/6gx $a2
 ```
 
