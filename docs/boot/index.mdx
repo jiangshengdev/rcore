@@ -53,7 +53,7 @@ static const MemMapEntry virt_memmap[] = {
 我们重点关注下表中的两个关键设备：
 
 | Identifier  |         Base |     Size | Description                  |
-|-------------|-------------:|---------:|------------------------------|
+| ----------- | -----------: | -------: | ---------------------------- |
 | `VIRT_MROM` |     `0x1000` | `0xf000` | Mask Read-only memory        |
 | `VIRT_DRAM` | `0x80000000` |        - | Dynamic random-access memory |
 
@@ -143,7 +143,7 @@ struct fw_dynamic_info {
 该结构体的各属性含义如下表所示：
 
 | Field       | Description                 |
-|-------------|-----------------------------|
+| ----------- | --------------------------- |
 | `magic`     | Info magic                  |
 | `version`   | Info version                |
 | `next_addr` | Next booting stage address  |
