@@ -125,7 +125,7 @@ index e52385322d38503e03f6daafb1f97864da261f63..95c0e6bbf9ca0e5b57012ca7662d84d6
 
 修改后，在 `os` 目录下执行 `make run`，即可验证只运行了 `ch2b_hello_world.rs`：
 
-```
+```terminaloutput
 [kernel] Hello, world!
 [kernel] num_app = 1
 [kernel] app_0 [0x80212018, 0x8021e208)

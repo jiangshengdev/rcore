@@ -19,7 +19,7 @@ rust-nm -g -C -v target/riscv64gc-unknown-none-elf/debug/os | grep -v '::'
 
 可能的输出：
 
-```
+```terminaloutput
 0000000080200000 A BASE_ADDRESS
 0000000080200000 T _start
 0000000080200000 T skernel
@@ -45,7 +45,7 @@ rust-size -A -x target/riscv64gc-unknown-none-elf/debug/os
 
 可能的输出：
 
-```
+```terminaloutput
 target/riscv64gc-unknown-none-elf/debug/os  :
 section                  size         addr
 .text                  0x520c   0x80200000
