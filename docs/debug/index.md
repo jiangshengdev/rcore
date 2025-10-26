@@ -411,6 +411,108 @@ x /34gx $sp
 
 > https://github.com/LearningOS/2025s-rcore-jiangshengdev/commit/fa9263c77cb1e9979ac6173ce28b369ce973530e
 
+### 版本号不一致
+
+在 `ch7` 分支中，Rust 工具链版本与其他分支不一致，导致在 macOS 下无法正常构建。需要将版本号修改为与其他分支保持一致，参考如下修改：
+
+```diff
+ rust-toolchain.toml | 2 +-
+
+@@ -1,5 +1,5 @@
+ [toolchain]
+ profile = "minimal"
+ # use the nightly version of the last stable toolchain, see <https://forge.rust-lang.org/>
+-channel = "nightly-2024-02-25"
++channel = "nightly-2024-05-02"
+ components = ["rust-src", "llvm-tools-preview", "rustfmt", "clippy"]
+```
+
+修改的提交细节可查看：
+
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/commit/f3e88d8111f108632c49ae14fa8d2a7657cca58f
+
+### 简易文件系统空间不足
+
+`ch6` 和 `ch7` 分支引入了简易文件系统功能，在调试模式下需要增大文件系统空间以避免空间不足的问题。需要将构建模式改为 debug 并调大简易文件系统空间，参考如下修改：
+
+```diff
+ easy-fs-fuse/src/main.rs |  6 +++---
+ os/Makefile              | 10 +++++-----
+ os/src/config.rs         |  2 +-
+
+@@ -55,11 +55,11 @@ fn easy_fs_pack() -> std::io::Result<()> {
+             .write(true)
+             .create(true)
+             .open(format!("{}{}", target_path, "fs.img"))?;
+-        f.set_len(16 * 2048 * 512).unwrap();
++        f.set_len(160 * 2048 * 512).unwrap();
+         f
+     })));
+-    // 16MiB, at most 4095 files
+-    let efs = EasyFileSystem::create(block_file, 16 * 2048, 1);
++    // 160MiB, at most 4095 files
++    let efs = EasyFileSystem::create(block_file, 160 * 2048, 1);
+     let root_inode = Arc::new(EasyFileSystem::root_inode(&efs));
+     let apps: Vec<_> = read_dir(src_path)
+         .unwrap()
+diff --git a/os/Makefile b/os/Makefile
+index 36f8313..961dc4b 100644
+--- a/os/Makefile
++++ b/os/Makefile
+@@ -1,6 +1,6 @@
+ # Building
+ TARGET := riscv64gc-unknown-none-elf
+-MODE := release
++MODE := debug
+ KERNEL_ELF := target/$(TARGET)/$(MODE)/os
+ KERNEL_BIN := $(KERNEL_ELF).bin
+ DISASM_TMP := target/$(TARGET)/$(MODE)/asm
+@@ -51,7 +51,7 @@ $(KERNEL_BIN): kernel
+ fs-img: $(APPS)
+ 	@make -C ../user build TEST=$(TEST) CHAPTER=$(CHAPTER) BASE=$(BASE)
+ 	@rm -f $(FS_IMG)
+-	@cd ../easy-fs-fuse && cargo run --release -- -s ../user/build/app/ -t ../user/target/riscv64gc-unknown-none-elf/release/
++	@cd ../easy-fs-fuse && cargo run $(MODE_ARG) -- -s ../user/build/app/ -t ../user/target/riscv64gc-unknown-none-elf/$(MODE)/
+
+ kernel:
+ 	@make -C ../user build TEST=$(TEST) CHAPTER=$(CHAPTER) BASE=$(BASE)
+@@ -88,9 +88,9 @@ debug: build
+
+ gdbserver: build
+ 	@qemu-system-riscv64 -M 128m -machine virt -nographic -bios $(BOOTLOADER) -device loader,file=$(KERNEL_BIN),addr=$(KERNEL_ENTRY_PA) \
+-	-drive file=$(FS_IMG),if=none,format=raw,id=x0 \
+-        -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0 \
+-	-s -S
++		-drive file=$(FS_IMG),if=none,format=raw,id=x0 \
++		-device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0 \
++		-s -S
+
+ gdbclient:
+ 	@riscv64-unknown-elf-gdb -ex 'file $(KERNEL_ELF)' -ex 'set arch riscv:rv64' -ex 'target remote localhost:1234'
+diff --git a/os/src/config.rs b/os/src/config.rs
+index 0dade9a..21b6cbd 100644
+--- a/os/src/config.rs
++++ b/os/src/config.rs
+@@ -5,7 +5,7 @@
+ /// user app's stack size
+ pub const USER_STACK_SIZE: usize = 4096 * 2;
+ /// kernel stack size
+-pub const KERNEL_STACK_SIZE: usize = 4096 * 2;
++pub const KERNEL_STACK_SIZE: usize = 4096 * 4;
+ /// kernel heap size
+ pub const KERNEL_HEAP_SIZE: usize = 0x200_0000;
+```
+
+:::warning
+
+`ch6` 分支的 `os/Makefile` 文件中的 `gdbserver` 参数配置不完整，缺少块设备相关配置，请参考 `ch7` 分支的完整配置进行补全。
+
+:::
+
+修改的提交细节可查看：
+
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/commit/7312670c810f80a8d85b9536a8a9fc9e4f3cb5dd
+
 ---
 
 调试相关的基本流程就整理到这里了。如果有更好的方法或遇到新问题，欢迎补充和交流。
