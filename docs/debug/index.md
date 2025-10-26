@@ -108,10 +108,10 @@ Rust 在 `dev`（开发）和 `release`（发布）模式下行为差异较大�
 `user/Makefile`，将基础测试的目标限定为该程序：
 
 ```diff
-diff --git forkSrcPrefix/Makefile forkDstPrefix/Makefile
-index e52385322d38503e03f6daafb1f97864da261f63..95c0e6bbf9ca0e5b57012ca7662d84d689058c91 100644
---- forkSrcPrefix/Makefile
-+++ forkDstPrefix/Makefile
+diff --git a/Makefile b/Makefile
+index e523853..95c0e6b 100644
+--- a/Makefile
++++ b/Makefile
 @@ -27,7 +27,7 @@ else
  	ifeq ($(BASE), 0) # Normal tests only
  		APPS := $(foreach T, $(TESTS), $(wildcard $(APP_DIR)/ch$(T)_*.rs))
