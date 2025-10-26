@@ -455,10 +455,7 @@ x /34gx $sp
      let root_inode = Arc::new(EasyFileSystem::root_inode(&efs));
      let apps: Vec<_> = read_dir(src_path)
          .unwrap()
-diff --git a/os/Makefile b/os/Makefile
-index 36f8313..961dc4b 100644
---- a/os/Makefile
-+++ b/os/Makefile
+
 @@ -1,6 +1,6 @@
  # Building
  TARGET := riscv64gc-unknown-none-elf
@@ -489,10 +486,7 @@ index 36f8313..961dc4b 100644
 
  gdbclient:
  	@riscv64-unknown-elf-gdb -ex 'file $(KERNEL_ELF)' -ex 'set arch riscv:rv64' -ex 'target remote localhost:1234'
-diff --git a/os/src/config.rs b/os/src/config.rs
-index 0dade9a..21b6cbd 100644
---- a/os/src/config.rs
-+++ b/os/src/config.rs
+
 @@ -5,7 +5,7 @@
  /// user app's stack size
  pub const USER_STACK_SIZE: usize = 4096 * 2;
