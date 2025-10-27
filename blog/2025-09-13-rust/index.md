@@ -11,11 +11,13 @@ tags: [rust]
 
 :::note 翻译说明
 
-本页为 Rust Language Reference 部分内容的中文摘译，仅供学习参考，不具规范效力。
+本页为 Rust Language Reference 和 The Rust Programming Language 部分内容的中文摘译，仅供学习参考，不具规范效力。
 
 上游英文版本（更新频繁，译文可能未完全同步）：
 
 > https://doc.rust-lang.org/stable/reference/
+>
+> https://doc.rust-lang.org/stable/book/
 
 如用于实现 / 调试 / 合规，请务必核对英文原文；若发现差异或术语不一致，欢迎反馈。
 
@@ -23,9 +25,19 @@ tags: [rust]
 
 ## Inline assembly
 
+## 内联汇编
+
+Rust 通过 `asm!`、`naked_asm!` 和 `global_asm!` 宏提供了内联汇编支持。它可以用于在编译器生成的汇编输出中嵌入手写的汇编代码。
+
 ### Operand type
 
+### 操作数类型
+
+Several types of operands are supported:
+
 #### inlateout
+
+#### 延迟输入输出
 
 `inlateout(<reg>) <expr>` / `inlateout(<reg>) <in expr> => <out expr>`
 
@@ -36,7 +48,15 @@ tags: [rust]
 
 ## Extensible Concurrency with the Sync and Send Traits
 
+## 使用 Sync 和 Send Trait 实现可扩展并发
+
+有趣的是，本章到目前为止讨论的几乎所有并发特性都是标准库的一部分，而不是语言本身的一部分。你处理并发的选择不仅限于语言或标准库；你可以编写自己的并发特性，或者使用其他人编写的特性。
+
+然而，在嵌入到语言而非标准库中的关键并发概念中，有 `std::marker` trait 的 `Send` 和 `Sync`。
+
 ### Allowing Access from Multiple Threads with Sync
+
+### 使用 Sync 允许多线程访问
 
 `Sync` 标记 trait 表明，实现该 trait 的类型可以安全地被多个线程引用。换句话说，当且仅当
 `&T`（对 `T` 的不可变引用）是 `Send`
