@@ -21,11 +21,6 @@ tags: [rust]
 
 :::
 
-<!-- Old headings. Do not remove or links may break. -->
-
-<a id="extensible-concurrency-with-the-sync-and-send-traits"></a>
-<a id="extensible-concurrency-with-the-send-and-sync-traits"></a>
-
 ## Extensible Concurrency with `Send` and `Sync`
 
 Interestingly, almost every concurrency feature we’ve talked about so far in
@@ -36,10 +31,6 @@ written by others.
 
 However, among the key concurrency concepts that are embedded in the language
 rather than the standard library are the `std::marker` traits `Send` and `Sync`.
-
-<!-- Old headings. Do not remove or links may break. -->
-
-<a id="allowing-transference-of-ownership-between-threads-with-send"></a>
 
 ### Transferring Ownership Between Threads
 
@@ -62,10 +53,6 @@ Any type composed entirely of `Send` types is automatically marked as `Send` as
 well. Almost all primitive types are `Send`, aside from raw pointers, which
 we’ll discuss in Chapter 20.
 
-<!-- Old headings. Do not remove or links may break. -->
-
-<a id="allowing-access-from-multiple-threads-with-sync"></a>
-
 ### Accessing from Multiple Threads
 
 The `Sync` marker trait indicates that it is safe for the type implementing
@@ -81,7 +68,7 @@ in Chapter 15) and the family of related `Cell<T>` types don’t implement
 `Sync`. The implementation of borrow checking that `RefCell<T>` does at runtime
 is not thread-safe. The smart pointer `Mutex<T>` implements `Sync` and can be
 used to share access with multiple threads, as you saw in [“Shared Access to
-`Mutex<T>`”][shared-access]<!-- ignore -->.
+`Mutex<T>`”][shared-access].
 
 ### Implementing `Send` and `Sync` Manually Is Unsafe
 
