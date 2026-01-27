@@ -44,7 +44,8 @@ const config: Config = {
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
-    experimental_faster: true,
+    // Rspack in experimental_faster currently panics on Vercel (Node 24 build image).
+    experimental_faster: !isVercel,
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
