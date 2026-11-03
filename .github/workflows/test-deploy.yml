@@ -22,5 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Test security dependency compatibility
+        run: yarn test:security-dependencies
       - name: Test build website
         run: yarn build
