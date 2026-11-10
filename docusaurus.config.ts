@@ -44,8 +44,8 @@ const config: Config = {
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
-    // Rspack in experimental_faster currently panics on Vercel (Node 24 build image).
-    experimental_faster: !isVercel,
+    // Keep the Webpack build on Vercel and use Docusaurus Faster on GitHub Pages.
+    faster: !isVercel,
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
@@ -64,6 +64,12 @@ const config: Config = {
   onBrokenLinks: 'throw',
 
   markdown: {
+    // Preserve existing article comments, admonition titles, and heading links.
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
     hooks: {
       onBrokenMarkdownLinks: 'warn',
       onBrokenMarkdownImages: 'throw',
