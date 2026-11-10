@@ -1,0 +1,107 @@
+---
+sidebar_position: 6
+---
+
+import CodeBlock from '@theme/CodeBlock';
+import SystemMap from './_assets/ansi/system-map.mdx';
+import UserMap from './_assets/ansi/user-map.mdx';
+
+# 虚拟内存
+
+rCore 采用简单分页的虚拟内存管理机制。本节基于 `ch4` 分支的 `virtual-memory` 标签进行调试，源码地址：
+
+> https://github.com/LearningOS/2025s-rcore-jiangshengdev/tree/virtual-memory
+
+## 内核页表结构
+
+我们先在 `src/mm/memory_set.rs:277` 行处设置断点并进入，分析内核态页表的构建流程。
+
+![new-kernel-code.webp](_assets/webp/light/new-kernel-code.webp#gh-light-mode-only)
+![new-kernel-code.webp](_assets/webp/dark/new-kernel-code.webp#gh-dark-mode-only)
+
+可以看到跳板映射为非恒等映射，`.text` 段为恒等映射。
+
+![new-kernel-print.webp](_assets/webp/light/new-kernel-print.webp#gh-light-mode-only)
+![new-kernel-print.webp](_assets/webp/dark/new-kernel-print.webp#gh-dark-mode-only)
+
+查看变量可知，内核内存集对应的页表根物理页号（`root_ppn`）为 `0x83a5b`。帧跟踪器共记录了 5 个物理页面：
+
+- `0x83a5b`
+- `0x83a5c`
+- `0x83a5d`
+- `0x83a5e`
+- `0x83a5f`
+
+![new-kernel-debug.webp](_assets/webp/light/new-kernel-debug.webp#gh-light-mode-only)
+![new-kernel-debug.webp](_assets/webp/dark/new-kernel-debug.webp#gh-dark-mode-only)
+
+使用 GDB 分别查看这 5 个物理页号对应的 4 KiB 内存内容：
+
+```gdb
+(gdb) x /512gx 0x83A5B000
+(gdb) x /512gx 0x83A5C000
+(gdb) x /512gx 0x83A5D000
+(gdb) x /512gx 0x83A5E000
+(gdb) x /512gx 0x83A5F000
+```
+
+由于输出冗长，此处仅绘制非 `0x0` 的项。
+
+图中：
+
+- 灰色框表示寄存器或页表项数组；
+- 每个页表项数组包含 512 个元素，起始于对应物理页号映射的物理地址，占用 4 KiB；
+- 红色背景表示物理地址或寄存器名称，蓝色背景表示数组索引；
+- 绿色背景上部为存储值（下一级物理页号左移 10 位并附加标志位），下部为解析出的物理页号。
+
+虽然此时 `satp` 寄存器尚未设置，但页表构建完成后会写入该寄存器。下图展示了完成后的值。
+
+![system-map.svg](_assets/svg/light/system-map.svg#gh-light-mode-only)
+![system-map.svg](_assets/svg/dark/system-map.svg#gh-dark-mode-only)
+
+可以看到 `satp` 寄存器指向物理页号 `0x83a5b`。
+
+### 跳板映射示例
+
+以虚拟页号 `0x7ffffff`（三级索引 `[511, 511, 511]`）映射到物理页号 `0x0080201` 为例：
+
+1. 第一级页表页（`0x83a5b`）下标 511 的表项地址 `0x83a5bff8` 指向 `0x83a5c`；
+2. 第二级页表页（`0x83a5c`）下标 511 的表项地址 `0x83a5cff8` 指向 `0x83a5d`；
+3. 第三级页表页（`0x83a5d`）下标 511 的表项地址 `0x83a5dff8` 解析得到物理页号 `0x0080201`。
+
+### 恒等映射示例
+
+以虚拟页号 `0x0080200`（三级索引 `[2, 1, 0]`）映射到相同物理页号 `0x0080200` 为例：
+
+1. 第一级页表页（`0x83a5b`）下标 2 的表项地址 `0x83a5b010` 指向 `0x83a5e`；
+2. 第二级页表页（`0x83a5e`）下标 1 的表项地址 `0x83a5e008` 指向 `0x83a5f`；
+3. 第三级页表页（`0x83a5f`）下标 0 的表项地址 `0x83a5f000` 解析得到物理页号 `0x0080200`。
+
+## 用户页表结构
+
+在用户页表中，除了跳板映射以外，其余条目主要为帧映射，在映射时同时分配对应的物理内存。下图展示了应用程序 0 的页表组织结构：
+
+![user-map.svg](_assets/svg/light/user-map.svg#gh-light-mode-only)
+![user-map.svg](_assets/svg/dark/user-map.svg#gh-dark-mode-only)
+
+## 页表内存映射
+
+本节示例在上游实现基础上新增了日志输出，可大致地展示内核态与用户态页表的内存映射详情。
+
+### 内核内存映射
+
+内核态大部分虚拟页面采用恒等映射，但跳板映射为静态映射，内核栈为帧映射：
+
+<CodeBlock>
+  <SystemMap />
+</CodeBlock>
+
+### 用户内存映射
+
+用户态程序的页表主要采用帧映射。除了构建独立的用户页表（包含陷阱上下文映射），还会在内核页表中加入对应的内核栈映射：
+
+<CodeBlock>
+  <UserMap />
+</CodeBlock>
+
+为了简洁，仅展示前两个应用程序的映射示例，后续应用结构类似。

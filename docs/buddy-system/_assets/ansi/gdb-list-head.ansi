@@ -1,0 +1,10 @@
+[0;35;1m>>>[0m p &list[0m
+[0;36m$1[0m = (*mut os::buddy_system::linked_list::LinkedList) [0;34m0x80218e20[0m[0m
+[0;35;1m>>>[0m p &list.head[0m
+[0;36m$2[0m = (*mut *mut usize) [0;34m0x80218e20[0m[0m
+[0;35;1m>>>[0m p list[0m
+[0;36m$3[0m = os::buddy_system::linked_list::LinkedList {[0m
+  [0;36mhead[0m: [0;34m0x0[0m[0m
+}[0m
+[0;35;1m>>>[0m p list.head[0m
+[0;36m$4[0m = (*mut usize) [0;34m0x0[0m

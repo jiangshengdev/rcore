@@ -1,0 +1,86 @@
+{
+  "name": "docusaurus-classic-typescript",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start --no-open",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve --no-open",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "typecheck": "tsc",
+    "test:security-dependencies": "node scripts/test-security-dependencies.mjs",
+    "dev": "docusaurus start --no-open",
+    "format": "yarn format:prettier && yarn format:shell",
+    "format:prettier": "prettier blog docs src --write",
+    "format:shell": "shfmt -l -w -i 2 -ci -bn scripts",
+    "image": "yarn image:webp && yarn image:svgo",
+    "image:force": "yarn image:webp:force && yarn image:svgo:force",
+    "image:webp": "./scripts/lib/image/convert-png-to-webp.sh",
+    "image:webp:force": "./scripts/lib/image/convert-png-to-webp.sh -f",
+    "image:svgo": "./scripts/lib/image/convert-svg-to-svgo.sh",
+    "image:svgo:force": "./scripts/lib/image/convert-svg-to-svgo.sh -f",
+    "setup-python": "uv venv && uv sync",
+    "memory": "uv run ./scripts/lib/memory_viz/bin/generate-memory.sh",
+    "litmus": "uv run ./scripts/lib/litmus/bin/generate-litmus.sh",
+    "riscv-litmus": "uv run ./scripts/lib/riscv_litmus/bin/generate.sh",
+    "wavedrom": "uv run ./scripts/lib/wavedrom/bin/generate.sh",
+    "bytefield": "uv run ./scripts/lib/bytefield/bin/generate.sh",
+    "ansi-to-mdx-test": "python3 ./scripts/lib/ansi-v2/main.py",
+    "ansi-to-mdx": "./scripts/lib/ansi-v2/batch-convert.sh",
+    "table-br-to-rows": "uv run ./scripts/lib/markdown_table/bin/convert.sh",
+    "postinstall": "node scripts/apply-dependency-patches.mjs"
+  },
+  "dependencies": {
+    "@adobe/mdast-util-gridtables": "4.0.20",
+    "@adobe/remark-gridtables": "3.0.22",
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/faster": "3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
+    "@mdx-js/react": "3.1.1",
+    "clsx": "2.1.1",
+    "prism-react-renderer": "2.4.1",
+    "raw-loader": "4.0.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "3.10.2",
+    "@docusaurus/tsconfig": "3.10.2",
+    "@docusaurus/types": "3.10.2",
+    "@types/react": "19.3.0",
+    "patch-package": "8.0.1",
+    "prettier": "3.9.10",
+    "typescript": "7.0.2"
+  },
+  "resolutions": {
+    "brace-expansion": "^2.0.1",
+    "mdast-util-to-hast": "^13.2.1",
+    "on-headers": "^1.0.2",
+    "qs": "^6.14.1",
+    "tinypool": "2.1.2",
+    "serialize-javascript": "7.1.4",
+    "**/sockjs/uuid": "11.1.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
+    ]
+  },
+  "engines": {
+    "node": "^20.0.0 || >=22.0.0"
+  },
+  "description": "Docusaurus example project (classic-typescript template)",
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

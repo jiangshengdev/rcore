@@ -1,0 +1,53 @@
+[0mnum_app = 11[0m
+应用程序: 0[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083aa1	VPN:0x0000001 -> PPN:0x0083aa4	VPN:0x0000002 -> PPN:0x0083aa5	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083aa6	VPN:0x0000004 -> PPN:0x0083aa7	VPN:0x0000005 -> PPN:0x0083aa8	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083aa9	VPN:0x0000007 -> PPN:0x0083aaa	VPN:0x0000008 -> PPN:0x0083aab	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083aac	VPN:0x000000a -> PPN:0x0083aad	VPN:0x000000b -> PPN:0x0083aae	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083aaf	VPN:0x000000d -> PPN:0x0083ab0	VPN:0x000000e -> PPN:0x0083ab1	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083ab2	VPN:0x0000010 -> PPN:0x0083ab3	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083ab4	VPN:0x0000013 -> PPN:0x0083ab5	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083ab6	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7fffffd -> PPN:0x0083ab7	VPN:0x7fffffe -> PPN:0x0083ab8	[0m[0m
+[0;93mPermissions: R | W[0m[0m
+应用程序: 1[0m
+[0;32mTrampoline (App) mapped:[0m[0m
+[0;32mVPN:0x7ffffff -> PPN:0x0080201[0m[0m
+[0;32mPermissions: R | X[0m[0m
+[0;91m.text section mapping:[0m[0m
+[0;91mVPN:0x0000000 -> PPN:0x0083abc	VPN:0x0000001 -> PPN:0x0083abf	VPN:0x0000002 -> PPN:0x0083ac0	[0m[0m
+[0;91mVPN:0x0000003 -> PPN:0x0083ac1	VPN:0x0000004 -> PPN:0x0083ac2	VPN:0x0000005 -> PPN:0x0083ac3	[0m[0m
+[0;91mVPN:0x0000006 -> PPN:0x0083ac4	VPN:0x0000007 -> PPN:0x0083ac5	VPN:0x0000008 -> PPN:0x0083ac6	[0m[0m
+[0;91mPermissions: R | X | U[0m[0m
+[0;93m.rodata section mapping:[0m[0m
+[0;93mVPN:0x0000009 -> PPN:0x0083ac7	VPN:0x000000a -> PPN:0x0083ac8	VPN:0x000000b -> PPN:0x0083ac9	[0m[0m
+[0;93mPermissions: R | U[0m[0m
+[0;92m.data, .bss section mapping:[0m[0m
+[0;92mVPN:0x000000c -> PPN:0x0083aca	VPN:0x000000d -> PPN:0x0083acb	VPN:0x000000e -> PPN:0x0083acc	[0m[0m
+[0;92mVPN:0x000000f -> PPN:0x0083acd	VPN:0x0000010 -> PPN:0x0083ace	[0m[0m
+[0;92mPermissions: R | W | U[0m[0m
+[0;93mUser stack section mapping:[0m[0m
+[0;93mVPN:0x0000012 -> PPN:0x0083acf	VPN:0x0000013 -> PPN:0x0083ad0	[0m[0m
+[0;93mPermissions: R | W | U[0m[0m
+[0;94mUser sbrk section mapping:[0m[0m
+[0;95mTrapContext section mapping:[0m[0m
+[0;95mVPN:0x7fffffe -> PPN:0x0083ad1	[0m[0m
+[0;95mPermissions: R | W[0m[0m
+[0;93mKernel stack section mapping:[0m[0m
+[0;93mVPN:0x7fffffa -> PPN:0x0083ad2	VPN:0x7fffffb -> PPN:0x0083ad3	[0m[0m
+[0;93mPermissions: R | W[0m

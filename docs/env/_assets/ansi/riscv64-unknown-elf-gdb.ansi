@@ -1,0 +1,17 @@
+[0;35;1mGNU gdb (GDB) 16.3[0m[0m
+Copyright (C) 2024 Free Software Foundation, Inc.[0m
+License GPLv3+: GNU GPL version 3 or later <[0;32mhttp://gnu.org/licenses/gpl.html[0m>[0m
+This is free software: you are free to change and redistribute it.[0m
+There is NO WARRANTY, to the extent permitted by law.[0m
+Type "[0;1mshow copying[0m" and "[0;1mshow warranty[0m" for details.[0m
+This GDB was configured as "--host=aarch64-apple-darwin24.4.0 --target=riscv64-elf".[0m
+Type "[0;1mshow configuration[0m" for configuration details.[0m
+For bug reporting instructions, please see:[0m
+[0;32m<https://www.gnu.org/software/gdb/bugs/>[0m.[0m
+Find the GDB manual and other documentation resources online at:[0m
+    <[0;32mhttp://www.gnu.org/software/gdb/documentation/[0m>.[0m
+[0m
+For help, type "[0;1mhelp[0m".[0m
+Type "[0;1mapropos word[0m" to search for commands related to "word".[0m
+(gdb) quit[0m
+jiangsheng@M2-Max os % [0m

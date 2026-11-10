@@ -1,0 +1,167 @@
+/* 黑色 */
+[data-theme='dark'] .term-fg30 {
+  color: #000000;
+}
+
+/* 红色 */
+[data-theme='dark'] .term-fg31 {
+  color: #ff5555;
+}
+
+/* 绿色 */
+[data-theme='dark'] .term-fg32 {
+  color: #50fa7b;
+}
+
+/* 黄色 */
+[data-theme='dark'] .term-fg33 {
+  color: #f1fa8c;
+}
+
+/* 蓝色 */
+[data-theme='dark'] .term-fg34 {
+  color: #bd93f9;
+}
+
+/* 洋红色 */
+[data-theme='dark'] .term-fg35 {
+  color: #ff79c6;
+}
+
+/* 青色 */
+[data-theme='dark'] .term-fg36 {
+  color: #8be9fd;
+}
+
+/* 白色 */
+[data-theme='dark'] .term-fg37 {
+  color: #bbbbbb;
+}
+
+/* high intense colors */
+/* 高亮绿色（特殊） */
+[data-theme='dark'] .term-fgi1 {
+  color: #50fa7b;
+}
+
+/* 高亮黑色 */
+[data-theme='dark'] .term-fgi90 {
+  color: #555555;
+}
+
+/* 高亮红色 */
+[data-theme='dark'] .term-fgi91 {
+  color: #ff5555;
+}
+
+/* 高亮绿色 */
+[data-theme='dark'] .term-fgi92 {
+  color: #50fa7b;
+}
+
+/* 高亮黄色 */
+[data-theme='dark'] .term-fgi93 {
+  color: #f1fa8c;
+}
+
+/* 高亮蓝色 */
+[data-theme='dark'] .term-fgi94 {
+  color: #caa9fa;
+}
+
+/* 高亮洋红色 */
+[data-theme='dark'] .term-fgi95 {
+  color: #ff79c6;
+}
+
+/* 高亮青色 */
+[data-theme='dark'] .term-fgi96 {
+  color: #8be9fd;
+}
+
+/* 高亮白色 */
+[data-theme='dark'] .term-fgi97 {
+  color: #ffffff;
+}
+
+/* 背景颜色样式 */
+/* 黑色背景 */
+[data-theme='dark'] .term-bg40 {
+  background: #000000;
+}
+
+/* 红色背景 */
+[data-theme='dark'] .term-bg41 {
+  background: #ff5555;
+}
+
+/* 绿色背景 */
+[data-theme='dark'] .term-bg42 {
+  background: #50fa7b;
+}
+
+/* 黄色背景 */
+[data-theme='dark'] .term-bg43 {
+  background: #f1fa8c;
+}
+
+/* 蓝色背景 */
+[data-theme='dark'] .term-bg44 {
+  background: #bd93f9;
+}
+
+/* 洋红色背景 */
+[data-theme='dark'] .term-bg45 {
+  background: #ff79c6;
+}
+
+/* 青色背景 */
+[data-theme='dark'] .term-bg46 {
+  background: #8be9fd;
+}
+
+/* 白色背景 */
+[data-theme='dark'] .term-bg47 {
+  background: #bbbbbb;
+}
+
+/* 高亮背景颜色样式 */
+/* 高亮黑色背景 */
+[data-theme='dark'] .term-bgi100 {
+  background: #555555;
+}
+
+/* 高亮红色背景 */
+[data-theme='dark'] .term-bgi101 {
+  background: #ff5555;
+}
+
+/* 高亮绿色背景 */
+[data-theme='dark'] .term-bgi102 {
+  background: #50fa7b;
+}
+
+/* 高亮黄色背景 */
+[data-theme='dark'] .term-bgi103 {
+  background: #f1fa8c;
+}
+
+/* 高亮蓝色背景 */
+[data-theme='dark'] .term-bgi104 {
+  background: #caa9fa;
+}
+
+/* 高亮洋红色背景 */
+[data-theme='dark'] .term-bgi105 {
+  background: #ff79c6;
+}
+
+/* 高亮青色背景 */
+[data-theme='dark'] .term-bgi106 {
+  background: #8be9fd;
+}
+
+/* 高亮白色背景 */
+[data-theme='dark'] .term-bgi107 {
+  background: #ffffff;
+}

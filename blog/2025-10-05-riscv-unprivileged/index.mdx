@@ -1,0 +1,148 @@
+---
+slug: riscv-unprivileged
+title: 'The RISC-V Instruction Set Manual Volume I: Unprivileged Architecture'
+authors: [jiangsheng]
+tags: [riscv]
+---
+
+记录学习时查阅的一些非特权级文档规范。
+
+{/* truncate */}
+
+:::note 翻译说明
+
+本页为 RISC-V Unprivileged 架构手册部分内容的中文摘译，仅供学习参考，不具规范效力。
+
+上游英文版本（可能较新，译文未必完全同步）：
+
+> https://github.com/riscv/riscv-isa-manual/releases/tag/20250508
+
+如用于实现 / 调试 / 合规，请务必核对英文原文；若发现差异或术语不一致，欢迎反馈。
+
+:::
+
+## RV32I Base Integer Instruction Set, Version 2.1 \{#rv32}
+
+## RV32I 基础整数指令集，版本 2.1
+
+本章描述 RV32I 基础整数指令集。
+
+### Memory Ordering Instructions \{#fence}
+
+### 内存序指令
+
+<Anchor id="mem-order" />
+
+![mem-order.svg](_assets/svg/light/mem-order.svg#gh-light-mode-only)
+![mem-order.svg](_assets/svg/dark/mem-order.svg#gh-dark-mode-only)
+
+FENCE 指令用于对设备 I/O 和内存访问进行排序，这些访问是从其他 RISC-V 硬件线程和外部设备或协处理器的角度观察的。设备输入（I）、设备输出（O）、内存读取（R）和内存写入（W）的任意组合都可以相对于相同操作的任意组合进行排序。非正式地说，在 FENCE 指令之前的前驱集合中的任何操作之前，其他 RISC-V 硬件线程或外部设备都不能观察到跟随 FENCE 指令的后继集合中的任何操作。「RVWMO 内存一致性模型」提供了 RISC-V 内存一致性模型的精确描述。
+
+FENCE 指令还对硬件线程执行的内存读取和写入进行排序，这些操作是从外部设备执行的内存读取和写入的角度观察的。但是，FENCE 指令不对外部设备使用任何其他信号机制产生的事件观察进行排序。
+
+EEI 将定义可能的 I/O 操作，特别是当载入和存储指令访问哪些内存地址时，这些地址将分别被视为设备输入和设备输出操作并进行相应排序，而不是内存读取和写入。例如，内存映射 I/O 设备通常使用非缓存载入和存储进行访问，这些操作使用 I 和 O 位而不是 R 和 W 位进行排序。指令集扩展也可能描述新的 I/O 指令，这些指令也将使用 FENCE 指令中的 I 和 O 位进行排序。
+
+<Anchor id="fm" />
+
+**Fence mode encoding**
+
+| _fm_ field | Mnemonic suffix | Meaning                                                                                        |
+| :--------: | :-------------: | :--------------------------------------------------------------------------------------------- |
+|    0000    |     _none_      | Normal Fence                                                                                   |
+|    1000    |      .TSO       | With `FENCE RW,RW`: exclude write-to-read ordering;<Br />otherwise: _Reserved for future use._ |
+|  _other_   |     _other_     | _Reserved for future use._                                                                     |
+
+**栅栏模式编码**
+
+| _fm_ 字段 | 助记符后缀 | 含义                                                               |
+| :-------: | :--------: | :----------------------------------------------------------------- |
+|   0000    |   _none_   | 普通栅栏                                                           |
+|   1000    |    .TSO    | 配合 `FENCE RW,RW`：排除写到读排序；<Br />否则：**保留供未来使用** |
+|  _other_  |  _other_   | **保留供未来使用**                                                 |
+
+FENCE 模式字段 _fm_ 定义了 FENCE 指令的语义。`FENCE` 指令（_fm_=`0000`）将其前驱集合中的所有内存操作排序在其后继集合中的所有内存操作之前。
+
+`FENCE.TSO` 指令编码为 FENCE 指令，其中 _fm_=`1000`、_predecessor_=`RW` 和 _successor_=`RW`。`FENCE.TSO` 将其前驱集合中的所有载入操作排序在其后继集合中的所有内存操作之前，并将其前驱集合中的所有存储操作排序在其后继集合中的所有存储操作之前。这使得 `FENCE.TSO` 前驱集合中的非 AMO 存储操作与其后继集合中的非 AMO 载入操作之间保持无序关系。
+
+FENCE 指令中的未使用字段——_rs1_ 和 _rd_——被保留用于未来扩展中更细粒度的栅栏指令。为了前向兼容性，基础实现应忽略这些字段，标准软件应将这些字段置零。同样，许多 _fm_ 和前驱/后继集合设置也被保留用于未来使用。基础实现应将所有此类保留配置视为 `FENCE` 指令（_fm_=`0000`），标准软件应仅使用非保留配置。
+
+## "Zifencei" Extension for Instruction-Fetch Fence, Version 2.0 \{#zifencei}
+
+## 「Zifencei」指令获取栅栏扩展，版本 2.0
+
+本章定义了「Zifencei」扩展，该扩展包含 FENCE.I 指令，用于在同一硬件线程上提供指令内存写入与指令获取之间的显式同步。目前，该指令是确保硬件线程可见的存储操作对其指令获取也可见的唯一标准机制。
+
+<Anchor id="zifencei-ff" />
+
+![zifencei-ff.svg](_assets/svg/light/zifencei-ff.svg#gh-light-mode-only)
+![zifencei-ff.svg](_assets/svg/dark/zifencei-ff.svg#gh-dark-mode-only)
+
+FENCE.I 指令用于同步指令流和数据流。RISC-V 不保证对指令内存的存储操作对 RISC-V 硬件线程的指令获取可见，直到该硬件线程执行 FENCE.I 指令。FENCE.I 指令确保 RISC-V 硬件线程上的后续指令获取将看到同一 RISC-V 硬件线程已经可见的任何先前数据存储。在多处理器系统中，FENCE.I **不会** 确保其他 RISC-V 硬件线程的指令获取能观察到本地硬件线程的存储操作。要使对指令内存的存储对所有 RISC-V 硬件线程可见，写入的硬件线程还必须在请求所有远程 RISC-V 硬件线程执行 FENCE.I 之前执行数据 FENCE。
+
+FENCE.I 指令中未使用的字段 _funct12_、_rs1_ 和 _rd_ 保留用于未来扩展中的细粒度栅栏。为了前向兼容性，基础实现应忽略这些字段，标准软件应将这些字段设为零。
+
+## "A" Extension for Atomic Instructions, Version 2.1 \{#atomics}
+
+## 「A」扩展：原子指令，版本 2.1
+
+原子指令扩展「A」包含能够对内存执行原子性读改写操作的指令，用于支持在同一内存空间中运行的多个 RISC-V 硬件线程（hart）之间的同步。该扩展提供两类原子指令：保留载入（LR）/条件存储（SC）指令，以及原子内存操作（AMO, fetch-and-op）内存指令。这两类原子指令均支持多种内存一致性序，包括无序（unordered）、获取（acquire）、释放（release）以及顺序一致性（SC）语义。这些指令使 RISC-V 能够支持 RCsc 内存一致性模型。（Gharachorloo et al., 1990）
+
+A 扩展包括由 Zaamo 和 Zalrsc 扩展提供的指令。
+
+### Specifying Ordering of Atomic Instructions
+
+### 指定原子指令的序
+
+基础 RISC-V ISA 具有宽松的内存模型，使用 FENCE 指令来施加额外的序约束。地址空间由执行环境划分为内存域和 I/O 域，FENCE 指令提供了对这两个地址域中的一个或两个的访问进行排序的选项。
+
+为了为释放一致性（Gharachorloo et al., 1990）提供更有效的支持，每个原子指令都有两个位，_aq_ 和 _rl_，用于指定其他 RISC-V 硬件线程（harts）所观察到的额外内存序约束。这些位对两个地址域（内存或 I/O）中的一个进行访问排序，具体取决于原子指令正在访问哪个地址域。对另一个域的访问不暗示任何序约束，应该使用 FENCE 指令对两个域进行排序。
+
+如果两个位都清零，则对原子内存操作不施加额外的序约束。如果只设置 _aq_ 位，原子内存操作被视为 **获取** 访问，即在此 RISC-V 硬件线程上，任何后续的内存操作都不能被观察到在获取内存操作之前发生。如果只设置 _rl_ 位，原子内存操作被视为 **释放** 访问，即释放内存操作不能被观察到在此 RISC-V 硬件线程上任何更早的内存操作之前发生。如果 _aq_ 和 _rl_ 位都被设置，原子内存操作是 **顺序一致的**，不能被观察到发生在同一 RISC-V 硬件线程中任何更早的内存操作之前或任何更晚的内存操作之后，并且针对相同的地址域。
+
+### "Zalrsc" Extension for Load-Reserved/Store-Conditional Instructions \{#sec\:lrsc}
+
+### 「Zalrsc」扩展：保留载入/条件存储指令
+
+![load-reserve-st-conditional.svg](_assets/svg/light/load-reserve-st-conditional.svg#gh-light-mode-only)
+![load-reserve-st-conditional.svg](_assets/svg/dark/load-reserve-st-conditional.svg#gh-dark-mode-only)
+
+对单个内存字或双字的复杂原子内存操作使用保留载入（LR）和条件存储（SC）指令执行。LR.W 从 _rs1_ 中的地址载入一个字，将符号扩展的值放入 _rd_，并注册一个 **保留集**（reservation set）——一个包含被寻址字中字节的字节集合。SC.W 有条件地将 _rs2_ 中的字写入 _rs1_ 中的地址：SC.W 仅在保留仍然有效且保留集包含正在写入的字节时才成功。如果 SC.W 成功，指令将 _rs2_ 中的字写入内存，并向 _rd_ 写入零。如果 SC.W 失败，指令不写入内存，并向 _rd_ 写入非零值。除非通过内存权限检查，否则 SC.W 指令不得退休，但对于失败的 SC.W，是否发生隐式地址转换和保护内存访问的任何副作用（如设置页表项 D 位）是未指定的。出于内存保护的目的，失败的 SC.W 可能被视为存储。无论成功或失败，执行 SC.W 指令都会使此硬件线程持有的任何保留无效。LR.D 和 SC.D 对双字进行类似操作，仅在 RV64 上可用。对于 RV64，LR.W 和 SC.W 对放入 _rd_ 的值进行符号扩展。
+
+值为 1 的失败代码编码了未指定的失败。此时保留其他失败代码。可移植软件应该只假设失败代码将是非零的。
+
+对于 LR 和 SC，Zalrsc 扩展要求 _rs1_ 中保存的地址自然对齐到操作数的大小（即双字的 8 字节对齐和字的 4 字节对齐）。如果地址不是自然对齐的，将生成地址未对齐异常或访问错误异常。对于除了未对齐之外本来能够完成的内存访问，如果不应该模拟未对齐访问，可以生成访问错误异常。
+
+实现可以在每个 LR 上注册任意大的保留集，只要保留集包括被寻址数据字或双字的所有字节。SC 只能与程序序中最近的 LR 配对。只有在从另一个硬件线程到保留集的存储在 LR 和 SC 之间不能被观察到发生，并且在程序序中 LR 和 SC 之间没有其他 SC 时，SC 才能成功。只有在从硬件线程以外的设备对 LR 指令访问的字节的写入在 LR 和 SC 之间不能被观察到发生时，SC 才能成功。注意这个 LR 可能具有不同的有效地址和数据大小，但将 SC 的地址保留为保留集的一部分。
+
+如果地址不在程序序中最近 LR 的保留集内，SC 必须失败。如果从另一个硬件线程到保留集的存储可以被观察到在 LR 和 SC 之间发生，SC 必须失败。如果从其他某个设备对 LR 访问的字节的写入可以被观察到在 LR 和 SC 之间发生，SC 必须失败。（如果这样的设备写入保留集但不写入 LR 访问的字节，SC 可能失败也可能不失败。）如果在程序序中 LR 和 SC 之间有另一个 SC（到任何地址），SC 必须失败。成功 LR/SC 序列的原子性要求的精确陈述由「RVWMO 内存模型的定义」中的原子性公理定义。
+
+另一个 RISC-V 硬件线程永远不能在建立保留的 LR 指令之前观察到 SC 指令。
+
+除非同时设置 _aq_ 位，否则软件不应该在 LR 指令上设置 _rl_ 位，除非同时设置 _rl_ 位，否则软件不应该在 SC 指令上设置 _aq_ 位。LR._rl_ 和 SC._aq_ 指令不保证提供比两个位都清零的指令更强的序，但可能导致更低的性能。
+
+:::note
+
+<Anchor id="cas" />
+
+**使用 LR/SC 的比较并交换函数示例代码。**
+
+```riscv
+        # a0 保存内存位置的地址
+        # a1 保存期望值
+        # a2 保存所需值
+        # a0 保存返回值，成功时为 0，否则为 !0
+    cas:
+        lr.w t0, (a0)        # 载入原始值。
+        bne t0, a1, fail     # 不匹配，所以失败。
+        sc.w t0, a2, (a0)    # 尝试更新。
+        bnez t0, cas         # 如果条件存储失败则重试。
+        li a0, 0             # 设置返回为成功。
+        jr ra                # 返回。
+    fail:
+        li a0, 1             # 设置返回为失败。
+        jr ra                # 返回。
+```
+
+LR/SC 可以用来构造无锁数据结构。「[使用 LR/SC 的比较并交换函数示例代码](#cas)」中显示了使用 LR/SC 实现比较并交换函数的示例。如果内联，比较并交换功能只需要四条指令。
+
+:::
